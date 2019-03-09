@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.mercie.example">
+
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".SalonistDashboardActivity"
+            android:label="@string/title_activity_salonist_dashboard"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".LoginActivity" />
+        <activity android:name=".SignupActivity" />
+        <activity android:name=".RegisterActivity" />
+        <activity
+            android:name=".HomeActivity"
+            android:label="@string/title_activity_home"
+            android:theme="@style/AppTheme" />
+        <activity android:name=".SalonsActivity" />
+        <activity android:name=".ShopsActivity" />
+        <activity android:name=".TrendsActivity" />
+        <activity android:name=".TipsActivity" />
+        <activity android:name=".SalonActivity" />
+        <activity android:name=".ShopActivity" />
+        <activity android:name=".OneFragment" />
+        <activity android:name=".TwoFragment" />
+        <activity android:name=".ThreeFragment" />
+        <activity android:name=".WelcomeActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".ProductsFragment" />
+        <activity android:name=".OffersFragment" />
+        <activity android:name=".InfoFragment" />
+        <activity android:name=".HairFragment" />
+        <activity android:name=".FaceFragment" />
+        <activity android:name=".SkinFragment" />
+        <activity android:name=".EyesFragment" />
+        <activity android:name=".HandsFragment" />
+        <activity android:name=".FeetFragment" />
+        <activity android:name=".LoginSalonistActivity" />
+        <activity android:name=".LoginShopActivity" />
+        <activity android:name=".LoginDermatologistActivity" />
+        <activity android:name=".SignUpSalonistActivity" />
+        <activity android:name=".SignUpShopActivity" />
+        <activity android:name=".SignUpDermatologistActivity" />
+        <activity android:name=".SetupSalonistActivity" />
+        <activity android:name=".SetupShopActivity" />
+        <activity android:name=".SetupDermatologistActivity" />
+        <activity android:name=".TipssActivity" />
+        <activity android:name=".DandruffActivity" />
+        <activity android:name=".RemmedyFragment" />
+        <activity android:name=".DietFragment" />
+        <activity android:name=".SigninAsActivity" />
+        <activity android:name=".ReservationDetailsActivity" />
+        <activity android:name=".UpdateSalonActivity" />
+        <activity android:name=".UpdateShopActivity" />
+        <activity android:name=".UpdateDermatologistActivity" />
+    </application>
+
+</manifest>

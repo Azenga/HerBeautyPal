@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "117861441978",
+    "firebase_url": "https://beauty-pal.firebaseio.com",
+    "project_id": "beauty-pal",
+    "storage_bucket": "beauty-pal.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:117861441978:android:44ebe0548c60644f",
+        "android_client_info": {
+          "package_name": "com.example.mercie.example"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "117861441978-qc07pqccj91u2e8h87si6ugv28222394.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.mercie.example",
+            "certificate_hash": "78bdb59a61b8d810ebf0ec7a4a3b046de53c92b2"
+          }
+        },
+        {
+          "client_id": "117861441978-9d4fdjdp9mmk1b4718qk7evkrslerf4l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBq7EqNQ7wNqmadKbWCYw3MbtdwnMQieMU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "117861441978-9d4fdjdp9mmk1b4718qk7evkrslerf4l.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

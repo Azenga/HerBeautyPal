@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android">
+<item
+    android:drawable="@drawable/wallpaper"
+    android:duration="4000"
+
+    >
+
+</item>
+    <item
+        android:drawable="@drawable/salon"
+        android:duration="2500"
+
+        >
+
+    </item>
+    <item
+        android:drawable="@drawable/tip"
+        android:duration="2500"
+
+        >
+
+    </item>
+    <item
+        android:drawable="@drawable/trend"
+        android:duration="2500"
+
+        >
+
+    </item>
+
+</animation-list>

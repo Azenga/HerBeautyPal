@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.mercie.example.EyesFragment">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <Button
+            android:textSize="22sp"
+            android:text="Dark Circles"
+            android:textColor="#fff"
+            android:gravity="bottom"
+            android:background="@drawable/groundthree"
+            android:layout_width="match_parent"
+            android:layout_height="250dp" />
+        <Button
+            android:textSize="22sp"
+            android:text="Puffy Eyes"
+            android:textColor="#fff"
+            android:gravity="bottom"
+            android:background="@drawable/groundthree"
+            android:layout_width="match_parent"
+            android:layout_height="250dp" />
+        <Button
+            android:textSize="22sp"
+            android:text="Sunken Eyes"
+            android:textColor="#fff"
+            android:gravity="bottom"
+            android:background="@drawable/groundthree"
+            android:layout_width="match_parent"
+            android:layout_height="250dp" />
+        <Button
+            android:textSize="22sp"
+            android:text="Better Eyebrows"
+            android:textColor="#fff"
+            android:gravity="bottom"
+            android:background="@drawable/groundthree"
+            android:layout_width="match_parent"
+            android:layout_height="250dp" />
+        <Button
+            android:textSize="22sp"
+            android:text="Thicker and Longer Eyelashes"
+            android:textColor="#fff"
+            android:gravity="bottom"
+            android:background="@drawable/groundthree"
+            android:layout_width="match_parent"
+            android:layout_height="250dp" />
+
+    </LinearLayout>
+
+
+
+
+</ScrollView>

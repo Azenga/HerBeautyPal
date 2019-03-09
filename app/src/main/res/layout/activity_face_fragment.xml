@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.mercie.example.FaceFragment">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+    <Button
+        android:textSize="22sp"
+        android:text="Face Wrinkles"
+        android:textColor="#fff"
+        android:gravity="bottom"
+        android:background="@drawable/groundthree"
+        android:layout_width="match_parent"
+        android:layout_height="250dp" />
+    <Button
+        android:textSize="22sp"
+        android:text="Acne(Pimples)"
+        android:textColor="#fff"
+        android:gravity="bottom"
+        android:background="@drawable/groundthree"
+        android:layout_width="match_parent"
+        android:layout_height="250dp" />
+    <Button
+        android:textSize="22sp"
+        android:text="Fair Skin"
+        android:textColor="#fff"
+        android:gravity="bottom"
+        android:background="@drawable/groundthree"
+        android:layout_width="match_parent"
+        android:layout_height="250dp" />
+    <Button
+        android:textSize="22sp"
+        android:text="Black Heads"
+        android:textColor="#fff"
+        android:gravity="bottom"
+        android:background="@drawable/groundthree"
+        android:layout_width="match_parent"
+        android:layout_height="250dp" />
+        <Button
+            android:textSize="22sp"
+            android:text="Dark Lips"
+            android:textColor="#fff"
+            android:gravity="bottom"
+            android:background="@drawable/groundthree"
+            android:layout_width="match_parent"
+            android:layout_height="250dp" />
+        <Button
+            android:textSize="22sp"
+            android:text="Blemishes"
+            android:textColor="#fff"
+            android:gravity="bottom"
+            android:background="@drawable/groundthree"
+            android:layout_width="match_parent"
+            android:layout_height="250dp" />
+
+    </LinearLayout>
+</ScrollView>
+
