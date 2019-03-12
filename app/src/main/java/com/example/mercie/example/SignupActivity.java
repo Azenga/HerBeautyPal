@@ -2,18 +2,13 @@ package com.example.mercie.example;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class SignupActivity extends AppCompatActivity {
@@ -32,7 +27,7 @@ public class SignupActivity extends AppCompatActivity {
         useremail = findViewById(R.id.useremail);
         userpassword = findViewById(R.id.userpassword);
         userconfirmpassword = findViewById(R.id.userconfirmpassword);
-        progressdialog = new ProgressDialog(SignupActivity.this);
+        progressdialog = new ProgressDialog(this);
 
         sigup = findViewById(R.id.sigup);
         sigup.setOnClickListener(view -> createUserAccount());
@@ -64,7 +59,6 @@ public class SignupActivity extends AppCompatActivity {
                             task -> {
                                 if (task.isSuccessful()) {
                                     Intent intent = new Intent(this, RegisterActivity.class);
-                                    intent.putExtra("GROUP", "clients");
                                     startActivity(intent);
                                     finish();
                                     progressdialog.dismiss();

@@ -2,14 +2,15 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <group android:checkableBehavior="single">
-        <item
-            android:id="@+id/nav_changeprofile"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="Change profile" />
+
         <item
             android:id="@+id/nav_homepage"
             android:icon="@drawable/home"
             android:title="Home page" />
+        <item
+            android:id="@+id/nav_changeprofile"
+            android:icon="@drawable/ic_edit_black_24dp"
+            android:title="Change profile" />
         <item
             android:id="@+id/nav_feedback"
             android:icon="@drawable/feedback"
@@ -24,7 +25,7 @@
             android:title="History" />
         <item
             android:id="@+id/nav_checkDetails"
-            android:icon="@drawable/history"
+            android:icon="@drawable/ic_details_black_24dp"
             android:title="Check Reservation Details" />
         <item
             android:id="@+id/nav_logout"

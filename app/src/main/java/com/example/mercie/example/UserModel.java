@@ -3,7 +3,6 @@ package com.example.mercie.example;
 public class UserModel {
 
     private String name;
-    private String email;
     private String contact;
     private String address;
     private String gender;
@@ -11,9 +10,8 @@ public class UserModel {
 
     public UserModel() {}
 
-    public UserModel(String name, String email, String contact, String address, String gender, String imageUrl) {
+    public UserModel(String name, String contact, String address, String gender, String imageUrl) {
         this.name = name;
-        this.email = email;
         this.contact = contact;
         this.address = address;
         this.gender = gender;
@@ -26,14 +24,6 @@ public class UserModel {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public String getContact() {

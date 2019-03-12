@@ -59,8 +59,7 @@ public class SignUpDermatologistActivity extends AppCompatActivity {
             mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(
                     task -> {
                         if (task.isSuccessful()) {
-                            Intent intent = new Intent(this, RegisterActivity.class);
-                            intent.putExtra("GROUP", "dermatologists");
+                            Intent intent = new Intent(this, SetupDermatologistActivity.class);
                             startActivity(intent);
                             finish();
                         } else {

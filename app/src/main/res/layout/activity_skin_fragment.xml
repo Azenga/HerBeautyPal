@@ -3,65 +3,67 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:layout_margin="16dp"
     android:paddingBottom="14dp"
-    android:layout_height="match_parent"
     tools:context="com.example.mercie.example.SkinFragment">
 
     <GridLayout
-        android:rowCount="1"
-        android:columnCount="2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:alignmentMode="alignMargins"
+        android:columnCount="2"
         android:columnOrderPreserved="false"
         android:paddingTop="1dp"
         android:paddingBottom="14dp"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:rowCount="1">
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="30dp"
-        >
-        <Button
-            android:textSize="22sp"
-            android:text="Glowing Skin"
-            android:textColor="#fff"
-            android:gravity="bottom"
-            android:background="@drawable/groundthree"
-            android:layout_width="match_parent"
-            android:layout_height="200dp" />
-        <Button
-            android:layout_marginTop="10dp"
-            android:textSize="22sp"
-            android:text="Warts"
-            android:textColor="#fff"
-            android:gravity="bottom"
-            android:background="@drawable/groundthree"
-            android:layout_width="match_parent"
-            android:layout_height="200dp" />
-        <Button
-            android:layout_marginTop="10dp"
-            android:textSize="22sp"
-            android:text="Stretch Marks"
-            android:textColor="#fff"
-            android:gravity="bottom"
-            android:background="@drawable/groundthree"
-            android:layout_width="match_parent"
-            android:layout_height="200dp" />
-        <Button
-            android:layout_marginTop="10dp"
-            android:textSize="22sp"
-            android:text="Prickly Heat"
-            android:textColor="#fff"
-            android:gravity="bottom"
-            android:background="@drawable/groundthree"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="30dp"
+            android:orientation="vertical">
 
-    </LinearLayout>
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:background="@drawable/groundthree"
+                android:gravity="bottom"
+                android:text="Glowing Skin"
+                android:textColor="#fff"
+                android:textSize="22sp" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/groundthree"
+                android:gravity="bottom"
+                android:text="Warts"
+                android:textColor="#fff"
+                android:textSize="22sp" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/groundthree"
+                android:gravity="bottom"
+                android:text="Stretch Marks"
+                android:textColor="#fff"
+                android:textSize="22sp" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/groundthree"
+                android:gravity="bottom"
+                android:text="Prickly Heat"
+                android:textColor="#fff"
+                android:textSize="22sp" />
+
+        </LinearLayout>
 
     </GridLayout>
 

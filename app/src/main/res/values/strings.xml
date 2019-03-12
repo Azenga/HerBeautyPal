@@ -18,4 +18,6 @@
     <string name="nav_header_title">Android Studio</string>
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
+    <string name="user_name">User Name</string>
+    <string name="avatar_desc">User Avatar</string>
 </resources>

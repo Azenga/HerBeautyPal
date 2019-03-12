@@ -15,6 +15,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -23,12 +24,15 @@ public class RegisterActivity extends AppCompatActivity {
     private static final int PICK_IMAGE_REQUEST = 1;
     private Button upload;
     private ImageView chooseImage;
-    private EditText name_et, phone_number, gender_et, location_address, email_address;
+    private EditText name_et, phone_number, gender_et, location_address;
     private Uri mImageUri;
     private FirebaseAuth mAuth;
 
     private StorageReference mStorageRef;
     private DatabaseReference mDatabaseRef;
+    private FirebaseFirestore mStoreDb;
+
+    String group = null;
 
 
     @Override
@@ -36,15 +40,15 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        String group = getIntent().getStringExtra("GROUP");
+        group = getIntent().getStringExtra("GROUP");
 
         mAuth = FirebaseAuth.getInstance();
+        mStoreDb = FirebaseFirestore.getInstance();
 
         name_et = findViewById(R.id.name_et);
         phone_number = findViewById(R.id.phone_et);
         gender_et = findViewById(R.id.gender_et);
         location_address = findViewById(R.id.address_et);
-        email_address = findViewById(R.id.email_et);
 
         chooseImage = findViewById(R.id.avatar_iv);
         chooseImage.setOnClickListener(view -> openFileChooser());
@@ -87,7 +91,7 @@ public class RegisterActivity extends AppCompatActivity {
         String user_id = mAuth.getCurrentUser().getUid();
 
         if (mImageUri != null) {
-            StorageReference fileReference = mStorageRef.child("profile_images").child(user_id + '.' + getFileExtension(mImageUri));
+            StorageReference fileReference = mStorageRef.child(user_id + '.' + getFileExtension(mImageUri));
             fileReference.putFile(mImageUri)
                     .addOnCompleteListener(
                             task -> {
@@ -97,33 +101,44 @@ public class RegisterActivity extends AppCompatActivity {
                                     String phone = phone_number.getText().toString().trim();
                                     String location = location_address.getText().toString().trim();
                                     String gender = gender_et.getText().toString().trim();
-                                    String email = email_address.getText().toString().trim();
                                     String imageUrl = task.getResult().getMetadata().getName();
 
 
-                                    UserModel userModel = new UserModel(name, phone, email, location, gender, imageUrl);
+                                    UserModel userModel = new UserModel(name, phone, location, gender, imageUrl);
 
-                                    mDatabaseRef.child(user.getUid()).setValue(userModel);
+                                    //mDatabaseRef.child(user.getUid()).setValue(userModel);
+                                    mStoreDb.collection(group)
+                                            .document(user_id)
+                                            .set(userModel)
+                                            .addOnCompleteListener(
+                                                    task1 -> {
+                                                        if (task1.isSuccessful()) {
+                                                            Toast.makeText(this, "Your profile has been updated", Toast.LENGTH_SHORT).show();
 
-                                    Toast.makeText(this, "User profile updated", Toast.LENGTH_LONG).show();
 
+                                                            Thread thread = new Thread() {
+                                                                @Override
+                                                                public void run() {
 
-                                    Thread thread = new Thread() {
-                                        @Override
-                                        public void run() {
+                                                                    try {
+                                                                        sleep(2000);
+                                                                        startActivity(new Intent(RegisterActivity.this, HomeActivity.class));
+                                                                        finish();
+                                                                        super.run();
+                                                                    } catch (InterruptedException e) {
+                                                                        e.printStackTrace();
+                                                                    }
 
-                                            try {
-                                                sleep(2000);
-                                                startActivity(new Intent(RegisterActivity.this, HomeActivity.class));
-                                                finish();
-                                                super.run();
-                                            } catch (InterruptedException e) {
-                                                e.printStackTrace();
-                                            }
+                                                                }
+                                                            };
 
-                                        }
-                                    };
-                                    thread.start();
+                                                            thread.start();
+                                                        } else {
+                                                            Toast.makeText(this, "Update details error: " + task1.getException().getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                                                        }
+                                                    }
+                                            );
+
 
                                 } else {
                                     Toast.makeText(this, "An error occurred: " + task.getException().getLocalizedMessage(), Toast.LENGTH_LONG).show();

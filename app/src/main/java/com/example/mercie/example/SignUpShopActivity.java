@@ -68,8 +68,7 @@ public class SignUpShopActivity extends AppCompatActivity {
                     addOnCompleteListener(
                             task -> {
                                 if (task.isSuccessful()) {
-                                    Intent intent = new Intent(SignUpShopActivity.this, RegisterActivity.class);
-                                    intent.putExtra("GROUP", "shops");
+                                    Intent intent = new Intent(SignUpShopActivity.this, SetupShopActivity.class);
                                     startActivity(intent);
                                     finish();
                                 } else {
