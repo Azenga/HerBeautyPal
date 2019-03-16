@@ -11,10 +11,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.mercie.example.models.Client;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -22,41 +21,33 @@ import com.google.firebase.storage.StorageReference;
 public class RegisterActivity extends AppCompatActivity {
 
     private static final int PICK_IMAGE_REQUEST = 1;
-    private Button upload;
-    private ImageView chooseImage;
-    private EditText name_et, phone_number, gender_et, location_address;
+    private ImageView chooseImageIV;
+    private EditText nameET, phoneNumberET, genderET, locationAddressET;
     private Uri mImageUri;
     private FirebaseAuth mAuth;
 
     private StorageReference mStorageRef;
-    private DatabaseReference mDatabaseRef;
     private FirebaseFirestore mStoreDb;
-
-    String group = null;
-
+    private String userUid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        group = getIntent().getStringExtra("GROUP");
-
         mAuth = FirebaseAuth.getInstance();
         mStoreDb = FirebaseFirestore.getInstance();
+        mStorageRef = FirebaseStorage.getInstance().getReference().child("avatars");
 
-        name_et = findViewById(R.id.name_et);
-        phone_number = findViewById(R.id.phone_et);
-        gender_et = findViewById(R.id.gender_et);
-        location_address = findViewById(R.id.address_et);
+        nameET = findViewById(R.id.name_et);
+        phoneNumberET = findViewById(R.id.phone_et);
+        genderET = findViewById(R.id.gender_et);
+        locationAddressET = findViewById(R.id.address_et);
 
-        chooseImage = findViewById(R.id.avatar_iv);
-        chooseImage.setOnClickListener(view -> openFileChooser());
-        upload = findViewById(R.id.register_btn);
+        chooseImageIV = findViewById(R.id.avatar_iv);
+        chooseImageIV.setOnClickListener(view -> openFileChooser());
 
-        mStorageRef = FirebaseStorage.getInstance().getReference().child("avatar");
-        mDatabaseRef = FirebaseDatabase.getInstance().getReference().child(group);
-
+        Button upload = findViewById(R.id.register_btn);
         upload.setOnClickListener(view -> uploadFile());
     }
 
@@ -74,72 +65,33 @@ public class RegisterActivity extends AppCompatActivity {
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK &&
                 data != null && data.getData() != null) {
             mImageUri = data.getData();
-            chooseImage.setImageURI(mImageUri);
+            chooseImageIV.setImageURI(mImageUri);
         }
     }
 
     private String getFileExtension(Uri uri) {
-
-        ContentResolver cR = getContentResolver();
+        ContentResolver resolver = getContentResolver();
         MimeTypeMap mime = MimeTypeMap.getSingleton();
-        return mime.getExtensionFromMimeType(cR.getType(uri));
-
+        return mime.getExtensionFromMimeType(resolver.getType(uri));
     }
 
     public void uploadFile() {
-        FirebaseUser user = mAuth.getCurrentUser();
-        String user_id = mAuth.getCurrentUser().getUid();
+        String name = nameET.getText().toString().trim();
+        String phone = phoneNumberET.getText().toString().trim();
+        String location = locationAddressET.getText().toString().trim();
+        String gender = genderET.getText().toString().trim();
 
         if (mImageUri != null) {
-            StorageReference fileReference = mStorageRef.child(user_id + '.' + getFileExtension(mImageUri));
+            StorageReference fileReference = mStorageRef.child(userUid + '.' + getFileExtension(mImageUri));
+
             fileReference.putFile(mImageUri)
                     .addOnCompleteListener(
                             task -> {
                                 if (task.isSuccessful()) {
-
-                                    String name = name_et.getText().toString().trim();
-                                    String phone = phone_number.getText().toString().trim();
-                                    String location = location_address.getText().toString().trim();
-                                    String gender = gender_et.getText().toString().trim();
                                     String imageUrl = task.getResult().getMetadata().getName();
+                                    Client userModel = new Client(name, phone, location, gender, imageUrl);
 
-
-                                    UserModel userModel = new UserModel(name, phone, location, gender, imageUrl);
-
-                                    //mDatabaseRef.child(user.getUid()).setValue(userModel);
-                                    mStoreDb.collection(group)
-                                            .document(user_id)
-                                            .set(userModel)
-                                            .addOnCompleteListener(
-                                                    task1 -> {
-                                                        if (task1.isSuccessful()) {
-                                                            Toast.makeText(this, "Your profile has been updated", Toast.LENGTH_SHORT).show();
-
-
-                                                            Thread thread = new Thread() {
-                                                                @Override
-                                                                public void run() {
-
-                                                                    try {
-                                                                        sleep(2000);
-                                                                        startActivity(new Intent(RegisterActivity.this, HomeActivity.class));
-                                                                        finish();
-                                                                        super.run();
-                                                                    } catch (InterruptedException e) {
-                                                                        e.printStackTrace();
-                                                                    }
-
-                                                                }
-                                                            };
-
-                                                            thread.start();
-                                                        } else {
-                                                            Toast.makeText(this, "Update details error: " + task1.getException().getLocalizedMessage(), Toast.LENGTH_LONG).show();
-                                                        }
-                                                    }
-                                            );
-
-
+                                    addClientToFirestore(userModel);
                                 } else {
                                     Toast.makeText(this, "An error occurred: " + task.getException().getLocalizedMessage(), Toast.LENGTH_LONG).show();
                                 }
@@ -148,8 +100,41 @@ public class RegisterActivity extends AppCompatActivity {
 
         } else {
             Toast.makeText(this, "No File Selected", Toast.LENGTH_SHORT).show();
+
+            Client client = new Client(name, phone, location, gender, null);
+            addClientToFirestore(client);
         }
 
+    }
+
+    private void addClientToFirestore(Client userModel) {
+        mStoreDb.collection("clients")
+                .document(userUid)
+                .set(userModel)
+                .addOnCompleteListener(
+                        task1 -> {
+                            if (task1.isSuccessful()) {
+                                Toast.makeText(this, "Your profile has been updated", Toast.LENGTH_SHORT).show();
+
+                                Thread thread = new Thread() {
+                                    @Override
+                                    public void run() {
+                                        try {
+                                            sleep(2000);
+                                            startActivity(new Intent(RegisterActivity.this, HomeActivity.class));
+                                            finish();
+                                            super.run();
+                                        } catch (InterruptedException e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                };
+                                thread.start();
+                            } else {
+                                Toast.makeText(this, "Update details error: " + task1.getException().getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                            }
+                        }
+                );
     }
 
     @Override
@@ -159,6 +144,8 @@ public class RegisterActivity extends AppCompatActivity {
         if (user == null) {
             startActivity(new Intent(this, SigninAsActivity.class));
             finish();
+        } else {
+            userUid = user.getUid();
         }
     }
 }

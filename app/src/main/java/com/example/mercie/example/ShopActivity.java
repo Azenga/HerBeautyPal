@@ -6,7 +6,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.widget.ImageView;
 
 
@@ -22,31 +21,21 @@ public class ShopActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shop);
-        tool =(Toolbar)findViewById(R.id.tool);
+        tool = findViewById(R.id.tool);
 
-        back = (ImageView)findViewById(R.id.back);
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(ShopActivity.this, HomeActivity.class));
-            }
-        });
+        back = findViewById(R.id.back);
+        back.setOnClickListener(view -> startActivity(new Intent(this, HomeActivity.class)));
 
+        viewPager = findViewById(R.id.viewpager);
 
-        viewPager=(ViewPager)findViewById(R.id.viewpager);
         adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new ProductsFragment(), "Products");
         adapter.addFragment(new OffersFragment(), "Offers");
         adapter.addFragment(new InfoFragment(), "Info");
+
         viewPager.setAdapter(adapter);
 
-        tabLayout=(TabLayout)findViewById(R.id.tabs);
+        tabLayout = findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
-
-
-
-
     }
-
-
 }

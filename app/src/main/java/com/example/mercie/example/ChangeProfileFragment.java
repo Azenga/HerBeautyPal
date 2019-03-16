@@ -1,11 +1,11 @@
 package com.example.mercie.example;
 
 import android.Manifest;
-import android.app.AlertDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -21,6 +21,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.mercie.example.models.Client;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
@@ -53,24 +54,29 @@ public class ChangeProfileFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.change_profile_fragment, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
-
         avatarIV = view.findViewById(R.id.avatar_iv);
         avatarIV.setOnClickListener(
                 v -> {
-                    if (getActivity().checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                        Intent intent = new Intent(Intent.ACTION_PICK);
-                        intent.setType("image/*");
-                        startActivityForResult(intent, IMAGE_REQUEST_CODE);
+
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+
+                        if (getActivity().checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                            openChooseImageIntent();
+                        } else {
+                            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, IMAGE_REQUEST_CODE);
+                        }
+
                     } else {
-                        ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, IMAGE_REQUEST_CODE);
+                        openChooseImageIntent();
                     }
+
                 }
         );
 
@@ -80,16 +86,19 @@ public class ChangeProfileFragment extends Fragment {
         genderET = view.findViewById(R.id.gender_et);
 
         Button editBtn = view.findViewById(R.id.edit_btn);
-
         editBtn.setOnClickListener(v -> editProfile());
+    }
 
+    private void openChooseImageIntent() {
+        Intent intent = new Intent(Intent.ACTION_PICK);
+        intent.setType("image/*");
+        startActivityForResult(intent, IMAGE_REQUEST_CODE);
     }
 
 
     public String getFileExtension(Uri uri) {
         ContentResolver resolver = getActivity().getContentResolver();
         MimeTypeMap mime = MimeTypeMap.getSingleton();
-
         return mime.getExtensionFromMimeType(resolver.getType(uri));
     }
 
@@ -101,31 +110,23 @@ public class ChangeProfileFragment extends Fragment {
 
         if (!TextUtils.isEmpty(name) && !TextUtils.isEmpty(phone) && !TextUtils.isEmpty(address) && !TextUtils.isEmpty(gender)) {
 
-
             if (imageUri == null) {
-                UserModel user = new UserModel(name, phone, address, gender, null);
-                uploadDetails(user);
+                Client client = new Client(name, phone, address, gender, null);
+                uploadClientDetailsToFirebase(client);
+
             } else {
 
                 StorageReference fileRef = mStore.child(mAuth.getCurrentUser().getUid() + '.' + getFileExtension(imageUri));
-
                 UploadTask uploadImageTask = fileRef.putFile(imageUri);
 
                 uploadImageTask.addOnSuccessListener(
                         taskSnapshot -> {
                             String imageUrl = taskSnapshot.getMetadata().getName();
 
-                            UserModel user = new UserModel(name, phone, address, gender, imageUrl);
-                            uploadDetails(user);
+                            Client client = new Client(name, phone, address, gender, imageUrl);
+                            uploadClientDetailsToFirebase(client);
                         }
-                ).addOnFailureListener(
-                        e -> {
-                            Toast.makeText(getActivity(), "An error occurred: " + e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
-                        }
-                ).addOnProgressListener(
-                        taskSnapshot -> {
-                        }
-                );
+                ).addOnFailureListener(e -> Toast.makeText(getActivity(), "An error occurred: " + e.getLocalizedMessage(), Toast.LENGTH_LONG).show());
 
             }
 
@@ -135,21 +136,24 @@ public class ChangeProfileFragment extends Fragment {
 
     }
 
-    private void uploadDetails(UserModel user) {
+    private void uploadClientDetailsToFirebase(Client client) {
 
-        mdb.collection("group")
+        //impactversion
+        //impactfasion
+
+        mdb.collection("clients")
                 .document(mAuth.getCurrentUser().getUid())
-                .set(user)
+                .set(client)
                 .addOnCompleteListener(
                         task -> {
                             if (task.isSuccessful()) {
 
-                                Toast.makeText(getActivity(), "Your details have been edited", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getActivity(), "Your profile has been edited", Toast.LENGTH_SHORT).show();
 
                                 ((HomeActivity) getActivity()).displayFrag(R.id.nav_checkDetails);
 
                             } else {
-                                Toast.makeText(getActivity(), "An error occurred: " + task.getException().getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getActivity(), "An error occurred: " + task.getException().getLocalizedMessage(), Toast.LENGTH_LONG).show();
                             }
                         }
                 );

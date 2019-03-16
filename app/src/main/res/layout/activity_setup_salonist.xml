@@ -1,202 +1,387 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.mercie.example.SetupSalonistActivity">
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:padding="16dp"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
         <TextView
-            android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="One More Step"
+            android:gravity="center"
+            android:text="@string/one_more_step" />
 
-            />
         <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:gravity="center"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Salon info"
-
-            />
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:orientation="horizontal"
-            android:layout_height="wrap_content">
-            <TextView
-                android:layout_width="wrap_content"
-                android:text="Name:"
-                android:layout_height="wrap_content" />
-            <EditText
-                android:layout_marginLeft="10dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:orientation="horizontal"
-            android:layout_height="wrap_content">
-            <TextView
-                android:layout_width="wrap_content"
-                android:text="Location:"
-                android:layout_height="wrap_content" />
-            <EditText
-                android:layout_marginLeft="10dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:orientation="horizontal"
-            android:layout_height="wrap_content">
-            <TextView
-                android:layout_width="wrap_content"
-                android:text="Contact:"
-                android:layout_height="wrap_content" />
-            <EditText
-                android:layout_marginLeft="60dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Email Address"/>
-
-        </LinearLayout>
-
-        <EditText
-            android:layout_marginLeft="60dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Website(Optional)"/>
+            android:padding="@dimen/tv_padding"
+            android:text="@string/personal_details" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:orientation="horizontal"
-            >
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Upload Image"
-                />
+            android:padding="@dimen/tv_padding">
+
             <ImageView
-                android:gravity="center"
-                android:layout_width="match_parent"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:contentDescription="@string/circular_prompt_image"
+                android:src="@drawable/ic_account_circle_grey_24dp" />
+
+            <EditText
+                android:id="@+id/ss_official_name_et"
+                android:layout_width="@dimen/setup_et_width"
                 android:layout_height="wrap_content"
-                />
-
-
-        </LinearLayout>
-
-
-        <TextView
-            android:gravity="center"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Services"
-
-            />
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:orientation="vertical"
-            android:layout_height="wrap_content">
-            <CheckBox
-                android:layout_width="wrap_content"
-                android:text="Hair:"
-                android:layout_height="wrap_content" />
-            <CheckBox
-                android:text="Nails"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-            <CheckBox
-                android:layout_width="wrap_content"
-                android:text="Skin Care:"
-                android:layout_height="wrap_content" />
-            <CheckBox
-                android:text="Tattoos"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-            <CheckBox
-                android:layout_width="wrap_content"
-                android:text="Make Up:"
-                android:layout_height="wrap_content" />
-            <CheckBox
-                android:text="Spa/ Massage"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_marginStart="@dimen/tv_padding"
+                android:hint="@string/official_name"
+                android:inputType="textPersonName" />
 
         </LinearLayout>
-        <TextView
-            android:gravity="center"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Beauticians"
-
-            />
-        <TextView
-            android:gravity="center"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Working Hours"
-
-            />
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
             android:orientation="horizontal"
-            android:layout_height="wrap_content">
-            <TextView
-                android:layout_width="wrap_content"
-                android:text="Select Day From: "
-                android:layout_height="wrap_content" />
-            <Spinner
-                android:id="@+id/sspinnerDay"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:text="To:"
-                android:layout_height="wrap_content" />
-            <Spinner
-                android:id="@+id/sspinnerDayTo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+            android:padding="@dimen/tv_padding">
+
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:contentDescription="@string/location_on"
+                android:src="@drawable/ic_location_on_gray_24dp" />
+
+            <EditText
+                android:id="@+id/ss_location_et"
+                android:layout_width="@dimen/setup_et_width"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/tv_padding"
+                android:hint="@string/location"
+                android:inputType="text" />
+
         </LinearLayout>
+
+
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
             android:orientation="horizontal"
-            android:layout_height="wrap_content">
-            <TextView
-                android:layout_width="wrap_content"
-                android:text="Select Time From: "
-                android:layout_height="wrap_content" />
-            <Spinner
-                android:id="@+id/sspinnerTime"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:text="To:"
-                android:layout_height="wrap_content" />
-            <Spinner
-                android:id="@+id/sspinnerTimeTo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+            android:padding="@dimen/tv_padding">
+
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:contentDescription="@string/mobile_number"
+                android:src="@drawable/ic_phone_black_24dp" />
+
+            <EditText
+                android:id="@+id/ss_mobile_number_et"
+                android:layout_width="@dimen/setup_et_width"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/tv_padding"
+                android:hint="@string/mobile_number"
+                android:inputType="phone" />
+
         </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="@dimen/tv_padding">
+
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:contentDescription="@string/official_email_address"
+                android:src="@drawable/ic_email_black_24dp" />
+
+            <EditText
+                android:id="@+id/ss_official_email_address_et"
+                android:layout_width="@dimen/setup_et_width"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/tv_padding"
+                android:hint="@string/official_email_address"
+                android:inputType="textEmailAddress" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="@dimen/tv_padding">
+
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:contentDescription="@string/website_optional"
+                android:src="@drawable/ic_vpn_lock_gray_24dp" />
+
+            <EditText
+                android:id="@+id/ss_website_et"
+                android:layout_width="@dimen/setup_et_width"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/tv_padding"
+                android:hint="@string/website_optional"
+                android:inputType="textWebEmailAddress" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginStart="42dp"
+                android:contentDescription="@string/profile_picture"
+                android:src="@drawable/ic_photo_camera_gray_24dp" />
+
+            <ImageView
+                android:id="@+id/profile_iv"
+                android:layout_width="96dp"
+                android:layout_height="96dp"
+                android:layout_marginStart="@dimen/tv_padding"
+                android:contentDescription="@string/profile_picture"
+                android:src="@drawable/ic_account_circle_grey_24dp" />
+
+            <Button
+                android:id="@+id/setup_salonist_change_profile_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimary"
+                android:text="@string/change"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="#AAAAAA" />
+
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="@dimen/tv_padding"
+            android:text="@string/services"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/tv_padding"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <CheckBox
+                android:id="@+id/hair_cb"
+                android:layout_width="@dimen/setup_et_width"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="42dp"
+                android:text="@string/hair" />
+
+            <ImageView
+                android:id="@+id/hair_cb_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/add"
+                android:src="@drawable/ic_add_black_24dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/tv_padding"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <CheckBox
+                android:id="@+id/nails_cb"
+                android:layout_width="@dimen/setup_et_width"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="42dp"
+                android:text="@string/nails" />
+
+            <ImageView
+                android:id="@+id/nails_cb_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/add"
+                android:src="@drawable/ic_add_black_24dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/tv_padding"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <CheckBox
+                android:id="@+id/skin_care_cb"
+                android:layout_width="@dimen/setup_et_width"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="42dp"
+                android:text="@string/skin_care" />
+
+            <ImageView
+                android:id="@+id/skin_care_cb_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/add"
+                android:src="@drawable/ic_add_black_24dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/tv_padding"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <CheckBox
+                android:id="@+id/make_up_cb"
+                android:layout_width="@dimen/setup_et_width"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="42dp"
+                android:text="@string/make_up" />
+
+            <ImageView
+                android:id="@+id/make_up_cb_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/add"
+                android:src="@drawable/ic_add_black_24dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/tv_padding"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <CheckBox
+                android:id="@+id/beauty_products_cb"
+                android:layout_width="@dimen/setup_et_width"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="42dp"
+                android:text="@string/beauty_products" />
+
+            <ImageView
+                android:id="@+id/beauty_products_cb_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/add"
+                android:src="@drawable/ic_add_black_24dp" />
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="@dimen/tv_padding"
+            android:text="@string/availability"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/tv_padding"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="@string/select_day_from" />
+
+            <Spinner
+                android:id="@+id/spinner_day_from"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.3" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.8"
+                android:text="@string/to" />
+
+            <Spinner
+                android:id="@+id/spinner_day_to"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.3" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/tv_padding"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="@string/select_time_from" />
+
+            <Spinner
+                android:id="@+id/spinner_time_from"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.3" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.8"
+                android:text="@string/to" />
+
+            <Spinner
+                android:id="@+id/spinner_time_to"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.3" />
+        </LinearLayout>
+
 
         <Button
+            android:id="@+id/salonist_setup_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-           android:id="@+id/salonsetup"
-            android:text="Setup"
             android:background="@color/colorPrimaryDark"
-            />
+            android:text="@string/setup"
+            android:textColor="@android:color/white" />
 
 
     </LinearLayout>
 
 </ScrollView>
+
+

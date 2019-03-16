@@ -1,6 +1,6 @@
-package com.example.mercie.example;
+package com.example.mercie.example.models;
 
-public class UserModel {
+public class Client {
 
     private String name;
     private String contact;
@@ -8,9 +8,9 @@ public class UserModel {
     private String gender;
     private String imageUrl;
 
-    public UserModel() {}
+    public Client() {}
 
-    public UserModel(String name, String contact, String address, String gender, String imageUrl) {
+    public Client(String name, String contact, String address, String gender, String imageUrl) {
         this.name = name;
         this.contact = contact;
         this.address = address;

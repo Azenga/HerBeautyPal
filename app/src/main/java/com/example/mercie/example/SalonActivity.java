@@ -22,9 +22,9 @@ public class SalonActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_salon);
-        toolbar =(Toolbar)findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
 
-        back = (ImageView)findViewById(R.id.back);
+        back = findViewById(R.id.back);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -33,22 +33,20 @@ public class SalonActivity extends AppCompatActivity {
         });
 
 
-        viewPager=(ViewPager)findViewById(R.id.viewpager);
+        viewPager = findViewById(R.id.viewpager);
         adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new OneFragment(), "Services");
         adapter.addFragment(new TwoFragment(), "Offers");
         adapter.addFragment(new ThreeFragment(), "Info");
         viewPager.setAdapter(adapter);
 
-        tabLayout=(TabLayout)findViewById(R.id.tabs);
+        tabLayout = findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
 
 
-
-
     }
 
 
-    }
+}
 
 

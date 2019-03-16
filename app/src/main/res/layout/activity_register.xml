@@ -13,6 +13,7 @@
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:text="@string/title_register_activity"
+        android:textAppearance="?android:attr/textAppearanceLarge"
         android:layout_marginBottom="8dp"/>
 
     <ImageView
@@ -59,7 +60,10 @@
         android:id="@+id/register_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textAllCaps="false"
         android:text="@string/register_btn_text"
+        android:textColor="@android:color/white"
+        android:background="@color/colorPrimary"
         android:layout_marginBottom="8dp"/>
 
 

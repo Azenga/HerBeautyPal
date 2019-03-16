@@ -10,11 +10,15 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class SignupActivity extends AppCompatActivity {
-    private Button sigup;
+
     private EditText useremail, userpassword, userconfirmpassword;
+
     private FirebaseAuth mAuth;
+    private FirebaseFirestore mStoreDb;
+
     private ProgressDialog progressdialog;
 
     @Override
@@ -23,14 +27,15 @@ public class SignupActivity extends AppCompatActivity {
         setContentView(R.layout.activity_signup);
 
         mAuth = FirebaseAuth.getInstance();
+        mStoreDb = FirebaseFirestore.getInstance();
 
         useremail = findViewById(R.id.useremail);
         userpassword = findViewById(R.id.userpassword);
         userconfirmpassword = findViewById(R.id.userconfirmpassword);
         progressdialog = new ProgressDialog(this);
 
-        sigup = findViewById(R.id.sigup);
-        sigup.setOnClickListener(view -> createUserAccount());
+        Button signup = findViewById(R.id.sigup);
+        signup.setOnClickListener(view -> createUserAccount());
 
 
     }
@@ -63,9 +68,13 @@ public class SignupActivity extends AppCompatActivity {
                                     finish();
                                     progressdialog.dismiss();
                                 } else {
-                                    String message = task.getException().getMessage();
-                                    Toast.makeText(this, "Something went wrong: " + message, Toast.LENGTH_SHORT).show();
+
+                                    String message = task.getException().getLocalizedMessage();
+
+                                    Toast.makeText(this, "Error creating account: " + message, Toast.LENGTH_LONG).show();
+
                                     progressdialog.dismiss();
+
                                 }
                             }
                     );

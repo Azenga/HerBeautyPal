@@ -1,7 +1,10 @@
 package com.example.mercie.example;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -13,16 +16,30 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.mercie.example.models.Client;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    private Toolbar toolbar;
-
     //Firebase Stuff
     private FirebaseAuth mAuth;
+    private StorageReference mStoreRef;
+    private FirebaseFirestore mFirestore;
+
+    //Widgets
+    private ImageView profileIV;
+    private TextView usernameTV;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,19 +47,25 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_home);
 
         mAuth = FirebaseAuth.getInstance();
+        mStoreRef = FirebaseStorage.getInstance().getReference().child("avatars");
+        mFirestore = FirebaseFirestore.getInstance();
 
-
-        toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
+        drawer.addDrawerListener(toggle);
         toggle.syncState();
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        View navHeaderView = navigationView.getHeaderView(0);
+
+        profileIV = navHeaderView.findViewById(R.id.profile_iv);
+        usernameTV = navHeaderView.findViewById(R.id.username_tv);
 
         displayFrag(R.id.nav_homepage);
 
@@ -52,7 +75,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         Fragment frag = null;
-
 
         switch (id) {
             case R.id.nav_changeprofile:
@@ -124,7 +146,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         displayFrag(item.getItemId());
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -146,6 +168,56 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         if (user == null) {
             startActivity(new Intent(this, SigninAsActivity.class));
             finish();
+        } else {
+            updateUI(user.getUid());
+        }
+    }
+
+    private void updateUI(String userUid) {
+
+        DocumentReference clientRef = mFirestore.collection("clients").document(userUid);
+
+        clientRef.get()
+                .addOnCompleteListener(
+                        task -> {
+                            if (task.isSuccessful()) {
+                                DocumentSnapshot clientSnapshot = task.getResult();
+
+                                if (clientSnapshot.exists()) {
+                                    Client client = clientSnapshot.toObject(Client.class);
+
+                                    updateHeaderWidgets(client);
+
+                                } else {
+                                    Toast.makeText(this, "You haven't updated your profile", Toast.LENGTH_SHORT).show();
+                                }
+
+                            } else {
+                                Toast.makeText(this, "Error getting client data: " + task.getException().getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                );
+
+    }
+
+    private void updateHeaderWidgets(Client client) {
+        usernameTV.setText(client.getName());
+
+        if (client.getImageUrl() != null) {
+            StorageReference profileRef = mStoreRef.child(client.getImageUrl());
+
+            final long MB = 1024 * 1024;
+
+            profileRef.getBytes(MB)
+                    .addOnSuccessListener(
+                            bytes -> {
+                                Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                                profileIV.setImageBitmap(bitmap);
+                                profileIV.setScaleType(ImageView.ScaleType.FIT_XY);
+                            }
+                    ).addOnFailureListener(e -> Toast.makeText(this, "Error getting image: " + e.getLocalizedMessage(), Toast.LENGTH_LONG).show());
+        } else {
+            Toast.makeText(this, "You have not uploaded a profile picture", Toast.LENGTH_SHORT).show();
         }
     }
 }

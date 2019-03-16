@@ -15,9 +15,71 @@
     <string name="gender_hint">Gender</string>
     <string name="register_btn_text">Complete</string>
     <string name="title_activity_salonist_dashboard">SalonistDashboardActivity</string>
-    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_title">Username</string>
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="user_name">User Name</string>
     <string name="avatar_desc">User Avatar</string>
+    <string name="beauty_shop">Beauty Shop</string>
+    <string name="go_back_icon">Go Back Icon</string>
+    <string name="all_salons">All Salons</string>
+    <string name="anim">Animation</string>
+    <string name="beauty_shops">Beauty Shops</string>
+    <string name="beauty_consultant">Beauty Consultant</string>
+    <string name="beauty_tips">Beauty Tips</string>
+    <string name="one_more_step">One More Step</string>
+    <string name="personal_details">Personal Details</string>
+    <string name="official_name">Official Name...</string>
+    <string name="circular_prompt_image">Circular Prompt Image</string>
+    <string name="location_on">Location On</string>
+    <string name="location">Location</string>
+    <string name="mobile_number">Mobile Number</string>
+    <string name="official_email_address">Official Email Address</string>
+    <string name="website_optional">Website(Optional)</string>
+    <string name="change">Change</string>
+    <string name="profile_picture">Profile Picture</string>
+    <string name="services">Services</string>
+    <string name="hair">Hair:</string>
+    <string name="add">Add</string>
+    <string name="nails">Nails:</string>
+    <string name="skin_care">Skin Care</string>
+    <string name="make_up">Make Up</string>
+    <string name="beauty_products">Beauty Products</string>
+    <string name="select_day_from">Select Day From:</string>
+    <string name="availability">Availability</string>
+    <string name="to">To:</string>
+    <string name="select_time_from">Select time from:</string>
+    <string name="setup">Setup</string>
+    <string name="tips">Tips</string>
+    <string name="products">Products</string>
+
+    <!--String Arrays-->
+    <string-array name="week_days">
+        <item>Monday</item>
+        <item>Tuesday</item>
+        <item>Wednesday</item>
+        <item>Thursday</item>
+        <item>Friday</item>
+        <item>Saturday</item>
+        <item>Sunday</item>
+    </string-array>
+
+    <string-array name="day_time">
+        <item>7.00 am</item>
+        <item>8.00 am</item>
+        <item>9.00 am</item>
+        <item>10.00 am</item>
+        <item>11.00 am</item>
+        <item>12.00 pm</item>
+        <item>1.00 pm</item>
+        <item>2.00 pm</item>
+        <item>3.00 pm</item>
+        <item>4.00 pm</item>
+        <item>5.00 pm</item>
+        <item>6.00 pm</item>
+        <item>7.00 pm</item>
+        <item>8.00 pm</item>
+        <item>9.00 pm</item>
+        <item>10.00 pm</item>
+    </string-array>
 </resources>

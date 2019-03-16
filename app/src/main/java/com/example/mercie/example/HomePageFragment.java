@@ -26,20 +26,19 @@ public class HomePageFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        ImageView anima = view.findViewById(R.id.anima);
-        anima.setBackgroundResource(R.drawable.animation);
-        AnimationDrawable animationDrawable = (AnimationDrawable) anima.getBackground();
+        ImageView anim = view.findViewById(R.id.anima);
+        anim.setBackgroundResource(R.drawable.animation);
+        AnimationDrawable animationDrawable = (AnimationDrawable) anim.getBackground();
 
-        Button allsalons = view.findViewById(R.id.allsalons);
-        allsalons.setOnClickListener(v -> startActivity(new Intent(getActivity(), SalonActivity.class)));
+        Button allSaloons = view.findViewById(R.id.allsalons);
+        allSaloons.setOnClickListener(v -> startActivity(new Intent(getActivity(), SalonActivity.class)));
 
 
-        Button beautyshops = view.findViewById(R.id.beautyshops);
-        beautyshops.setOnClickListener(v -> startActivity(new Intent(getActivity(), ShopActivity.class)));
+        Button beautyShops = view.findViewById(R.id.beautyshops);
+        beautyShops.setOnClickListener(v -> startActivity(new Intent(getActivity(), ShopActivity.class)));
 
 
         Button tips = view.findViewById(R.id.tips);
-
         tips.setOnClickListener(v -> startActivity(new Intent(getActivity(), TipsActivity.class)));
 
         Button consultant = view.findViewById(R.id.consultant);

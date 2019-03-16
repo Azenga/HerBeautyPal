@@ -12,14 +12,14 @@ import android.view.ViewGroup;
  */
 
 
-    public class AboutFragment extends Fragment {
-        @Nullable
-        @Override
-        public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-            View view = inflater.inflate(R.layout.about_fragment, container, false);
+public class AboutFragment extends Fragment {
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.about_fragment, container, false);
 
 
-            return view;
-        }
+        return view;
     }
+}
 

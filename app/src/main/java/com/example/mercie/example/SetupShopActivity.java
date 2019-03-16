@@ -6,33 +6,39 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 public class SetupShopActivity extends AppCompatActivity {
-    Spinner shspinnerDay;
-    Spinner shspinnerDayTo;
-    Spinner shspinnerTime;
-    Spinner shspinnerTimeTo;
+
+    private Spinner spinnerDay;
+    private Spinner spinnerDayTo;
+    private Spinner spinnerTime;
+    private Spinner spinnerTimeTo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setup_shop);
-        shspinnerDay = findViewById(R.id.shspinnerDay);
-        String[] day = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, day);
-        shspinnerDay.setAdapter(adapter);
 
-        shspinnerDayTo = findViewById(R.id.shspinnerDayTo);
-        ArrayAdapter<String> adapterr = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, day);
-        shspinnerDayTo.setAdapter(adapterr);
+        initSpinners();
 
-        shspinnerTime = findViewById(R.id.shspinnerTime);
-        String[] time = {"7am", "8am", "9am", "10am", "11am", "12pm", "1pm", "2pm", "3pm", "4pm", "5pm", "6pm", "7pm", "8pm", "9pm", "10pm"};
-        ArrayAdapter<String> adapterrr = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, time);
-        shspinnerTime.setAdapter(adapterrr);
+    }
 
-        shspinnerTimeTo = findViewById(R.id.shspinnerTimeTo);
-        ArrayAdapter<String> adapterrrr = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, time);
-        shspinnerTimeTo.setAdapter(adapterrrr);
+    //Initializing and populating the spinners
+    private void initSpinners() {
+        String[] weekDays = getResources().getStringArray(R.array.week_days);
+        String[] dayWorkHours = getResources().getStringArray(R.array.day_time);
 
+        ArrayAdapter<String> weekDaysAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, weekDays);
+        ArrayAdapter<String> dayWorkHoursAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, dayWorkHours);
 
+        spinnerDay = findViewById(R.id.spinner_day_from);
+        spinnerDay.setAdapter(weekDaysAdapter);
+
+        spinnerDayTo = findViewById(R.id.spinner_day_to);
+        spinnerDayTo.setAdapter(weekDaysAdapter);
+
+        spinnerTime = findViewById(R.id.spinner_time_from);
+        spinnerTime.setAdapter(dayWorkHoursAdapter);
+
+        spinnerTimeTo = findViewById(R.id.spinner_time_to);
+        spinnerTimeTo.setAdapter(dayWorkHoursAdapter);
     }
 }
