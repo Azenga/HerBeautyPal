@@ -138,6 +138,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
 
         if (id == R.id.action_rateUs) {
+            startActivity(new Intent(this, SetupSalonistActivity.class));
             return true;
         }
 
@@ -185,9 +186,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
                                 if (clientSnapshot.exists()) {
                                     Client client = clientSnapshot.toObject(Client.class);
-
                                     updateHeaderWidgets(client);
-
                                 } else {
                                     Toast.makeText(this, "You haven't updated your profile", Toast.LENGTH_SHORT).show();
                                 }
@@ -213,7 +212,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                             bytes -> {
                                 Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
                                 profileIV.setImageBitmap(bitmap);
-                                profileIV.setScaleType(ImageView.ScaleType.FIT_XY);
                             }
                     ).addOnFailureListener(e -> Toast.makeText(this, "Error getting image: " + e.getLocalizedMessage(), Toast.LENGTH_LONG).show());
         } else {

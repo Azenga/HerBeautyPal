@@ -52,6 +52,12 @@
     <string name="setup">Setup</string>
     <string name="tips">Tips</string>
     <string name="products">Products</string>
+    <string name="beauty_client">Beauty Client</string>
+    <string name="beauty_salonist">Beauty Salonist</string>
+    <string name="beauty_shop_owner">Beauty Shop Owner</string>
+    <string name="dermatologist">Dermatologist</string>
+    <string name="service_name">Service Name</string>
+    <string name="service_cost">Service Cost</string>
 
     <!--String Arrays-->
     <string-array name="week_days">
@@ -82,4 +88,7 @@
         <item>9.00 pm</item>
         <item>10.00 pm</item>
     </string-array>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

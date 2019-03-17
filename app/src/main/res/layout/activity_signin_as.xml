@@ -4,86 +4,87 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:gravity="center"
+    android:orientation="vertical"
     tools:context="com.example.mercie.example.SigninAsActivity">
-   <android.support.v7.widget.CardView
-       android:layout_width="match_parent"
-       android:layout_margin="18dp"
-       android:layout_height="wrap_content"
-       >
 
-    <LinearLayout
+    <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        >
-        <LinearLayout
-            android:id="@+id/linear1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="20dp"
-            >
-            <Button
-
-                android:id="@+id/client"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Beauty Client"
-                android:layout_gravity="center"
-                android:background="@drawable/inputs"
-                />
-        </LinearLayout>
-        <LinearLayout
-            android:id="@+id/linear2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="20dp"
-            >
-            <Button
-                android:id="@+id/salonist"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Beauty Salonist"
-                android:layout_gravity="center"
-                android:background="@drawable/inputs"
-                />
-        </LinearLayout>
+        android:layout_margin="18dp"
+        app:cardElevation="@dimen/tv_padding">
 
         <LinearLayout
-            android:id="@+id/linear3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="20dp"
-            >
+            android:orientation="vertical">
 
-            <Button
-                android:id="@+id/owner"
+            <LinearLayout
+                android:id="@+id/linear1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Beauty Shop Owner"
-                android:layout_gravity="center"
-                android:background="@drawable/inputs"
-                />
-        </LinearLayout>
-        <LinearLayout
-            android:id="@+id/linear4"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="20dp"
-            >
-            <Button
-                android:id="@+id/derma"
+                android:padding="20dp">
+
+                <Button
+                    android:id="@+id/client"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="@drawable/inputs"
+                    android:text="@string/beauty_client"
+                    android:textAllCaps="false" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linear2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Dermatologist"
-                android:layout_gravity="center"
-                android:background="@drawable/inputs"
-                />
+                android:padding="20dp">
+
+                <Button
+                    android:id="@+id/salonist"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="@drawable/inputs"
+                    android:text="@string/beauty_salonist"
+                    android:textAllCaps="false" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linear3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="20dp">
+
+                <Button
+                    android:id="@+id/owner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="@drawable/inputs"
+                    android:text="@string/beauty_shop_owner"
+                    android:textAllCaps="false" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linear4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="20dp">
+
+                <Button
+                    android:id="@+id/derma"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="@drawable/inputs"
+                    android:text="@string/dermatologist"
+                    android:textAllCaps="false" />
+
+            </LinearLayout>
 
         </LinearLayout>
-
-    </LinearLayout>
-   </android.support.v7.widget.CardView>
+    </android.support.v7.widget.CardView>
 
 </LinearLayout>
