@@ -13,7 +13,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class SignUpSalonistActivity extends AppCompatActivity {
 
-    private EditText salonistemail, salonistpassword, salonistconfirmpassword;
+    private EditText salonistemailET, salonistpasswordET, salonistconfirmpasswordET;
     private FirebaseAuth mAuth;
     private ProgressDialog progressdialog;
 
@@ -25,27 +25,27 @@ public class SignUpSalonistActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         progressdialog = new ProgressDialog(SignUpSalonistActivity.this);
 
-        Button sigupsalonist = findViewById(R.id.sigupsalonist);
+        Button sigupsalonist = findViewById(R.id.sigupsalonist_btn);
         sigupsalonist.setOnClickListener(view -> createUserAccount());
 
-        salonistemail = findViewById(R.id.salonistemail);
-        salonistpassword = findViewById(R.id.salonistpassword);
-        salonistconfirmpassword = findViewById(R.id.salonistconfirmpassword);
+        salonistemailET = findViewById(R.id.salonistemail);
+        salonistpasswordET = findViewById(R.id.salonistpassword);
+        salonistconfirmpasswordET = findViewById(R.id.salonistconfirmpassword);
 
     }
 
     private void createUserAccount() {
 
-        String email = salonistconfirmpassword.getText().toString();
-        String password = salonistpassword.getText().toString();
-        String confirmpassword = salonistconfirmpassword.getText().toString();
+        String email = salonistemailET.getText().toString();
+        String password = salonistpasswordET.getText().toString();
+        String confirmpassword = salonistconfirmpasswordET.getText().toString();
 
         if (TextUtils.isEmpty(email)) {
-            salonistemail.setError("Email Field must not be empty");
+            salonistemailET.setError("Email Field must not be empty");
         } else if (TextUtils.isEmpty(password)) {
-            salonistpassword.setError("Password Field must not be empty");
+            salonistpasswordET.setError("Password Field must not be empty");
         } else if (TextUtils.isEmpty(confirmpassword)) {
-            salonistconfirmpassword.setError("Confirm password Field must not be empty");
+            salonistconfirmpasswordET.setError("Confirm password Field must not be empty");
         } else if (!password.equals(confirmpassword)) {
             Toast.makeText(this, "passwords do not match", Toast.LENGTH_SHORT).show();
         } else {

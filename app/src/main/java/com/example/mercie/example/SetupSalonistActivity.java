@@ -13,6 +13,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -24,8 +25,16 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.mercie.example.dialogs.ServiceDialogPrompt;
+import com.example.mercie.example.models.Salon;
 import com.example.mercie.example.models.SalonService;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,11 +49,17 @@ public class SetupSalonistActivity extends AppCompatActivity implements ServiceD
     private CircleImageView profileIV;
 
     private EditText officialNameET, mobileNUmberET, locationET, websiteET;
-    private ImageView hairCbIV, nailsCBIV, skinCareCBIV, makeUpCBIV, beautyProductsCBIV;
-    private CheckBox hairCB, nailsCB, skinCareCB, makeUpCB, beautyProductsCB;
+    private ImageView hairCbIV, nailsCBIV, skinCareCBIV, makeUpCBIV;
+    private CheckBox hairCB, nailsCB, skinCareCB, makeUpCB;
     private Button chooseImageBtn, setupBtn;
 
     private List<SalonService> services;
+
+    //Firebase Variable
+    private FirebaseAuth mAuth;
+    private StorageReference mRef;
+    private FirebaseFirestore mFirestore;
+
 
     //CheckBoxes Listener
     private CheckBox.OnCheckedChangeListener checkBoxListeners = new CheckBox.OnCheckedChangeListener() {
@@ -68,9 +83,6 @@ public class SetupSalonistActivity extends AppCompatActivity implements ServiceD
                     case R.id.make_up_cb:
                         makeUpCBIV.setVisibility(View.VISIBLE);
                         break;
-                    case R.id.beauty_products_cb:
-                        beautyProductsCBIV.setVisibility(View.VISIBLE);
-                        break;
                 }
             } else {
                 switch (id) {
@@ -87,9 +99,6 @@ public class SetupSalonistActivity extends AppCompatActivity implements ServiceD
                     case R.id.make_up_cb:
                         makeUpCBIV.setVisibility(View.GONE);
                         break;
-                    case R.id.beauty_products_cb:
-                        beautyProductsCBIV.setVisibility(View.GONE);
-                        break;
                 }
             }
         }
@@ -99,12 +108,19 @@ public class SetupSalonistActivity extends AppCompatActivity implements ServiceD
     private final static int CROP_IMAGE_REQUEST_CODE = 998;
     private final static int STORAGE_REQUEST_CODE = 997;
 
+    private Bitmap profileBitmap = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setup_salonist);
 
         services = new ArrayList<>();
+
+        //Init firebase variables
+        mAuth = FirebaseAuth.getInstance();
+        mRef = FirebaseStorage.getInstance().getReference().child("avatars");
+        mFirestore = FirebaseFirestore.getInstance();
 
         initSpinners();
 
@@ -114,16 +130,97 @@ public class SetupSalonistActivity extends AppCompatActivity implements ServiceD
         nailsCB.setOnCheckedChangeListener(checkBoxListeners);
         skinCareCB.setOnCheckedChangeListener(checkBoxListeners);
         makeUpCB.setOnCheckedChangeListener(checkBoxListeners);
-        beautyProductsCB.setOnCheckedChangeListener(checkBoxListeners);
 
         hairCbIV.setOnClickListener(view -> openDialogBox(view));
         nailsCBIV.setOnClickListener(view -> openDialogBox(view));
         skinCareCBIV.setOnClickListener(view -> openDialogBox(view));
         makeUpCBIV.setOnClickListener(view -> openDialogBox(view));
-        beautyProductsCBIV.setOnClickListener(view -> openDialogBox(view));
 
         chooseImageBtn.setOnClickListener(view -> chooseAnImage());
+        setupBtn.setOnClickListener(view -> uploadDetails());
 
+    }
+
+    private void uploadDetails() {
+
+        //Compulsory fields
+        String name = officialNameET.getText().toString();
+        String location = locationET.getText().toString();
+        String contact = mobileNUmberET.getText().toString();
+
+        if (!TextUtils.isEmpty(name) && !TextUtils.isEmpty(location) && !TextUtils.isEmpty(contact)) {
+            //Additional fields
+            String website = websiteET.getText().toString();
+            String openFfrom = "Date: " + dayFromSpinner.getSelectedItem().toString() + " Time: " + timeFromSpinner.getSelectedItem().toString();
+            String openTo = "Date: " + dayToSpinner.getSelectedItem().toString() + " Time: " + timeToSpinner.getSelectedItem().toString();
+
+            if (profileBitmap != null) {
+
+                //Converting the bitmap to a byte array
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
+                profileBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+
+                byte[] data = baos.toByteArray();
+
+                //ProfilePicture Reference
+                StorageReference profilePicRef = mRef.child(mAuth.getCurrentUser().getUid() + ".jpg");
+
+                UploadTask profilePicUploadTask = profilePicRef.putBytes(data);
+
+                profilePicUploadTask.addOnFailureListener(e -> Toast.makeText(this, "Error uploading pic: " + e.getLocalizedMessage(), Toast.LENGTH_SHORT).show())
+                        .addOnSuccessListener(
+                                taskSnapshot -> {
+                                    String fileName = taskSnapshot.getMetadata().getName();
+                                    Salon salon = new Salon(name, location, contact, website, openFfrom, openTo, fileName, services);
+
+                                    proceedDetailsToFirestore(salon);
+                                }
+                        );
+
+            } else {
+                Salon salon = new Salon(name, location, contact, website, openFfrom, openTo, null, services);
+
+                Toast.makeText(this, "You have not uploaded an avatar", Toast.LENGTH_SHORT).show();
+
+                proceedDetailsToFirestore(salon);
+            }
+
+
+        } else {
+            Toast.makeText(this, "Fill in all the compulsory fields i.e (Name, Location, Phone)", Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+    private void proceedDetailsToFirestore(Salon salon) {
+        mFirestore.collection("salons")
+                .document(mAuth.getCurrentUser().getUid())
+                .set(salon)
+                .addOnCompleteListener(
+                        task1 -> {
+                            if (task1.isSuccessful()) {
+                                Toast.makeText(this, "Your profile has been updated", Toast.LENGTH_SHORT).show();
+
+                                Thread thread = new Thread() {
+                                    @Override
+                                    public void run() {
+                                        try {
+                                            sleep(2000);
+                                            startActivity(new Intent(SetupSalonistActivity.this, SalonistDashboardActivity.class));
+                                            finish();
+                                            super.run();
+                                        } catch (InterruptedException e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                };
+                                thread.start();
+                            } else {
+                                Toast.makeText(this, "Update details error: " + task1.getException().getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                            }
+                        }
+                );
     }
 
     //Checking whether the app has permissions to read and write to external storage
@@ -160,16 +257,13 @@ public class SetupSalonistActivity extends AppCompatActivity implements ServiceD
                 dialogPrompt = ServiceDialogPrompt.getInstance("Hair");
                 break;
             case R.id.nails_cb_iv:
-                dialogPrompt = ServiceDialogPrompt.getInstance("Hair");
+                dialogPrompt = ServiceDialogPrompt.getInstance("Nails");
                 break;
             case R.id.skin_care_cb_iv:
-                dialogPrompt = ServiceDialogPrompt.getInstance("Hair");
+                dialogPrompt = ServiceDialogPrompt.getInstance("Skin Care");
                 break;
             case R.id.make_up_cb_iv:
-                dialogPrompt = ServiceDialogPrompt.getInstance("Hair");
-                break;
-            case R.id.beauty_products_cb_iv:
-                dialogPrompt = ServiceDialogPrompt.getInstance("Hair");
+                dialogPrompt = ServiceDialogPrompt.getInstance("Make Up");
                 break;
             default:
                 dialogPrompt = null;
@@ -189,19 +283,18 @@ public class SetupSalonistActivity extends AppCompatActivity implements ServiceD
         websiteET = findViewById(R.id.ss_website_et);
 
         //ImageViews
-        profileIV = findViewById(R.id.profile_iv);
+        profileIV = findViewById(R.id.profile_iv); //Remember this is CircularImageView
+
         hairCbIV = findViewById(R.id.hair_cb_iv);
         nailsCBIV = findViewById(R.id.nails_cb_iv);
         skinCareCBIV = findViewById(R.id.skin_care_cb_iv);
         makeUpCBIV = findViewById(R.id.make_up_cb_iv);
-        beautyProductsCBIV = findViewById(R.id.beauty_products_cb_iv);
 
         //CheckBoxes
         hairCB = findViewById(R.id.hair_cb);
         nailsCB = findViewById(R.id.nails_cb);
         skinCareCB = findViewById(R.id.skin_care_cb);
         makeUpCB = findViewById(R.id.make_up_cb);
-        beautyProductsCB = findViewById(R.id.beauty_products_cb);
 
         //Buttons
         chooseImageBtn = findViewById(R.id.setup_salonist_change_profile_btn);
@@ -271,8 +364,8 @@ public class SetupSalonistActivity extends AppCompatActivity implements ServiceD
     private void populateIV(Intent data) {
 
         Bundle bundle = data.getExtras();
-        Bitmap bitmap = bundle.getParcelable("data");
-        profileIV.setImageBitmap(bitmap);
+        profileBitmap = bundle.getParcelable("data");
+        profileIV.setImageBitmap(profileBitmap);
 
     }
 
@@ -301,6 +394,18 @@ public class SetupSalonistActivity extends AppCompatActivity implements ServiceD
     @Override
     public void addService(SalonService service) {
         services.add(service);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        FirebaseUser user = mAuth.getCurrentUser();
+
+        if(user == null){
+            startActivity(new Intent(this, SigninAsActivity.class));
+            finish();
+        }
     }
 }
 

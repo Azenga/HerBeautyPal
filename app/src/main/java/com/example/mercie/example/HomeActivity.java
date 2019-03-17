@@ -138,7 +138,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
 
         if (id == R.id.action_rateUs) {
-            startActivity(new Intent(this, SetupSalonistActivity.class));
             return true;
         }
 
