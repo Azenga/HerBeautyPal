@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:weightSum="2"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.example.mercie.example.HomePageFragment">
+    tools:context="com.example.mercie.example.fragments.client.HomePageFragment">
 
     <RelativeLayout
         android:gravity="center_horizontal"

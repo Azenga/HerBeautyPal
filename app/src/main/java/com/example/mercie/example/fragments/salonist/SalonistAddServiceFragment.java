@@ -1,4 +1,4 @@
-package com.example.mercie.example;
+package com.example.mercie.example.fragments.salonist;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -14,6 +14,8 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.example.mercie.example.R;
+import com.example.mercie.example.SalonistDashboardActivity;
 import com.example.mercie.example.models.Salon;
 import com.example.mercie.example.models.SalonService;
 import com.google.firebase.auth.FirebaseAuth;

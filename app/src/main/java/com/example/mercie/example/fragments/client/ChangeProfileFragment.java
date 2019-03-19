@@ -1,4 +1,4 @@
-package com.example.mercie.example;
+package com.example.mercie.example.fragments.client;
 
 import android.Manifest;
 import android.content.ContentResolver;
@@ -21,6 +21,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.mercie.example.HomeActivity;
+import com.example.mercie.example.R;
 import com.example.mercie.example.models.Client;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;

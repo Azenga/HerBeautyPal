@@ -18,6 +18,8 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.mercie.example.fragments.salonist.SalonistAddServiceFragment;
+import com.example.mercie.example.fragments.salonist.SalonistHomeFragment;
 import com.example.mercie.example.models.Salon;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -72,6 +74,7 @@ public class SalonistDashboardActivity extends AppCompatActivity implements Navi
         displayFragment(R.id.nav_home);
     }
 
+    //Changes the SalonistDashboardActivity Fragment accordingly
     public void displayFragment(int id) {
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -204,7 +207,7 @@ public class SalonistDashboardActivity extends AppCompatActivity implements Navi
                                 }
 
                             } else {
-                                Toast.makeText(this, "Erro occurred getting salonist details: " + task.getException().getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                                Toast.makeText(this, "Error occurred getting salonist details: " + task.getException().getLocalizedMessage(), Toast.LENGTH_LONG).show();
                             }
                         }
                 );

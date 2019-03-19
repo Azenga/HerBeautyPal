@@ -21,6 +21,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.mercie.example.fragments.client.AboutFragment;
+import com.example.mercie.example.fragments.client.ChangeProfileFragment;
+import com.example.mercie.example.fragments.client.CheckReservationDetailsFragment;
+import com.example.mercie.example.fragments.client.FeedbackFragment;
+import com.example.mercie.example.fragments.client.HistoryFragment;
+import com.example.mercie.example.fragments.client.HomePageFragment;
 import com.example.mercie.example.models.Client;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;

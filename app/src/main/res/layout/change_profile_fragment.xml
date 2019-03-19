@@ -6,7 +6,7 @@
     android:layout_margin="35dp"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    tools:context="com.example.mercie.example.ChangeProfileFragment">
+    tools:context="com.example.mercie.example.fragments.client.ChangeProfileFragment">
 
     <TextView
         android:layout_width="match_parent"

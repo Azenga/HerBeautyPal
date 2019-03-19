@@ -1,4 +1,4 @@
-package com.example.mercie.example;
+package com.example.mercie.example.fragments.client;
 
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
@@ -11,6 +11,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+
+import com.example.mercie.example.R;
+import com.example.mercie.example.SalonActivity;
+import com.example.mercie.example.ShopActivity;
+import com.example.mercie.example.TipsActivity;
 
 /**
  * Created by Mercie on 2/27/2019.
