@@ -14,11 +14,12 @@
 
         <android.support.design.widget.TextInputEditText
 
-            android:id="@+id/salonistemail"
+            android:id="@+id/salonist_email_et"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/email_address"
             android:inputType="textEmailAddress" />
+
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
@@ -27,11 +28,12 @@
 
         <android.support.design.widget.TextInputEditText
 
-            android:id="@+id/salonistpassword"
+            android:id="@+id/salonist_password_et"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/password"
             android:inputType="textPassword" />
+
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
@@ -39,7 +41,7 @@
         android:layout_height="wrap_content">
 
         <android.support.design.widget.TextInputEditText
-            android:id="@+id/salonistconfirmpassword"
+            android:id="@+id/salonist_confirm_password_et"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/confirm_password"

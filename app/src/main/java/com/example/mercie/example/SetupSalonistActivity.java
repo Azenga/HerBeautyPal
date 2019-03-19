@@ -172,14 +172,14 @@ public class SetupSalonistActivity extends AppCompatActivity implements ServiceD
                         .addOnSuccessListener(
                                 taskSnapshot -> {
                                     String fileName = taskSnapshot.getMetadata().getName();
-                                    Salon salon = new Salon(name, location, contact, website, openFfrom, openTo, fileName, services);
+                                    Salon salon = new Salon(name, location, contact, website, openFfrom, openTo, fileName);
 
                                     proceedDetailsToFirestore(salon);
                                 }
                         );
 
             } else {
-                Salon salon = new Salon(name, location, contact, website, openFfrom, openTo, null, services);
+                Salon salon = new Salon(name, location, contact, website, openFfrom, openTo, null);
 
                 Toast.makeText(this, "You have not uploaded an avatar", Toast.LENGTH_SHORT).show();
 
@@ -402,7 +402,7 @@ public class SetupSalonistActivity extends AppCompatActivity implements ServiceD
 
         FirebaseUser user = mAuth.getCurrentUser();
 
-        if(user == null){
+        if (user == null) {
             startActivity(new Intent(this, SigninAsActivity.class));
             finish();
         }

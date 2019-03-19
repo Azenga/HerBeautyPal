@@ -1,7 +1,12 @@
 package com.example.mercie.example;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -9,16 +14,45 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
 
-public class SalonistDashboardActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+import com.example.mercie.example.models.Salon;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+
+import de.hdodenhof.circleimageview.CircleImageView;
+
+public class SalonistDashboardActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+
+    //NavigationHeaderWIdgets
+    private CircleImageView salonistProfileCIV;
+    private TextView salonistUsernameTV;
+
+    //Firebase Variables
+    private FirebaseAuth mAuth;
+    private FirebaseFirestore mFirestore;
+    private StorageReference mRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_salonist_dashboard);
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        //Initialize Firebase Variables
+        mAuth = FirebaseAuth.getInstance();
+        mFirestore = FirebaseFirestore.getInstance();
+        mRef = FirebaseStorage.getInstance().getReference().child("avatars");
 
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -29,6 +63,69 @@ public class SalonistDashboardActivity extends AppCompatActivity
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        View navHeaderView = navigationView.getHeaderView(0);
+
+        salonistProfileCIV = navHeaderView.findViewById(R.id.salonist_profile_pic_iv);
+        salonistUsernameTV = navHeaderView.findViewById(R.id.salonist_username_tv);
+
+        displayFragment(R.id.nav_home);
+    }
+
+    public void displayFragment(int id) {
+
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        Fragment fragment = null;
+
+        switch (id) {
+            case R.id.nav_home:
+                getSupportActionBar().setTitle("Home");
+                fragment = new SalonistHomeFragment();
+                break;
+
+            case R.id.nav_gallery:
+                getSupportActionBar().setTitle("Gallery");
+                break;
+
+            case R.id.nav_edit_profile:
+                getSupportActionBar().setTitle("Edit Profile");
+                startActivity(new Intent(this, SetupSalonistActivity.class));
+                finish();
+                break;
+
+            case R.id.nav_add_service:
+                getSupportActionBar().setTitle("Add Service");
+                fragment = new SalonistAddServiceFragment();
+                break;
+
+            case R.id.nav_appointments:
+                getSupportActionBar().setTitle("Appointments");
+                break;
+
+            case R.id.nav_notifications:
+                getSupportActionBar().setTitle("Notifications");
+                break;
+
+            case R.id.nav_logout:
+                logout();
+                break;
+
+            case R.id.nav_share:
+                break;
+
+            case R.id.nav_send:
+                break;
+        }
+
+        if (fragment != null) {
+            transaction.replace(R.id.container, fragment).commit();
+        }
+    }
+
+    private void logout() {
+        mAuth.signOut();
+        startActivity(new Intent(this, SigninAsActivity.class));
+        finish();
     }
 
     @Override
@@ -64,16 +161,72 @@ public class SalonistDashboardActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
-        int id = item.getItemId();
-
-        if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
-        }
+        displayFragment(item.getItemId());
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        FirebaseUser user = mAuth.getCurrentUser();
+
+        if (user == null) {
+            startActivity(new Intent(this, SigninAsActivity.class));
+            finish();
+        } else {
+            getSalonist(user.getUid());
+        }
+
+    }
+
+    private void getSalonist(String userId) {
+
+        DocumentReference salonistRef = mFirestore.collection("salons").document(userId);
+
+        salonistRef.get()
+                .addOnCompleteListener(
+                        task -> {
+                            if (task.isSuccessful()) {
+                                DocumentSnapshot salonistSnapshot = task.getResult();
+
+                                if (salonistSnapshot.exists()) {
+
+                                    Salon salon = salonistSnapshot.toObject(Salon.class);
+
+                                    updateUI(salon);
+
+                                } else {
+                                    Toast.makeText(this, "You should update your profile", Toast.LENGTH_SHORT).show();
+                                }
+
+                            } else {
+                                Toast.makeText(this, "Erro occurred getting salonist details: " + task.getException().getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                            }
+                        }
+                );
+    }
+
+    private void updateUI(Salon salon) {
+        salonistUsernameTV.setText(salon.getName());
+
+        if (salon.getProfilePicName() != null) {
+            StorageReference profileRef = mRef.child(salon.getProfilePicName());
+
+            final long MB = 1024 * 1024;
+
+            profileRef.getBytes(MB)
+                    .addOnSuccessListener(
+                            bytes -> {
+                                Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                                salonistProfileCIV.setImageBitmap(bitmap);
+                            }
+                    ).addOnFailureListener(e -> Toast.makeText(this, "Error getting profile picture: " + e.getLocalizedMessage(), Toast.LENGTH_LONG).show());
+        } else {
+            Toast.makeText(this, "You have not uploaded a profile picture", Toast.LENGTH_SHORT).show();
+        }
     }
 }

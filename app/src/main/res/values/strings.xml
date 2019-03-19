@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Example</string>
+    <string name="app_name">BeautyPal</string>
     <string name="title_activity_home">Beauty Pal</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -70,6 +70,7 @@
         <item>Sunday</item>
     </string-array>
 
+    <!--Day Time-->
     <string-array name="day_time">
         <item>7.00 am</item>
         <item>8.00 am</item>
@@ -89,10 +90,23 @@
         <item>10.00 pm</item>
     </string-array>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!--Beauty Packages-->
+    <string-array name="beauty_packages">
+        <item>-- Package -- </item>
+        <item>Hair</item>
+        <item>Nails</item>
+        <item>Make Up</item>
+        <item>Skin Care</item>
+    </string-array>
+
+    <string name="hello_blank_fragment">New Fragment In Town</string>
     <string name="sign_up">Sign up</string>
     <string name="confirm_password">Confirm Password</string>
     <string name="email_address">Email Address</string>
     <string name="password">Password</string>
+    <string name="add_service">Add Service</string>
+    <string name="remember_me">Remember me?</string>
+    <string name="log_in">Log in</string>
+    <string name="do_not_have_account">Don\'t have an account, Sign Up here</string>
+    <string name="forgot_password">Forgot Password</string>
 </resources>

@@ -1,9 +1,6 @@
 package com.example.mercie.example.models;
 
-import java.io.Serializable;
-import java.util.List;
-
-public class Salon implements Serializable {
+public class Salon {
 
     private String name;
     private String location;
@@ -12,10 +9,11 @@ public class Salon implements Serializable {
     private String openFrom;
     private String openTo;
     private String profilePicName;
-    private List<SalonService> services;
 
+    public Salon() {
+    }
 
-    public Salon(String name, String location, String contact, String website, String openFrom, String openTo, String profilePicName, List<SalonService> services) {
+    public Salon(String name, String location, String contact, String website, String openFrom, String openTo, String profilePicName) {
         this.name = name;
         this.location = location;
         this.contact = contact;
@@ -23,7 +21,6 @@ public class Salon implements Serializable {
         this.openFrom = openFrom;
         this.openTo = openTo;
         this.profilePicName = profilePicName;
-        this.services = services;
     }
 
     public String getName() {
@@ -80,13 +77,5 @@ public class Salon implements Serializable {
 
     public void setProfilePicName(String profilePicName) {
         this.profilePicName = profilePicName;
-    }
-
-    public List<SalonService> getServices() {
-        return services;
-    }
-
-    public void setServices(List<SalonService> services) {
-        this.services = services;
     }
 }

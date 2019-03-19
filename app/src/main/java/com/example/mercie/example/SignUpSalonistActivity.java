@@ -14,6 +14,7 @@ import com.google.firebase.auth.FirebaseAuth;
 public class SignUpSalonistActivity extends AppCompatActivity {
 
     private EditText salonistemailET, salonistpasswordET, salonistconfirmpasswordET;
+
     private FirebaseAuth mAuth;
     private ProgressDialog progressdialog;
 
@@ -28,9 +29,9 @@ public class SignUpSalonistActivity extends AppCompatActivity {
         Button sigupsalonist = findViewById(R.id.sigupsalonist_btn);
         sigupsalonist.setOnClickListener(view -> createUserAccount());
 
-        salonistemailET = findViewById(R.id.salonistemail);
-        salonistpasswordET = findViewById(R.id.salonistpassword);
-        salonistconfirmpasswordET = findViewById(R.id.salonistconfirmpassword);
+        salonistemailET = findViewById(R.id.salonist_email_et);
+        salonistpasswordET = findViewById(R.id.salonist_password_et);
+        salonistconfirmpasswordET = findViewById(R.id.salonist_confirm_password_et);
 
     }
 
@@ -49,21 +50,26 @@ public class SignUpSalonistActivity extends AppCompatActivity {
         } else if (!password.equals(confirmpassword)) {
             Toast.makeText(this, "passwords do not match", Toast.LENGTH_SHORT).show();
         } else {
+
             progressdialog.setTitle("Creating Account");
             progressdialog.setMessage("Please Wait...");
             progressdialog.setCanceledOnTouchOutside(true);
             progressdialog.show();
-            mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(
-                    task -> {
-                        if (task.isSuccessful()) {
-                            startActivity(new Intent(this, SetupSalonistActivity.class));
-                        } else {
-                            String message = task.getException().getMessage();
-                            Toast.makeText(this, "Something went wrong: " + message, Toast.LENGTH_SHORT).show();
-                        }
-                        progressdialog.dismiss();
-                    }
-            );
+
+            mAuth.createUserWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(
+                            task -> {
+                                if (task.isSuccessful()) {
+                                    startActivity(new Intent(this, SetupSalonistActivity.class));
+                                } else {
+                                    String message = task.getException().getMessage();
+                                    Toast.makeText(this, "Something went wrong: " + message, Toast.LENGTH_SHORT).show();
+                                }
+
+                                progressdialog.dismiss();
+
+                            }
+                    );
 
         }
     }
