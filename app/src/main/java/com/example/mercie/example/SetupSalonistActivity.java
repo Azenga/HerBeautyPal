@@ -25,7 +25,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.mercie.example.dialogs.ServiceDialogPrompt;
-import com.example.mercie.example.models.Salon;
+import com.example.mercie.example.models.Salonist;
 import com.example.mercie.example.models.SalonService;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -172,20 +172,19 @@ public class SetupSalonistActivity extends AppCompatActivity implements ServiceD
                         .addOnSuccessListener(
                                 taskSnapshot -> {
                                     String fileName = taskSnapshot.getMetadata().getName();
-                                    Salon salon = new Salon(name, location, contact, website, openFfrom, openTo, fileName);
+                                    Salonist salon = new Salonist(name, location, contact, website, openFfrom, openTo, fileName);
 
                                     proceedDetailsToFirestore(salon);
                                 }
                         );
 
             } else {
-                Salon salon = new Salon(name, location, contact, website, openFfrom, openTo, null);
+                Salonist salon = new Salonist(name, location, contact, website, openFfrom, openTo, null);
 
                 Toast.makeText(this, "You have not uploaded an avatar", Toast.LENGTH_SHORT).show();
 
                 proceedDetailsToFirestore(salon);
             }
-
 
         } else {
             Toast.makeText(this, "Fill in all the compulsory fields i.e (Name, Location, Phone)", Toast.LENGTH_SHORT).show();
@@ -193,34 +192,45 @@ public class SetupSalonistActivity extends AppCompatActivity implements ServiceD
 
     }
 
-    private void proceedDetailsToFirestore(Salon salon) {
-        mFirestore.collection("salons")
-                .document(mAuth.getCurrentUser().getUid())
-                .set(salon)
-                .addOnCompleteListener(
-                        task1 -> {
-                            if (task1.isSuccessful()) {
-                                Toast.makeText(this, "Your profile has been updated", Toast.LENGTH_SHORT).show();
+    private void proceedDetailsToFirestore(Salonist salon) {
 
-                                Thread thread = new Thread() {
-                                    @Override
-                                    public void run() {
-                                        try {
-                                            sleep(2000);
-                                            startActivity(new Intent(SetupSalonistActivity.this, SalonistDashboardActivity.class));
-                                            finish();
-                                            super.run();
-                                        } catch (InterruptedException e) {
-                                            e.printStackTrace();
-                                        }
-                                    }
-                                };
-                                thread.start();
-                            } else {
-                                Toast.makeText(this, "Update details error: " + task1.getException().getLocalizedMessage(), Toast.LENGTH_LONG).show();
+        addSalonistToFirestore(salon);
+        if (services.size() > 0) addSalonServicesToFirestore();
+
+        Toast.makeText(this, "Salonist Details Added", Toast.LENGTH_SHORT).show();
+        startActivity(new Intent(this, SalonistDashboardActivity.class));
+        finish();
+
+
+    }
+
+    private void addSalonServicesToFirestore() {
+
+        for(SalonService service: services){
+            mFirestore.collection("services").document(mAuth.getCurrentUser().getUid()).collection("Services").add(service);
+        }
+
+        Toast.makeText(this, "Services Added", Toast.LENGTH_SHORT).show();
+
+
+    }
+
+    private void addSalonistToFirestore(Salonist salon) {
+        if (mAuth.getCurrentUser() != null) {
+            mFirestore.collection("salonists")
+                    .document(mAuth.getCurrentUser().getUid())
+                    .set(salon)
+                    .addOnCompleteListener(
+                            task -> {
+                                if (task.isSuccessful()) {
+
+                                    Toast.makeText(this, "Your profile has been updated", Toast.LENGTH_SHORT).show();
+
+                                } else
+                                    Toast.makeText(this, "Adding salonist error: " + task.getException().getLocalizedMessage(), Toast.LENGTH_LONG).show();
                             }
-                        }
-                );
+                    );
+        }
     }
 
     //Checking whether the app has permissions to read and write to external storage
@@ -332,6 +342,7 @@ public class SetupSalonistActivity extends AppCompatActivity implements ServiceD
                 } else {
                     Toast.makeText(this, "Sorry Permission denied", Toast.LENGTH_SHORT).show();
                 }
+
                 break;
 
             default:
@@ -344,7 +355,6 @@ public class SetupSalonistActivity extends AppCompatActivity implements ServiceD
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
 
         if (resultCode == RESULT_OK) {
-
 
             switch (requestCode) {
                 case CHOOSE_IMAGE_REQUEST_CODE:
@@ -379,7 +389,7 @@ public class SetupSalonistActivity extends AppCompatActivity implements ServiceD
         intent.putExtra("outputY", 96);
         intent.putExtra("aspectX", 96);
         intent.putExtra("aspectY", 96);
-        intent.putExtra("scaleUpIfneeded", true);
+        intent.putExtra("scale", true);
         intent.putExtra("return-data", true);
 
         PackageManager packageManager = getPackageManager();

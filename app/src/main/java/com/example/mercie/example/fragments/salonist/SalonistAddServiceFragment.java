@@ -16,11 +16,8 @@ import android.widget.Toast;
 
 import com.example.mercie.example.R;
 import com.example.mercie.example.SalonistDashboardActivity;
-import com.example.mercie.example.models.Salon;
 import com.example.mercie.example.models.SalonService;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class SalonistAddServiceFragment extends Fragment {
@@ -71,68 +68,16 @@ public class SalonistAddServiceFragment extends Fragment {
         if (!TextUtils.isEmpty(packageName) && !TextUtils.isEmpty(serviceName) && !TextUtils.isEmpty(serviceCost)) {
             SalonService service = new SalonService(packageName, serviceName, serviceCost);
 
-            getSalonist(service);
+            mFirestore.collection("services").document(mAuth.getCurrentUser().getUid()).collection("Services").add(service);
+            Toast.makeText(getActivity(), "Service Added", Toast.LENGTH_SHORT).show();
+
+            ((SalonistDashboardActivity)getActivity()).displayFragment(R.id.nav_home);
+
         } else {
+
             Toast.makeText(getActivity(), "All the fields are required", Toast.LENGTH_SHORT).show();
+
         }
-    }
-
-
-    private void getSalonist(SalonService service) {
-        DocumentReference salonistRef = mFirestore.collection("salons").document(mAuth.getCurrentUser().getUid());
-
-        salonistRef.get()
-                .addOnCompleteListener(
-                        task -> {
-                            if (task.isSuccessful()) {
-                                DocumentSnapshot salonistSnapshot = task.getResult();
-
-                                if (salonistSnapshot.exists()) {
-
-                                    Salon salon = salonistSnapshot.toObject(Salon.class);
-
-                                    //putTheUpatedSalonBack(salon);
-
-                                } else {
-                                    Toast.makeText(getActivity(), "You should update your profile", Toast.LENGTH_SHORT).show();
-                                }
-
-                            } else {
-                                Toast.makeText(getActivity(), "Erro occurred getting salonist details: " + task.getException().getLocalizedMessage(), Toast.LENGTH_LONG).show();
-                            }
-                        }
-                );
-    }
-
-    private void putTheUpatedSalonBack(Salon salon) {
-        mFirestore.collection("salons")
-                .document(mAuth.getCurrentUser().getUid())
-                .set(salon)
-                .addOnCompleteListener(
-                        task1 -> {
-                            if (task1.isSuccessful()) {
-                                Toast.makeText(getActivity(), "Service Added", Toast.LENGTH_SHORT).show();
-
-                                Thread thread = new Thread() {
-                                    @Override
-                                    public void run() {
-                                        try {
-                                            sleep(2000);
-                                            super.run();
-                                        } catch (InterruptedException e) {
-                                            e.printStackTrace();
-                                        }
-                                    }
-                                };
-                                thread.start();
-
-                                ((SalonistDashboardActivity) getActivity()).displayFragment(R.id.nav_home);
-
-                            } else {
-                                Toast.makeText(getActivity(), "Update details error: " + task1.getException().getLocalizedMessage(), Toast.LENGTH_LONG).show();
-                            }
-                        }
-                );
     }
 
     //Normally makes sure there is communication between the Fragment and the FragmentActivity
@@ -141,10 +86,8 @@ public class SalonistAddServiceFragment extends Fragment {
         super.onStart();
 
         //Init Firebase variables
-
         mAuth = FirebaseAuth.getInstance();
         mFirestore = FirebaseFirestore.getInstance();
-
 
     }
 }

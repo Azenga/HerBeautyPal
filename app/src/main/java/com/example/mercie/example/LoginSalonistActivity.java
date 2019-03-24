@@ -15,11 +15,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 public class LoginSalonistActivity extends AppCompatActivity {
 
-
     //Firebase variables
     private FirebaseAuth mAuth;
     private FirebaseFirestore mFirestore;
-
     private TextInputEditText emailTIET, pwdTIET;
 
 
@@ -57,8 +55,7 @@ public class LoginSalonistActivity extends AppCompatActivity {
                             task -> {
                                 if (task.isSuccessful()) {
 
-                                    startActivity(new Intent(this, SalonistDashboardActivity.class));
-                                    finish();
+                                    checkWhetherUserReallyASaloonist(mAuth.getCurrentUser().getUid());
 
                                 } else {
 
@@ -72,6 +69,28 @@ public class LoginSalonistActivity extends AppCompatActivity {
         }
     }
 
+    public void checkWhetherUserReallyASaloonist(String userId) {
+        mFirestore.collection("salonists")
+                .document(userId)
+                .get()
+                .addOnCompleteListener(
+                        task -> {
+                            if (task.isSuccessful()) {
+
+                                if (task.getResult().exists()) {
+                                    startActivity(new Intent(this, SalonistDashboardActivity.class));
+                                    finish();
+                                } else {
+                                    Toast.makeText(this, "You are not a Saloonist", Toast.LENGTH_SHORT).show();
+                                }
+
+                            } else {
+                                Toast.makeText(this, "Login error: " + task.getException().getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                            }
+                        }
+                );
+    }
+
     @Override
     protected void onStart() {
         super.onStart();
@@ -79,8 +98,7 @@ public class LoginSalonistActivity extends AppCompatActivity {
         FirebaseUser user = mAuth.getCurrentUser();
 
         if (user != null) {
-            startActivity(new Intent(this, SalonistDashboardActivity.class));
-            finish();
+            checkWhetherUserReallyASaloonist(user.getUid());
         }
     }
 }

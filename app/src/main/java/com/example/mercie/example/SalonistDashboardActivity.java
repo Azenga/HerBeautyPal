@@ -18,12 +18,14 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.mercie.example.dummy.DummyContent;
+import com.example.mercie.example.fragments.salonist.GalleryFragment;
 import com.example.mercie.example.fragments.salonist.SalonistAddServiceFragment;
+import com.example.mercie.example.fragments.salonist.SalonistEditProfileFragment;
 import com.example.mercie.example.fragments.salonist.SalonistHomeFragment;
-import com.example.mercie.example.models.Salon;
+import com.example.mercie.example.models.Salonist;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
@@ -31,7 +33,8 @@ import com.google.firebase.storage.StorageReference;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class SalonistDashboardActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class SalonistDashboardActivity extends AppCompatActivity
+        implements NavigationView.OnNavigationItemSelectedListener, GalleryFragment.GalleryInteraction {
 
     //NavigationHeaderWIdgets
     private CircleImageView salonistProfileCIV;
@@ -45,7 +48,6 @@ public class SalonistDashboardActivity extends AppCompatActivity implements Navi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_salonist_dashboard);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -71,10 +73,10 @@ public class SalonistDashboardActivity extends AppCompatActivity implements Navi
         salonistProfileCIV = navHeaderView.findViewById(R.id.salonist_profile_pic_iv);
         salonistUsernameTV = navHeaderView.findViewById(R.id.salonist_username_tv);
 
-        displayFragment(R.id.nav_home);
+        displayFragment(R.id.nav_home);// Loading the default home fragment
     }
 
-    //Changes the SalonistDashboardActivity Fragment accordingly
+    //Changes the SalonistDashboardActivity Fragment according to the selected Navigation Item
     public void displayFragment(int id) {
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -88,12 +90,12 @@ public class SalonistDashboardActivity extends AppCompatActivity implements Navi
 
             case R.id.nav_gallery:
                 getSupportActionBar().setTitle("Gallery");
+                fragment = GalleryFragment.newInstance(3);
                 break;
 
             case R.id.nav_edit_profile:
                 getSupportActionBar().setTitle("Edit Profile");
-                startActivity(new Intent(this, SetupSalonistActivity.class));
-                finish();
+                fragment = new SalonistEditProfileFragment();
                 break;
 
             case R.id.nav_add_service:
@@ -103,10 +105,12 @@ public class SalonistDashboardActivity extends AppCompatActivity implements Navi
 
             case R.id.nav_appointments:
                 getSupportActionBar().setTitle("Appointments");
+                // TODO: 3/19/19 Add appointments fragment
                 break;
 
             case R.id.nav_notifications:
                 getSupportActionBar().setTitle("Notifications");
+                // TODO: 3/19/19 Add salonist notifications fragment
                 break;
 
             case R.id.nav_logout:
@@ -114,9 +118,6 @@ public class SalonistDashboardActivity extends AppCompatActivity implements Navi
                 break;
 
             case R.id.nav_share:
-                break;
-
-            case R.id.nav_send:
                 break;
         }
 
@@ -188,9 +189,9 @@ public class SalonistDashboardActivity extends AppCompatActivity implements Navi
 
     private void getSalonist(String userId) {
 
-        DocumentReference salonistRef = mFirestore.collection("salons").document(userId);
-
-        salonistRef.get()
+        mFirestore.collection("salonists")
+                .document(userId)
+                .get()
                 .addOnCompleteListener(
                         task -> {
                             if (task.isSuccessful()) {
@@ -198,7 +199,7 @@ public class SalonistDashboardActivity extends AppCompatActivity implements Navi
 
                                 if (salonistSnapshot.exists()) {
 
-                                    Salon salon = salonistSnapshot.toObject(Salon.class);
+                                    Salonist salon = salonistSnapshot.toObject(Salonist.class);
 
                                     updateUI(salon);
 
@@ -213,7 +214,7 @@ public class SalonistDashboardActivity extends AppCompatActivity implements Navi
                 );
     }
 
-    private void updateUI(Salon salon) {
+    private void updateUI(Salonist salon) {
         salonistUsernameTV.setText(salon.getName());
 
         if (salon.getProfilePicName() != null) {
@@ -231,5 +232,10 @@ public class SalonistDashboardActivity extends AppCompatActivity implements Navi
         } else {
             Toast.makeText(this, "You have not uploaded a profile picture", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @Override
+    public void onGalleryInteraction(DummyContent.DummyItem item) {
+
     }
 }

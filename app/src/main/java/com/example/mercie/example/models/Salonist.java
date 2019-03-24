@@ -1,6 +1,6 @@
 package com.example.mercie.example.models;
 
-public class Salon {
+public class Salonist {
 
     private String name;
     private String location;
@@ -10,10 +10,10 @@ public class Salon {
     private String openTo;
     private String profilePicName;
 
-    public Salon() {
+    public Salonist() {
     }
 
-    public Salon(String name, String location, String contact, String website, String openFrom, String openTo, String profilePicName) {
+    public Salonist(String name, String location, String contact, String website, String openFrom, String openTo, String profilePicName) {
         this.name = name;
         this.location = location;
         this.contact = contact;
@@ -77,5 +77,10 @@ public class Salon {
 
     public void setProfilePicName(String profilePicName) {
         this.profilePicName = profilePicName;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%s salon added", getName());
     }
 }

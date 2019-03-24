@@ -11,12 +11,16 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class LoginActivity extends AppCompatActivity {
 
     //ADDED
     private TextInputEditText emailTIET, pwdTIET;
-    FirebaseAuth mAuth;
+
+    //Firebase Variables
+    private FirebaseAuth mAuth;
+    private FirebaseFirestore mDb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,13 +28,15 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
 
-
         Button login = findViewById(R.id.login);
 
         //ADDED
         emailTIET = findViewById(R.id.email_tiet);
         pwdTIET = findViewById(R.id.pwd_tiet);
+
+        //Initializing Firebse Variables
         mAuth = FirebaseAuth.getInstance();
+        mDb = FirebaseFirestore.getInstance();
 
 
         login.setOnClickListener(
@@ -43,7 +49,10 @@ public class LoginActivity extends AppCompatActivity {
                         mAuth.signInWithEmailAndPassword(email, pwd).
                                 addOnCompleteListener(task -> {
                                     if (task.isSuccessful()) {
-                                        startActivity(new Intent(this, HomeActivity.class));
+
+                                        //Check whether the user is a client first before logging him/her in
+                                        checkWhetherUserIsAclient(mAuth.getCurrentUser().getUid());
+
                                     } else {
                                         Toast.makeText(this, task.getException().getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                                     }
@@ -65,6 +74,32 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+    public void checkWhetherUserIsAclient(String userId) {
+
+        mDb.collection("clients")
+                .document(userId)
+                .get()
+                .addOnCompleteListener(
+                        task -> {
+                            if (task.isSuccessful()) {
+
+                                if (task.getResult().exists()) {
+
+                                    startActivity(new Intent(this, HomeActivity.class));
+                                    finish();
+
+                                } else {
+                                    Toast.makeText(this, "You are not a client choose a relevant group", Toast.LENGTH_SHORT).show();
+                                }
+
+                            } else {
+                                Toast.makeText(this, "Login error: " + task.getException().getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                );
+
+    }
+
     @Override
     protected void onStart() {
         super.onStart();
@@ -72,7 +107,7 @@ public class LoginActivity extends AppCompatActivity {
         FirebaseUser user = mAuth.getCurrentUser();
 
         if (user != null) {
-            startActivity(new Intent(this, HomeActivity.class));
+            checkWhetherUserIsAclient(user.getUid());
         }
     }
 }

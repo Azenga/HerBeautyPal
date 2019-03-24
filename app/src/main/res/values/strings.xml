@@ -109,4 +109,9 @@
     <string name="log_in">Log in</string>
     <string name="do_not_have_account">Don\'t have an account, Sign Up here</string>
     <string name="forgot_password">Forgot Password</string>
+    <string name="salon_image_desc">Salon Display Image</string>
+    <string name="salon_name">Salon Name</string>
+    <string name="home">Home</string>
+    <string name="profile">Profile</string>
+    <string name="notifications">Notifications</string>
 </resources>

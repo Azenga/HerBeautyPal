@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.mercie.example.SetupSalonistActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="@dimen/tv_padding"
+            android:text="@string/personal_details"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="@dimen/tv_padding">
+
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:contentDescription="@string/circular_prompt_image"
+                android:src="@drawable/ic_account_circle_grey_24dp" />
+
+            <EditText
+                android:id="@+id/ss_ep_official_name_et"
+                android:layout_width="@dimen/setup_et_width"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/tv_padding"
+                android:hint="@string/official_name"
+                android:inputType="textPersonName" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="@dimen/tv_padding">
+
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:contentDescription="@string/location_on"
+                android:src="@drawable/ic_location_on_gray_24dp" />
+
+            <EditText
+                android:id="@+id/ss_ep_location_et"
+                android:layout_width="@dimen/setup_et_width"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/tv_padding"
+                android:hint="@string/location"
+                android:inputType="text" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="@dimen/tv_padding">
+
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:contentDescription="@string/mobile_number"
+                android:src="@drawable/ic_phone_black_24dp" />
+
+            <EditText
+                android:id="@+id/ss_ep_mobile_number_et"
+                android:layout_width="@dimen/setup_et_width"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/tv_padding"
+                android:hint="@string/mobile_number"
+                android:inputType="phone" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="@dimen/tv_padding">
+
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:contentDescription="@string/website_optional"
+                android:src="@drawable/ic_vpn_lock_gray_24dp" />
+
+            <EditText
+                android:id="@+id/ss_ep_website_et"
+                android:layout_width="@dimen/setup_et_width"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/tv_padding"
+                android:hint="@string/website_optional"
+                android:inputType="textWebEmailAddress" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginStart="42dp"
+                android:contentDescription="@string/profile_picture"
+                android:src="@drawable/ic_photo_camera_gray_24dp" />
+
+            <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/ss_ep_profile_iv"
+                android:layout_width="96dp"
+                android:layout_height="96dp"
+                android:layout_marginStart="@dimen/tv_padding"
+                android:contentDescription="@string/profile_picture"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_account_circle_gray_96dp"
+                app:civ_border_color="@android:color/white"
+                app:civ_border_width="2dp" />
+
+
+            <Button
+                android:id="@+id/ss_ep_change_profile_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/tv_padding"
+                android:background="@color/colorPrimary"
+                android:text="@string/change"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="#AAAAAA" />
+
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="@dimen/tv_padding"
+            android:text="@string/availability"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/tv_padding"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="@string/select_day_from" />
+
+            <Spinner
+                android:id="@+id/ss_ep_spinner_day_from"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.3" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.8"
+                android:text="@string/to" />
+
+            <Spinner
+                android:id="@+id/ss_ep_spinner_day_to"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.3" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/tv_padding"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="@string/select_time_from" />
+
+            <Spinner
+                android:id="@+id/ss_ep_spinner_time_from"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.3" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.8"
+                android:text="@string/to" />
+
+            <Spinner
+                android:id="@+id/ss_ep_spinner_time_to"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.3" />
+        </LinearLayout>
+
+
+        <Button
+            android:id="@+id/ss_ep_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimaryDark"
+            android:text="@string/setup"
+            android:textColor="@android:color/white" />
+
+
+    </LinearLayout>
+
+</ScrollView>
+
+

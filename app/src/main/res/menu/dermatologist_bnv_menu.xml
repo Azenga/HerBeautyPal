@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/bnav_home"
+        android:icon="@drawable/home"
+        android:title="@string/home" />
+    <item
+        android:id="@+id/bnav_profile"
+        android:icon="@drawable/ic_account_circle_black_24dp"
+        android:title="@string/profile" />
+    <item
+        android:id="@+id/bnav_tips"
+        android:icon="@drawable/ic_invert_colors_black_24dp"
+        android:title="@string/tips" />
+    <item
+        android:id="@+id/bnav_notifications"
+        android:icon="@drawable/ic_notifications_black_24dp"
+        android:title="@string/notifications" />
+</menu>

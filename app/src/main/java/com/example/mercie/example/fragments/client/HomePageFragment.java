@@ -13,7 +13,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import com.example.mercie.example.R;
-import com.example.mercie.example.SalonActivity;
+import com.example.mercie.example.SalonsActivity;
 import com.example.mercie.example.ShopActivity;
 import com.example.mercie.example.TipsActivity;
 
@@ -31,12 +31,13 @@ public class HomePageFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+
         ImageView anim = view.findViewById(R.id.anima);
         anim.setBackgroundResource(R.drawable.animation);
         AnimationDrawable animationDrawable = (AnimationDrawable) anim.getBackground();
 
         Button allSaloons = view.findViewById(R.id.allsalons);
-        allSaloons.setOnClickListener(v -> startActivity(new Intent(getActivity(), SalonActivity.class)));
+        allSaloons.setOnClickListener(v -> startActivity(new Intent(getActivity(), SalonsActivity.class)));
 
 
         Button beautyShops = view.findViewById(R.id.beautyshops);
