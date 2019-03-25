@@ -1,6 +1,8 @@
 package com.example.mercie.example.models;
 
-public class Salonist {
+import java.io.Serializable;
+
+public class Salonist implements Serializable {
 
     private String name;
     private String location;

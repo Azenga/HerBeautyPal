@@ -6,11 +6,10 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.widget.ImageView;
 
-
 public class SalonActivity extends AppCompatActivity {
+
     private Toolbar toolbar;
     private TabLayout tabLayout;
     private ViewPagerAdapter adapter;
@@ -22,22 +21,21 @@ public class SalonActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_salon);
-        toolbar = findViewById(R.id.toolbar);
 
+        Bundle bundle = getIntent().getExtras();
+
+        toolbar = findViewById(R.id.toolbar);
         back = findViewById(R.id.back);
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(SalonActivity.this, HomeActivity.class));
-            }
-        });
+        back.setOnClickListener(view -> startActivity(new Intent(this, SalonsActivity.class)));
 
 
         viewPager = findViewById(R.id.viewpager);
         adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new OneFragment(), "Services");
-        adapter.addFragment(new TwoFragment(), "Offers");
-        adapter.addFragment(new ThreeFragment(), "Info");
+
+        adapter.addFragment(SalonInfoFragment.getInstance(bundle), "Info");
+        adapter.addFragment(SalonServicesFragment.getInstance(bundle), "Services");
+        adapter.addFragment(SalonOffersFragment.getInstance(bundle), "Offers");
+
         viewPager.setAdapter(adapter);
 
         tabLayout = findViewById(R.id.tabs);

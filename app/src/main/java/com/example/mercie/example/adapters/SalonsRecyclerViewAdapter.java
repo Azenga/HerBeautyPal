@@ -1,15 +1,22 @@
 package com.example.mercie.example.adapters;
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.mercie.example.R;
+import com.example.mercie.example.SalonActivity;
 import com.example.mercie.example.models.Salonist;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.List;
 
@@ -20,9 +27,13 @@ public class SalonsRecyclerViewAdapter extends RecyclerView.Adapter<SalonsRecycl
     private List<Salonist> salons;
     private Context context;
 
+    private StorageReference mRef;
+
     public SalonsRecyclerViewAdapter(Context context, List<Salonist> salons) {
         this.salons = salons;
         this.context = context;
+
+        mRef = FirebaseStorage.getInstance().getReference().child("avatars");
     }
 
     @Override
@@ -42,8 +53,29 @@ public class SalonsRecyclerViewAdapter extends RecyclerView.Adapter<SalonsRecycl
         salonViewHolder.salonNameTV.setText(salonist.getName());
         salonViewHolder.salonLocationTV.setText(salonist.getLocation());
 
-        // TODO: 3/24/19 Load An Image to the Salon CIV
+        StorageReference salonPicRef = mRef.child(salonist.getProfilePicName());
 
+        final  long MB = 1024 * 1024;
+
+        salonPicRef.getBytes(MB)
+                .addOnSuccessListener(
+                        bytes -> {
+                            Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+
+                            salonViewHolder.salonCIV.setImageBitmap(bitmap);
+                        }
+                ).addOnFailureListener(e -> Toast.makeText(context, "Error getting a salon image: " + e.getLocalizedMessage(), Toast.LENGTH_LONG).show());
+
+        //Onclick listener for each salon item
+
+        salonViewHolder.mView.setOnClickListener(
+                view -> {
+                    Intent intent = new Intent(context, SalonActivity.class);
+                    intent.putExtra("salon", salonist);
+
+                    context.startActivity(intent);
+                }
+        );
     }
 
     @Override
@@ -53,16 +85,16 @@ public class SalonsRecyclerViewAdapter extends RecyclerView.Adapter<SalonsRecycl
 
     public class SalonViewHolder extends RecyclerView.ViewHolder {
 
-        public View view;
-        public CircleImageView salonCIV;
-        public TextView salonNameTV;
-        public TextView salonLocationTV;
-        public Salonist salon;
+        View mView;
+        CircleImageView salonCIV;
+        TextView salonNameTV;
+        TextView salonLocationTV;
+        Salonist salon;
 
         public SalonViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            view = itemView;
+            mView = itemView;
             salonCIV = itemView.findViewById(R.id.salon_civ);
             salonNameTV = itemView.findViewById(R.id.salon_name_tv);
             salonLocationTV = itemView.findViewById(R.id.salon_location_tv);

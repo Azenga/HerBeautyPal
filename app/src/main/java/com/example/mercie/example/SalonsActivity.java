@@ -22,16 +22,15 @@ public class SalonsActivity extends AppCompatActivity {
 
     //Widgets
     private RecyclerView salonsRV;
-
     //Adapter
     private SalonsRecyclerViewAdapter salonsRecyclerViewAdapter;
+    //Items list
+    private List<Salonist> salons;
 
-    //Firebase Variables
+    //Firebase variables
     private FirebaseFirestore mDb;
     private FirebaseAuth mAuth;
 
-    //Data
-    private List<Salonist> salons;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

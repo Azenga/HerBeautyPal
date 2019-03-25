@@ -114,4 +114,13 @@
     <string name="home">Home</string>
     <string name="profile">Profile</string>
     <string name="notifications">Notifications</string>
+    <string name="owner">Owner</string>
+    <string name="salonist_name">Salonist Name</string>
+    <string name="open_from">Open From</string>
+    <string name="open_to">Open To</string>
+    <string name="website">Website</string>
+    <string name="package_text">Package</string>
+    <string name="which_package">Which Package</string>
+    <string name="service">Service</string>
+    <string name="cost">Cost</string>
 </resources>
