@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.widget.Toast;
+import android.util.Log;
 
 import com.example.mercie.example.adapters.SalonsRecyclerViewAdapter;
 import com.example.mercie.example.models.Salonist;
@@ -19,6 +19,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SalonsActivity extends AppCompatActivity {
+
+
+    private static final String TAG = "SalonsActivity";
 
     //Widgets
     private RecyclerView salonsRV;
@@ -53,29 +56,33 @@ public class SalonsActivity extends AppCompatActivity {
 
         salons = new ArrayList<>();
 
+        salonsRecyclerViewAdapter = new SalonsRecyclerViewAdapter(this, salons);
+        salonsRV.setAdapter(salonsRecyclerViewAdapter);
+
         mDb.collection("salonists")
-                .get()
-                .addOnCompleteListener(
-                        task -> {
+                .addSnapshotListener(
+                        (value, e) -> {
 
-                            if (task.isSuccessful()) {
-                                for (QueryDocumentSnapshot document : task.getResult()) {
-
-                                    Salonist salon = document.toObject(Salonist.class);
-
-                                    salons.add(salon);
-
-                                    Toast.makeText(this, salon.toString(), Toast.LENGTH_SHORT).show();
-                                }
-                            } else {
-                                Toast.makeText(this, "Error getting the salons: " + task.getException().getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                            if (e != null) {
+                                Log.e(TAG, "onCreate: ", e);
+                                return;
                             }
+
+                            for (QueryDocumentSnapshot doc : value) {
+
+                                Salonist salon = doc.toObject(Salonist.class);
+
+                                salons.add(salon);
+
+                                Log.d(TAG, "onCreate: " + salon.toString());
+
+                                salonsRecyclerViewAdapter.notifyDataSetChanged();
+                            }
+
                         }
                 );
 
 
-        salonsRecyclerViewAdapter = new SalonsRecyclerViewAdapter(this, salons);
-        salonsRV.setAdapter(salonsRecyclerViewAdapter);
     }
 
     //Check whether the current user is authenticated
