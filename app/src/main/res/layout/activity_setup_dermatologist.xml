@@ -94,31 +94,6 @@
 
         </LinearLayout>
 
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:padding="@dimen/tv_padding">
-
-            <ImageView
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:contentDescription="@string/official_email_address"
-                android:src="@drawable/ic_email_black_24dp" />
-
-            <EditText
-                android:id="@+id/sd_official_email_address_et"
-                android:layout_width="@dimen/setup_et_width"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/tv_padding"
-                android:hint="@string/official_email_address"
-                android:inputType="textEmailAddress" />
-
-        </LinearLayout>
-
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -156,13 +131,16 @@
                 android:contentDescription="@string/profile_picture"
                 android:src="@drawable/ic_photo_camera_gray_24dp" />
 
-            <ImageView
-                android:id="@+id/profile_iv"
+            <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/dermatologist_profile_iv"
                 android:layout_width="96dp"
                 android:layout_height="96dp"
                 android:layout_marginStart="@dimen/tv_padding"
                 android:contentDescription="@string/profile_picture"
-                android:src="@drawable/ic_account_circle_grey_24dp" />
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_account_circle_gray_96dp"
+                app:civ_border_color="@android:color/white"
+                app:civ_border_width="2dp" />
 
             <Button
                 android:id="@+id/setup_dermatologist_change_profile_btn"
@@ -170,133 +148,10 @@
                 android:layout_height="wrap_content"
                 android:background="@color/colorPrimary"
                 android:text="@string/change"
+                android:textAllCaps="false"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="#AAAAAA" />
 
-
-        </LinearLayout>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:padding="@dimen/tv_padding"
-            android:text="@string/tips"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/tv_padding"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <CheckBox
-                android:id="@+id/hair_cb"
-                android:layout_width="@dimen/setup_et_width"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="42dp"
-                android:text="@string/hair" />
-
-            <ImageView
-                android:id="@+id/hair_cb_iv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:contentDescription="@string/add"
-                android:src="@drawable/ic_add_black_24dp" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/tv_padding"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <CheckBox
-                android:id="@+id/nails_cb"
-                android:layout_width="@dimen/setup_et_width"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="42dp"
-                android:text="@string/nails" />
-
-            <ImageView
-                android:id="@+id/nails_cb_iv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:contentDescription="@string/add"
-                android:src="@drawable/ic_add_black_24dp" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/tv_padding"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <CheckBox
-                android:id="@+id/skin_care_cb"
-                android:layout_width="@dimen/setup_et_width"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="42dp"
-                android:text="@string/skin_care" />
-
-            <ImageView
-                android:id="@+id/skin_care_cb_iv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:contentDescription="@string/add"
-                android:src="@drawable/ic_add_black_24dp" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/tv_padding"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <CheckBox
-                android:id="@+id/make_up_cb"
-                android:layout_width="@dimen/setup_et_width"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="42dp"
-                android:text="@string/make_up" />
-
-            <ImageView
-                android:id="@+id/make_up_cb_iv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:contentDescription="@string/add"
-                android:src="@drawable/ic_add_black_24dp" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/tv_padding"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <CheckBox
-                android:id="@+id/beauty_products_cb"
-                android:layout_width="@dimen/setup_et_width"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="42dp"
-                android:text="@string/beauty_products" />
-
-            <ImageView
-                android:id="@+id/beauty_products_cb_iv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:contentDescription="@string/add"
-                android:src="@drawable/ic_add_black_24dp" />
 
         </LinearLayout>
 
@@ -377,8 +232,8 @@
             android:layout_height="wrap_content"
             android:background="@color/colorPrimaryDark"
             android:text="@string/setup"
+            android:textAllCaps="false"
             android:textColor="@android:color/white" />
-
 
     </LinearLayout>
 

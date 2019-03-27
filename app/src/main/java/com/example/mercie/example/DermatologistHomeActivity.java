@@ -5,6 +5,7 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.example.mercie.example.fragments.dermatologist.Home;
@@ -41,15 +42,18 @@ public class DermatologistHomeActivity extends AppCompatActivity {
 
     private ViewPagerAdapter dermatologistViewPagerAdapter;
 
+    private Toolbar dermatologistToolbar;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dermatologist_home);
 
         containerVP = findViewById(R.id.dermatologist_vp);
-
-        BottomNavigationView bottomNavigationView = findViewById(R.id.dermatologist_bnv);
-        bottomNavigationView.setOnNavigationItemSelectedListener(bottomNavigationListener);
+        dermatologistToolbar = findViewById(R.id.dermatologist_toolbar);
+        setSupportActionBar(dermatologistToolbar);
+        getSupportActionBar().setTitle("Dermatologist");
 
         dermatologistViewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
 
@@ -57,6 +61,9 @@ public class DermatologistHomeActivity extends AppCompatActivity {
         dermatologistViewPagerAdapter.addFragment(new Profile(), "Profile");
         dermatologistViewPagerAdapter.addFragment(new Tips(), "Tips");
         dermatologistViewPagerAdapter.addFragment(new Notifications(), "Notifications");
+
+        BottomNavigationView bottomNavigationView = findViewById(R.id.dermatologist_bnv);
+        bottomNavigationView.setOnNavigationItemSelectedListener(bottomNavigationListener);
     }
 
     public void changeFragment(int index) {

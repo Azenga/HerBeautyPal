@@ -64,7 +64,7 @@ public class SignUpDermatologistActivity extends AppCompatActivity {
                             finish();
                         } else {
                             String message = task.getException().getMessage();
-                            Toast.makeText(SignUpDermatologistActivity.this, "Something went wrong: " + message, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SignUpDermatologistActivity.this, "Error: " + message, Toast.LENGTH_SHORT).show();
                         }
                         progressdialog.dismiss();
                     }

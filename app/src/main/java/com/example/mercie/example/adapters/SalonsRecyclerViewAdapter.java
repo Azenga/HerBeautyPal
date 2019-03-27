@@ -67,7 +67,6 @@ public class SalonsRecyclerViewAdapter extends RecyclerView.Adapter<SalonsRecycl
                 ).addOnFailureListener(e -> Toast.makeText(context, "Error getting a salon image: " + e.getLocalizedMessage(), Toast.LENGTH_LONG).show());
 
         //Onclick listener for each salon item
-
         salonViewHolder.mView.setOnClickListener(
                 view -> {
                     Intent intent = new Intent(context, SalonActivity.class);

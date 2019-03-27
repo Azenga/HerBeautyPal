@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.example.mercie.example.SalonActivity">
 
     <android.support.design.widget.AppBarLayout
@@ -12,7 +13,7 @@
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar">
 
         <android.support.v7.widget.Toolbar
-            android:id="@+id/tool"
+            android:id="@+id/salon_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
@@ -20,7 +21,7 @@
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
             <ImageView
-                android:id="@+id/back"
+                android:id="@+id/go_back_iv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/back" />
@@ -29,7 +30,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
-                android:text="Salon"
+                android:text="@string/salon"
                 android:textColor="#fff"
                 android:textSize="20sp" />
 
@@ -42,11 +43,14 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="170sp"
-                android:background="@color/background" />
+                android:background="@color/background"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ground" />
+
         </LinearLayout>
 
         <android.support.design.widget.TabLayout
-            android:id="@+id/tabs"
+            android:id="@+id/fragment_tablayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
@@ -58,12 +62,9 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/viewpager"
+    <FrameLayout
+        android:id="@+id/fragment_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        android:layout_height="match_parent"></FrameLayout>
 
-    </android.support.v4.view.ViewPager>
-
-</android.support.design.widget.CoordinatorLayout>
+</LinearLayout>

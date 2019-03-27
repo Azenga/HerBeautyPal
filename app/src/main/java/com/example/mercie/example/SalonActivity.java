@@ -2,19 +2,21 @@ package com.example.mercie.example;
 
 import android.content.Intent;
 import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.widget.ImageView;
+import android.widget.Toast;
+
+import com.example.mercie.example.models.Salonist;
 
 public class SalonActivity extends AppCompatActivity {
 
-    private Toolbar toolbar;
-    private TabLayout tabLayout;
-    private ViewPagerAdapter adapter;
-    private ViewPager viewPager;
-    private ImageView back;
+    private Salonist salon = null;
+
+    private final String INFO = "Info";
 
 
     @Override
@@ -22,25 +24,77 @@ public class SalonActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_salon);
 
-        Bundle bundle = getIntent().getExtras();
+        //OK SO far
+        salon = (Salonist) getIntent().getSerializableExtra("salon");
 
-        toolbar = findViewById(R.id.toolbar);
-        back = findViewById(R.id.back);
-        back.setOnClickListener(view -> startActivity(new Intent(this, SalonsActivity.class)));
+        Toast.makeText(this, "" + salon, Toast.LENGTH_SHORT).show();
+
+        ImageView goBackIV = findViewById(R.id.go_back_iv);
+        goBackIV.setOnClickListener(view -> {
+            startActivity(new Intent(this, SalonsActivity.class));
+            finish();
+        });
+
+        Toolbar salonToolbar = findViewById(R.id.salon_toolbar);
+        TabLayout fragmentTabLayout = findViewById(R.id.fragment_tablayout);
+
+        //OK SO far
+
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+
+        adapter.addFragment(SalonInfoFragment.getInstance(salon), "Info");
+        adapter.addFragment(SalonServicesFragment.getInstance(salon), "Services");
+        adapter.addFragment(SalonOffersFragment.getInstance(salon), "Offers");
+
+        //fragContainer.setAdapter(adapter);
+        // TODO: 3/26/19 Make the fragment show => Ithink I will end using the default way to swap fragments
+
+        fragmentTabLayout.addTab(fragmentTabLayout.newTab().setText("Info"));
+        fragmentTabLayout.addTab(fragmentTabLayout.newTab().setText("Services"));
+        fragmentTabLayout.addTab(fragmentTabLayout.newTab().setText("Offers"));
+
+        fragmentTabLayout.setOnTabSelectedListener(
+                new TabLayout.OnTabSelectedListener() {
+                    @Override
+                    public void onTabSelected(TabLayout.Tab tab) {
+
+                        if (tab.getText() != null) {
+                            switch (tab.getText().toString()) {
+                                case "Info":
+                                    displayFragment(SalonInfoFragment.getInstance(salon));
+                                    break;
+                                case "Services":
+                                    displayFragment(SalonServicesFragment.getInstance(salon));
+                                    break;
+                                case "Offers":
+                                    displayFragment(SalonOffersFragment.getInstance(salon));
+                                    break;
+                                default:
+                                    displayFragment(SalonInfoFragment.getInstance(salon));
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onTabUnselected(TabLayout.Tab tab) {
+
+                    }
+
+                    @Override
+                    public void onTabReselected(TabLayout.Tab tab) {
+
+                    }
+                }
+        );
 
 
-        viewPager = findViewById(R.id.viewpager);
-        adapter = new ViewPagerAdapter(getSupportFragmentManager());
+    }
 
-        adapter.addFragment(SalonInfoFragment.getInstance(bundle), "Info");
-        adapter.addFragment(SalonServicesFragment.getInstance(bundle), "Services");
-        adapter.addFragment(SalonOffersFragment.getInstance(bundle), "Offers");
+    public void displayFragment(Fragment frag) {
 
-        viewPager.setAdapter(adapter);
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, frag);
 
-        tabLayout = findViewById(R.id.tabs);
-        tabLayout.setupWithViewPager(viewPager);
-
+        transaction.commit();
 
     }
 

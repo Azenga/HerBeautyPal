@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 public class Salonist implements Serializable {
 
+    private String salonId;
     private String name;
     private String location;
     private String contact;
@@ -13,6 +14,7 @@ public class Salonist implements Serializable {
     private String profilePicName;
 
     public Salonist() {
+        // TODO: 3/25/19 Add the salon ID as a field in the salons so that we can get the salon services with the object
     }
 
     public Salonist(String name, String location, String contact, String website, String openFrom, String openTo, String profilePicName) {
@@ -29,56 +31,32 @@ public class Salonist implements Serializable {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public String getLocation() {
         return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
-    }
-
-    public String getContact() {
-        return contact;
-    }
-
-    public void setContact(String contact) {
-        this.contact = contact;
     }
 
     public String getWebsite() {
         return website;
     }
 
-    public void setWebsite(String website) {
-        this.website = website;
+    public String getSalonId() {
+        return salonId;
+    }
+
+    public String getContact() {
+        return contact;
     }
 
     public String getOpenFrom() {
         return openFrom;
     }
 
-    public void setOpenFrom(String openFrom) {
-        this.openFrom = openFrom;
-    }
-
     public String getOpenTo() {
         return openTo;
     }
 
-    public void setOpenTo(String openTo) {
-        this.openTo = openTo;
-    }
-
     public String getProfilePicName() {
         return profilePicName;
-    }
-
-    public void setProfilePicName(String profilePicName) {
-        this.profilePicName = profilePicName;
     }
 
     @Override

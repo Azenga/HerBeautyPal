@@ -33,8 +33,11 @@ public class ServiceDialogPrompt extends AppCompatDialogFragment {
     public static ServiceDialogPrompt getInstance(String packageName) {
 
         ServiceDialogPrompt serviceDialogPrompt = new ServiceDialogPrompt();
+
         Bundle args = new Bundle();
+
         args.putString(PACKAGE_NAME, packageName);
+
         serviceDialogPrompt.setArguments(args);
 
         return serviceDialogPrompt;

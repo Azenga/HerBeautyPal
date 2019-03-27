@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.example.mercie.example.models.Salonist;
 
 public class SalonInfoFragment extends Fragment {
+
     private Salonist salon = null;
 
     private TextView salonOwnerTV, salonLocationTV, openFronTV, openToTV, salonWebsiteTV;
@@ -20,9 +21,13 @@ public class SalonInfoFragment extends Fragment {
 
     }
 
-    public static SalonInfoFragment getInstance(Bundle bundle) {
+    public static SalonInfoFragment getInstance(Salonist salon) {
 
         SalonInfoFragment salonInfoFragment = new SalonInfoFragment();
+
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("salon", salon);
+
         salonInfoFragment.setArguments(bundle);
 
         return salonInfoFragment;
@@ -32,8 +37,8 @@ public class SalonInfoFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (savedInstanceState != null) {
-            salon = savedInstanceState.getParcelable("salon");
+        if (getArguments() != null) {
+            salon = (Salonist) getArguments().getSerializable("salon");
         }
     }
 
@@ -55,10 +60,13 @@ public class SalonInfoFragment extends Fragment {
 
         //Populate widgets
 
-        salonOwnerTV.setText(salon.getName());
-        salonLocationTV.setText(salon.getLocation());
-        openFronTV.setText(salon.getOpenFrom());
-        openToTV.setText(salon.getOpenTo());
-        salonWebsiteTV.setText(salon.getWebsite());
+        if (salon != null) {
+            salonOwnerTV.setText(salon.getName());
+            salonLocationTV.setText(salon.getLocation());
+            openFronTV.setText(salon.getOpenFrom());
+            openToTV.setText(salon.getOpenTo());
+            salonWebsiteTV.setText(salon.getWebsite());
+        }
+
     }
 }

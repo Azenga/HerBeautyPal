@@ -2,27 +2,22 @@ package com.example.mercie.example;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class SignUpShopActivity extends AppCompatActivity {
 
 
-    private Button sigupshop;
-    private EditText shopemail;
-    private EditText shoppassword;
-    private EditText shopconfirmpassword;
+    private Button signupShopBtn;
+    private EditText shopEmailTIET;
+    private EditText shopPwdTIET;
+    private EditText shopCpwdTIET;
     private FirebaseAuth mAuth;
     private ProgressDialog progressdialog;
 
@@ -34,47 +29,56 @@ public class SignUpShopActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
 
-        progressdialog = new ProgressDialog(SignUpShopActivity.this);
+        progressdialog = new ProgressDialog(this);
 
-        shopemail = findViewById(R.id.shopemail);
-        shoppassword = findViewById(R.id.shoppassword);
-        shopconfirmpassword = findViewById(R.id.shopconfirmpassword);
+        shopEmailTIET = findViewById(R.id.shop_email_tiet);
+        shopPwdTIET = findViewById(R.id.shop_pwd_tiet);
+        shopCpwdTIET = findViewById(R.id.shop_cpwd_tiet);
 
-        sigupshop = findViewById(R.id.sigupshop);
-        sigupshop.setOnClickListener(view -> createUserAccount());
+        signupShopBtn = findViewById(R.id.signup_shop_btn);
+        signupShopBtn.setOnClickListener(view -> createUserAccount());
     }
 
     private void createUserAccount() {
 
-        String email = shopemail.getText().toString();
-        String password = shoppassword.getText().toString();
-        String confirmpassword = shopconfirmpassword.getText().toString();
+        String email = shopEmailTIET.getText().toString();
+        String password = shopPwdTIET.getText().toString();
+        String confirmpassword = shopCpwdTIET.getText().toString();
 
         if (TextUtils.isEmpty(email)) {
-            shopemail.setError("Email Field must not be empty");
+            shopEmailTIET.setError("Email Field must not be empty");
+            shopEmailTIET.requestFocus();
         } else if (TextUtils.isEmpty(password)) {
-            shoppassword.setError("Password Field must not be empty");
+            shopPwdTIET.setError("Password Field must not be empty");
+            shopPwdTIET.requestFocus();
         } else if (TextUtils.isEmpty(confirmpassword)) {
-            shopconfirmpassword.setError("Confirm password Field must not be empty");
+            shopCpwdTIET.setError("Confirm password Field must not be empty");
+            shopCpwdTIET.requestFocus();
         } else if (!password.equals(confirmpassword)) {
             Toast.makeText(this, "passwords do not match", Toast.LENGTH_SHORT).show();
+            shopCpwdTIET.requestFocus();
         } else {
 
             progressdialog.setTitle("Creating Account");
             progressdialog.setMessage("Please Wait...");
             progressdialog.setCanceledOnTouchOutside(true);
             progressdialog.show();
+
             mAuth.createUserWithEmailAndPassword(email, password).
                     addOnCompleteListener(
                             task -> {
                                 if (task.isSuccessful()) {
-                                    Intent intent = new Intent(SignUpShopActivity.this, SetupShopActivity.class);
+
+                                    Intent intent = new Intent(this, SetupShopActivity.class);
                                     startActivity(intent);
                                     finish();
+
                                 } else {
                                     String message = task.getException().getMessage();
-                                    Toast.makeText(SignUpShopActivity.this, "Something went wrong: " + message, Toast.LENGTH_SHORT).show();
+
+                                    Toast.makeText(this, "Signup error: " + message, Toast.LENGTH_LONG).show();
                                 }
+
                                 progressdialog.dismiss();
                             }
                     );

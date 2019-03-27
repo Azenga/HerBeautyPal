@@ -1,5 +1,6 @@
 package com.example.mercie.example;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
@@ -18,6 +19,8 @@ public class LoginActivity extends AppCompatActivity {
     //ADDED
     private TextInputEditText emailTIET, pwdTIET;
 
+    private ProgressDialog progressDialog;
+
     //Firebase Variables
     private FirebaseAuth mAuth;
     private FirebaseFirestore mDb;
@@ -34,6 +37,8 @@ public class LoginActivity extends AppCompatActivity {
         emailTIET = findViewById(R.id.email_tiet);
         pwdTIET = findViewById(R.id.pwd_tiet);
 
+        progressDialog = new ProgressDialog(this);
+
         //Initializing Firebse Variables
         mAuth = FirebaseAuth.getInstance();
         mDb = FirebaseFirestore.getInstance();
@@ -46,6 +51,12 @@ public class LoginActivity extends AppCompatActivity {
                     String pwd = pwdTIET.getText().toString();
 
                     if (!TextUtils.isEmpty(email) && !TextUtils.isEmpty(pwd)) {
+
+                        progressDialog.setTitle("Attempting Login");
+                        progressDialog.setMessage("Please wait...");
+                        progressDialog.setCanceledOnTouchOutside(true);
+                        progressDialog.show();
+
                         mAuth.signInWithEmailAndPassword(email, pwd).
                                 addOnCompleteListener(task -> {
                                     if (task.isSuccessful()) {
@@ -95,9 +106,10 @@ public class LoginActivity extends AppCompatActivity {
                             } else {
                                 Toast.makeText(this, "Login error: " + task.getException().getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                             }
+
+                            progressDialog.dismiss();
                         }
                 );
-
     }
 
     @Override
@@ -107,7 +119,13 @@ public class LoginActivity extends AppCompatActivity {
         FirebaseUser user = mAuth.getCurrentUser();
 
         if (user != null) {
+
+            progressDialog.setTitle("Authenticating");
+            progressDialog.setMessage("Please wait...");
+            progressDialog.setCanceledOnTouchOutside(true);
+            progressDialog.show();
             checkWhetherUserIsAclient(user.getUid());
+
         }
     }
 }

@@ -123,4 +123,6 @@
     <string name="which_package">Which Package</string>
     <string name="service">Service</string>
     <string name="cost">Cost</string>
+    <string name="salon">Salon</string>
+    <string name="beauty_shop_dashboard">Beauty Shop Dashboard</string>
 </resources>

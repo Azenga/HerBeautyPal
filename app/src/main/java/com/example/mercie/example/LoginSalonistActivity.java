@@ -1,5 +1,6 @@
 package com.example.mercie.example;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
@@ -20,6 +21,7 @@ public class LoginSalonistActivity extends AppCompatActivity {
     private FirebaseFirestore mFirestore;
     private TextInputEditText emailTIET, pwdTIET;
 
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +36,8 @@ public class LoginSalonistActivity extends AppCompatActivity {
 
         emailTIET = findViewById(R.id.salonist_email_tiet);
         pwdTIET = findViewById(R.id.salonist_password_tiet);
+
+        progressDialog = new ProgressDialog(this);
 
         signupsalonist.setOnClickListener(
                 view -> {
@@ -50,6 +54,11 @@ public class LoginSalonistActivity extends AppCompatActivity {
         String pwd = pwdTIET.getText().toString();
 
         if (!TextUtils.isEmpty(email) && !TextUtils.isEmpty(pwd)) {
+            progressDialog.setTitle("Attempting Login");
+            progressDialog.setMessage("Please wait...");
+            progressDialog.setCanceledOnTouchOutside(true);
+            progressDialog.show();
+
             mAuth.signInWithEmailAndPassword(email, pwd)
                     .addOnCompleteListener(
                             task -> {
@@ -87,7 +96,9 @@ public class LoginSalonistActivity extends AppCompatActivity {
                             } else {
                                 Toast.makeText(this, "Login error: " + task.getException().getLocalizedMessage(), Toast.LENGTH_LONG).show();
                             }
+                            progressDialog.dismiss();
                         }
+
                 );
     }
 
@@ -98,6 +109,12 @@ public class LoginSalonistActivity extends AppCompatActivity {
         FirebaseUser user = mAuth.getCurrentUser();
 
         if (user != null) {
+
+            progressDialog.setTitle("Authenticating");
+            progressDialog.setMessage("Please wait...");
+            progressDialog.setCanceledOnTouchOutside(true);
+            progressDialog.show();
+
             checkWhetherUserReallyASaloonist(user.getUid());
         }
     }

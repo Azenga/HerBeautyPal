@@ -6,13 +6,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.mercie.example.models.Salonist;
+
 public class SalonOffersFragment extends Fragment {
+
+    private Salonist salon = null;
+
     public SalonOffersFragment() {
 
     }
 
-    public static SalonOffersFragment getInstance(Bundle bundle) {
+    public static SalonOffersFragment getInstance(Salonist salon) {
         SalonOffersFragment salonOffersFragment = new SalonOffersFragment();
+
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("salon", salon);
+
         salonOffersFragment.setArguments(bundle);
 
         return salonOffersFragment;
@@ -22,6 +31,10 @@ public class SalonOffersFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (getArguments() != null) {
+            salon = (Salonist) getArguments().getSerializable("salon");
+        }
     }
 
     @Override

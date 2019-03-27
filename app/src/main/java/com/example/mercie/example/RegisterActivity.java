@@ -1,5 +1,6 @@
 package com.example.mercie.example;
 
+import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
@@ -30,6 +31,8 @@ public class RegisterActivity extends AppCompatActivity {
     private FirebaseFirestore mStoreDb;
     private String userUid;
 
+    private ProgressDialog progressDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +46,8 @@ public class RegisterActivity extends AppCompatActivity {
         phoneNumberET = findViewById(R.id.phone_et);
         genderET = findViewById(R.id.gender_et);
         locationAddressET = findViewById(R.id.address_et);
+
+        progressDialog = new ProgressDialog(this);
 
         chooseImageIV = findViewById(R.id.avatar_iv);
         chooseImageIV.setOnClickListener(view -> openFileChooser());
@@ -81,6 +86,11 @@ public class RegisterActivity extends AppCompatActivity {
         String location = locationAddressET.getText().toString().trim();
         String gender = genderET.getText().toString().trim();
 
+        progressDialog.setTitle("Setup Client");
+        progressDialog.setMessage("Please Wait...");
+        progressDialog.setCanceledOnTouchOutside(true);
+        progressDialog.show();
+
         if (mImageUri != null) {
             StorageReference fileReference = mStorageRef.child(userUid + '.' + getFileExtension(mImageUri));
 
@@ -112,8 +122,8 @@ public class RegisterActivity extends AppCompatActivity {
                 .document(userUid)
                 .set(userModel)
                 .addOnCompleteListener(
-                        task1 -> {
-                            if (task1.isSuccessful()) {
+                        task -> {
+                            if (task.isSuccessful()) {
                                 Toast.makeText(this, "Your profile has been updated", Toast.LENGTH_SHORT).show();
 
                                 Thread thread = new Thread() {
@@ -131,8 +141,11 @@ public class RegisterActivity extends AppCompatActivity {
                                 };
                                 thread.start();
                             } else {
-                                Toast.makeText(this, "Update details error: " + task1.getException().getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                                Toast.makeText(this, "Update details error: " + task.getException().getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                                progressDialog.dismiss();
+
                             }
+
                         }
                 );
     }

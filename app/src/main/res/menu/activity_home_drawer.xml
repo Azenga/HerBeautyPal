@@ -23,7 +23,7 @@
     <item
         android:id="@+id/nav_checkDetails"
         android:icon="@drawable/ic_details_black_24dp"
-        android:title="Check Reservation Details" />
+        android:title="Book Appointment" />
     <item
         android:id="@+id/nav_logout"
         android:icon="@drawable/logout"

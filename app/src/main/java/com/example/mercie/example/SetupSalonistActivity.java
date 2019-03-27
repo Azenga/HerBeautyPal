@@ -1,6 +1,7 @@
 package com.example.mercie.example;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
@@ -52,6 +53,8 @@ public class SetupSalonistActivity extends AppCompatActivity implements ServiceD
     private ImageView hairCbIV, nailsCBIV, skinCareCBIV, makeUpCBIV;
     private CheckBox hairCB, nailsCB, skinCareCB, makeUpCB;
     private Button chooseImageBtn, setupBtn;
+
+    private ProgressDialog progressDialog;
 
     private List<SalonService> services;
 
@@ -126,6 +129,8 @@ public class SetupSalonistActivity extends AppCompatActivity implements ServiceD
 
         initOtherComponents();
 
+        progressDialog = new ProgressDialog(this);
+
         hairCB.setOnCheckedChangeListener(checkBoxListeners);
         nailsCB.setOnCheckedChangeListener(checkBoxListeners);
         skinCareCB.setOnCheckedChangeListener(checkBoxListeners);
@@ -153,6 +158,11 @@ public class SetupSalonistActivity extends AppCompatActivity implements ServiceD
             String website = websiteET.getText().toString();
             String openFfrom = "Date: " + dayFromSpinner.getSelectedItem().toString() + " Time: " + timeFromSpinner.getSelectedItem().toString();
             String openTo = "Date: " + dayToSpinner.getSelectedItem().toString() + " Time: " + timeToSpinner.getSelectedItem().toString();
+
+            progressDialog.setTitle("Setup Salon Details");
+            progressDialog.setMessage("Please Wait...");
+            progressDialog.setCanceledOnTouchOutside(true);
+            progressDialog.show();
 
             if (profileBitmap != null) {
 
@@ -206,16 +216,18 @@ public class SetupSalonistActivity extends AppCompatActivity implements ServiceD
 
     private void addSalonServicesToFirestore() {
 
-        for(SalonService service: services){
+        for (SalonService service : services) {
             mFirestore.collection("services").document(mAuth.getCurrentUser().getUid()).collection("Services").add(service);
         }
 
         Toast.makeText(this, "Services Added", Toast.LENGTH_SHORT).show();
 
+        progressDialog.dismiss();
+
 
     }
 
-    private void addSalonistToFirestore(Salonist salon) {
+    private boolean addSalonistToFirestore(Salonist salon) {
         if (mAuth.getCurrentUser() != null) {
             mFirestore.collection("salonists")
                     .document(mAuth.getCurrentUser().getUid())
@@ -228,9 +240,13 @@ public class SetupSalonistActivity extends AppCompatActivity implements ServiceD
 
                                 } else
                                     Toast.makeText(this, "Adding salonist error: " + task.getException().getLocalizedMessage(), Toast.LENGTH_LONG).show();
+
+                                progressDialog.dismiss();
                             }
                     );
         }
+
+        return false;
     }
 
     //Checking whether the app has permissions to read and write to external storage
