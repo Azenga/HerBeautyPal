@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
+import com.example.mercie.example.adapters.BeatyPalStatePagerAdapter;
 import com.example.mercie.example.fragments.dermatologist.Home;
 import com.example.mercie.example.fragments.dermatologist.Notifications;
 import com.example.mercie.example.fragments.dermatologist.Profile;
@@ -15,58 +16,72 @@ import com.example.mercie.example.fragments.dermatologist.Tips;
 
 public class DermatologistHomeActivity extends AppCompatActivity {
 
-    private ViewPager containerVP;
-    private BottomNavigationView.OnNavigationItemSelectedListener bottomNavigationListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
+    private BottomNavigationView.OnNavigationItemSelectedListener bnvListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-
             switch (menuItem.getItemId()) {
+
                 case R.id.bnav_home:
                     changeFragment(0);
+                    toolbar.setTitle("Home");
                     return true;
-                case R.id.bnav_profile:
-                    changeFragment(1);
-                    return true;
-                case R.id.bnav_tips:
-                    changeFragment(2);
-                    return true;
+
                 case R.id.bnav_notifications:
-                    changeFragment(3);
+                    changeFragment(1);
+                    toolbar.setTitle("Notifications");
+
                     return true;
+
+                case R.id.bnav_profile:
+                    changeFragment(2);
+                    toolbar.setTitle("Profile");
+
+                    return true;
+
+                case R.id.bnav_tips:
+                    changeFragment(3);
+                    toolbar.setTitle("Tips");
+
+                    return true;
+
                 default:
                     return false;
             }
+
         }
     };
 
-    private ViewPagerAdapter dermatologistViewPagerAdapter;
-
-    private Toolbar dermatologistToolbar;
-
+    private ViewPager viewPager;
+    private BeatyPalStatePagerAdapter adapter;
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dermatologist_home);
 
-        containerVP = findViewById(R.id.dermatologist_vp);
-        dermatologistToolbar = findViewById(R.id.dermatologist_toolbar);
-        setSupportActionBar(dermatologistToolbar);
-        getSupportActionBar().setTitle("Dermatologist");
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) getSupportActionBar().setTitle("Home");
 
-        dermatologistViewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
+        viewPager = findViewById(R.id.container);
 
-        dermatologistViewPagerAdapter.addFragment(new Home(), "Home");
-        dermatologistViewPagerAdapter.addFragment(new Profile(), "Profile");
-        dermatologistViewPagerAdapter.addFragment(new Tips(), "Tips");
-        dermatologistViewPagerAdapter.addFragment(new Notifications(), "Notifications");
+        adapter = new BeatyPalStatePagerAdapter(getSupportFragmentManager());
 
-        BottomNavigationView bottomNavigationView = findViewById(R.id.dermatologist_bnv);
-        bottomNavigationView.setOnNavigationItemSelectedListener(bottomNavigationListener);
+        adapter.addFragment(new Home(), "Home");
+        adapter.addFragment(new Notifications(), "Notifications");
+        adapter.addFragment(new Profile(), "Profile");
+        adapter.addFragment(new Tips(), "Tips");
+
+        viewPager.setAdapter(adapter);
+
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bnv);
+        bottomNavigationView.setOnNavigationItemSelectedListener(bnvListener);
     }
 
-    public void changeFragment(int index) {
-        containerVP.setCurrentItem(index);
+    public void changeFragment(int position) {
+        viewPager.setCurrentItem(position);
     }
+
 }

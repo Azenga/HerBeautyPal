@@ -105,7 +105,7 @@
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:contentDescription="@string/website_optional"
-                android:src="@drawable/ic_vpn_lock_gray_24dp" />
+                android:src="@drawable/ic_public_gray_24dp" />
 
             <EditText
                 android:id="@+id/sd_website_et"

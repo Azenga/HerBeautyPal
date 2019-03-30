@@ -60,8 +60,9 @@ public class LoginDermatologistActivity extends AppCompatActivity {
                                 .addOnCompleteListener(
                                         task -> {
                                             if (task.isSuccessful()) {
-                                                startActivity(new Intent(this, DermatologistHomeActivity.class));
+                                                confirmDermatologist(mAuth.getCurrentUser().getUid());
                                             } else {
+                                                progressDialog.dismiss();
                                                 Toast.makeText(this, task.getException().getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                                             }
                                         }

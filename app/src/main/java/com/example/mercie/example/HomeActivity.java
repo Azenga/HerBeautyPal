@@ -21,11 +21,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.mercie.example.fragments.client.AboutFragment;
-import com.example.mercie.example.fragments.client.ChangeProfileFragment;
+import com.example.mercie.example.fragments.client.EditProfileFragment;
 import com.example.mercie.example.fragments.client.CheckReservationDetailsFragment;
-import com.example.mercie.example.fragments.client.FeedbackFragment;
-import com.example.mercie.example.fragments.client.HistoryFragment;
 import com.example.mercie.example.fragments.client.HomePageFragment;
 import com.example.mercie.example.models.Client;
 import com.google.firebase.auth.FirebaseAuth;
@@ -56,7 +53,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         mStoreRef = FirebaseStorage.getInstance().getReference().child("avatars");
         mFirestore = FirebaseFirestore.getInstance();
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.shop_toolbar);
         setSupportActionBar(toolbar);
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -70,7 +67,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         View navHeaderView = navigationView.getHeaderView(0);
 
-        profileIV = navHeaderView.findViewById(R.id.profile_iv);
+        profileIV = navHeaderView.findViewById(R.id.profile_civ);
         usernameTV = navHeaderView.findViewById(R.id.username_tv);
 
         displayFrag(R.id.nav_homepage);
@@ -83,28 +80,16 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         Fragment frag = null;
 
         switch (id) {
-            case R.id.nav_changeprofile:
-                getSupportActionBar().setTitle("Change Profile");
-                frag = new ChangeProfileFragment();
+            case R.id.nav_edit_profile:
+                getSupportActionBar().setTitle("Edit Profile");
+                frag = new EditProfileFragment();
                 break;
             case R.id.nav_homepage:
                 getSupportActionBar().setTitle("Home");
                 frag = new HomePageFragment();
                 break;
-            case R.id.nav_feedback:
-                getSupportActionBar().setTitle("Feedback");
-                frag = new FeedbackFragment();
-                break;
-            case R.id.nav_about:
-                getSupportActionBar().setTitle("About");
-                frag = new AboutFragment();
-                break;
-            case R.id.nav_history:
-                getSupportActionBar().setTitle("Change Profile");
-                frag = new HistoryFragment();
-                break;
-            case R.id.nav_checkDetails:
-                getSupportActionBar().setTitle("Reservation Details");
+            case R.id.nav_notifications:
+                getSupportActionBar().setTitle("Notifications");
                 frag = new CheckReservationDetailsFragment();
                 break;
             default:
@@ -157,6 +142,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
+
         return true;
     }
 
@@ -182,7 +168,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     private void updateUI(String userUid) {
 
         DocumentReference clientRef = mFirestore.collection("clients").document(userUid);
-
         clientRef.get()
                 .addOnCompleteListener(
                         task -> {

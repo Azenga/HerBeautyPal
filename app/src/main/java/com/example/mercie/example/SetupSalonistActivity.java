@@ -309,7 +309,7 @@ public class SetupSalonistActivity extends AppCompatActivity implements ServiceD
         websiteET = findViewById(R.id.ss_website_et);
 
         //ImageViews
-        profileIV = findViewById(R.id.profile_iv); //Remember this is CircularImageView
+        profileIV = findViewById(R.id.profile_civ); //Remember this is CircularImageView
 
         hairCbIV = findViewById(R.id.hair_cb_iv);
         nailsCBIV = findViewById(R.id.nails_cb_iv);

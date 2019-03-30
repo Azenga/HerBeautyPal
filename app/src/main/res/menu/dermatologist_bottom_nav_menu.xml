@@ -8,7 +8,7 @@
     <item
         android:id="@+id/bnav_profile"
         android:icon="@drawable/ic_account_circle_black_24dp"
-        android:title="@string/profile" />
+        android:title="@string/edit_profile" />
     <item
         android:id="@+id/bnav_tips"
         android:icon="@drawable/ic_invert_colors_black_24dp"

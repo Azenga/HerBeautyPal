@@ -34,7 +34,7 @@ import com.google.firebase.storage.UploadTask;
  * Created by Mercie on 2/27/2019.
  */
 
-public class ChangeProfileFragment extends Fragment {
+public class EditProfileFragment extends Fragment {
 
     private ImageView avatarIV;
     private EditText nameET, phoneET, addressET, genderET;
@@ -48,16 +48,17 @@ public class ChangeProfileFragment extends Fragment {
     private StorageReference mStore;
     private FirebaseFirestore mdb;
 
-    public ChangeProfileFragment() {
+    public EditProfileFragment() {
         mAuth = FirebaseAuth.getInstance();
         mStore = FirebaseStorage.getInstance().getReference().child("avatars");
         mdb = FirebaseFirestore.getInstance();
     }
 
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.change_profile_fragment, container, false);
+        return inflater.inflate(R.layout.fragment_client_edit_profile, container, false);
     }
 
     @Override
@@ -152,7 +153,7 @@ public class ChangeProfileFragment extends Fragment {
 
                                 Toast.makeText(getActivity(), "Your profile has been edited", Toast.LENGTH_SHORT).show();
 
-                                ((HomeActivity) getActivity()).displayFrag(R.id.nav_checkDetails);
+                                ((HomeActivity) getActivity()).displayFrag(R.id.nav_notifications);
 
                             } else {
                                 Toast.makeText(getActivity(), "An error occurred: " + task.getException().getLocalizedMessage(), Toast.LENGTH_LONG).show();

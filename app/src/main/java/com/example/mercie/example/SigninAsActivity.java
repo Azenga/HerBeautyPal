@@ -12,30 +12,26 @@ public class SigninAsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signin_as);
 
-        Button derma, client, owner, salonist;
+        Button dermatologistSigninBtn, clientSignInBtn, shopOwnerSigninBtn, shopSigninBtn;
 
-        client = findViewById(R.id.client);
-        client.setOnClickListener(view -> {
+        clientSignInBtn = findViewById(R.id.client);
+        clientSignInBtn.setOnClickListener(view -> {
             startActivity(new Intent(this, LoginActivity.class));
-            finish();
         });
 
-        salonist = findViewById(R.id.salonist);
-        salonist.setOnClickListener(view -> {
+        shopSigninBtn = findViewById(R.id.salonist);
+        shopSigninBtn.setOnClickListener(view -> {
             startActivity(new Intent(this, LoginSalonistActivity.class));
-            finish();
         });
 
-        owner = findViewById(R.id.owner);
-        owner.setOnClickListener(view -> {
+        shopOwnerSigninBtn = findViewById(R.id.owner);
+        shopOwnerSigninBtn.setOnClickListener(view -> {
             startActivity(new Intent(this, LoginShopActivity.class));
-            finish();
         });
 
-        derma = findViewById(R.id.derma);
-        derma.setOnClickListener(view -> {
+        dermatologistSigninBtn = findViewById(R.id.derma);
+        dermatologistSigninBtn.setOnClickListener(view -> {
             startActivity(new Intent(this, LoginDermatologistActivity.class));
-            finish();
         });
     }
 }

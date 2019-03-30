@@ -6,24 +6,24 @@
     android:layout_margin="35dp"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    tools:context="com.example.mercie.example.fragments.client.ChangeProfileFragment">
+    tools:context="com.example.mercie.example.fragments.client.EditProfileFragment">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:padding="8dp"
-        android:textAppearance="?android:attr/textAppearanceLarge"
         android:gravity="center_horizontal"
-        android:text="@string/title_register_activity" />
+        android:padding="8dp"
+        android:text="@string/update_profile"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <ImageView
         android:id="@+id/avatar_iv"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
+        android:layout_width="128dp"
+        android:layout_height="128dp"
         android:layout_marginBottom="8dp"
         android:contentDescription="@string/avatar_text"
-        android:src="@mipmap/ic_launcher" />
+        android:src="@drawable/ic_account_circle_gray_96dp" />
 
     <EditText
         android:id="@+id/name_et"
@@ -63,7 +63,8 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:background="@color/colorPrimary"
-        android:text="@string/register_btn_text"
+        android:text="@string/update"
+        android:textAllCaps="false"
         android:textColor="@android:color/white" />
 
 </LinearLayout>

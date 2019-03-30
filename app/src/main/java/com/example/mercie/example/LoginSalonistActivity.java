@@ -67,7 +67,7 @@ public class LoginSalonistActivity extends AppCompatActivity {
                                     checkWhetherUserReallyASaloonist(mAuth.getCurrentUser().getUid());
 
                                 } else {
-
+                                    progressDialog.dismiss();
                                     Toast.makeText(this, "Login error: " + task.getException().getLocalizedMessage(), Toast.LENGTH_SHORT).show();
 
                                 }
@@ -98,7 +98,6 @@ public class LoginSalonistActivity extends AppCompatActivity {
                             }
                             progressDialog.dismiss();
                         }
-
                 );
     }
 

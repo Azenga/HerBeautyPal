@@ -17,4 +17,7 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <style name="AppTheme.SpinnerItemStyle" parent="android:Widget.TextView.SpinnerItem"></style>
+    <style name="AppTheme.SpinnerDropdownStyle" parent="android:TextAppearance.Widget.TextView.SpinnerItem"></style>
+
 </resources>

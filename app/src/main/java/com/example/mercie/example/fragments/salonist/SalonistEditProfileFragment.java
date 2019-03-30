@@ -31,23 +31,25 @@ public class SalonistEditProfileFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_salonist_edit_profile, container, false);
+        return inflater.inflate(R.layout.fragment_edit_profile, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
-        officialNameET = view.findViewById(R.id.ss_ep_official_name_et);
-        locationET = view.findViewById(R.id.ss_ep_location_et);
-        mobileNumberET = view.findViewById(R.id.ss_ep_mobile_number_et);
-        websiteET = view.findViewById(R.id.ss_ep_website_et);
-        profileCIV = view.findViewById(R.id.ss_ep_profile_iv);
-        dayFromSpinner = view.findViewById(R.id.ss_ep_spinner_day_from);
-        dayToSpinner = view.findViewById(R.id.ss_ep_spinner_day_to);
-        timeFromSpinner = view.findViewById(R.id.ss_ep_spinner_time_from);
-        timeToSpinner = view.findViewById(R.id.ss_ep_spinner_time_to);
-        Button changeProfileBtn = view.findViewById(R.id.ss_ep_change_profile_btn);
-        Button ssEpBtn = view.findViewById(R.id.ss_ep_btn);
+        officialNameET = view.findViewById(R.id.ep_official_name_et);
+        locationET = view.findViewById(R.id.ep_location_et);
+        mobileNumberET = view.findViewById(R.id.ep_mobile_number_et);
+        websiteET = view.findViewById(R.id.ep_website_et);
+        profileCIV = view.findViewById(R.id.ep_profile_iv);
+        dayFromSpinner = view.findViewById(R.id.ep_spinner_day_from);
+        dayToSpinner = view.findViewById(R.id.ep_spinner_day_to);
+        timeFromSpinner = view.findViewById(R.id.ep_spinner_time_from);
+        timeToSpinner = view.findViewById(R.id.ep_spinner_time_to);
+
+        Button changeProfileBtn = view.findViewById(R.id.ep_change_profile_btn);
+
+        Button ssEpBtn = view.findViewById(R.id.ep_btn);
 
     }
 

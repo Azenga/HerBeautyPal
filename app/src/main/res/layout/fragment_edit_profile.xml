@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.example.mercie.example.SetupSalonistActivity">
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -33,7 +31,7 @@
                 android:src="@drawable/ic_account_circle_grey_24dp" />
 
             <EditText
-                android:id="@+id/ss_ep_official_name_et"
+                android:id="@+id/ep_official_name_et"
                 android:layout_width="@dimen/setup_et_width"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/tv_padding"
@@ -56,7 +54,7 @@
                 android:src="@drawable/ic_location_on_gray_24dp" />
 
             <EditText
-                android:id="@+id/ss_ep_location_et"
+                android:id="@+id/ep_location_et"
                 android:layout_width="@dimen/setup_et_width"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/tv_padding"
@@ -80,7 +78,7 @@
                 android:src="@drawable/ic_phone_black_24dp" />
 
             <EditText
-                android:id="@+id/ss_ep_mobile_number_et"
+                android:id="@+id/ep_mobile_number_et"
                 android:layout_width="@dimen/setup_et_width"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/tv_padding"
@@ -100,10 +98,10 @@
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:contentDescription="@string/website_optional"
-                android:src="@drawable/ic_vpn_lock_gray_24dp" />
+                android:src="@drawable/ic_public_gray_24dp" />
 
             <EditText
-                android:id="@+id/ss_ep_website_et"
+                android:id="@+id/ep_website_et"
                 android:layout_width="@dimen/setup_et_width"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/tv_padding"
@@ -127,7 +125,7 @@
                 android:src="@drawable/ic_photo_camera_gray_24dp" />
 
             <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/ss_ep_profile_iv"
+                android:id="@+id/ep_profile_iv"
                 android:layout_width="96dp"
                 android:layout_height="96dp"
                 android:layout_marginStart="@dimen/tv_padding"
@@ -139,7 +137,7 @@
 
 
             <Button
-                android:id="@+id/ss_ep_change_profile_btn"
+                android:id="@+id/ep_change_profile_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/tv_padding"
@@ -172,7 +170,7 @@
                 android:text="@string/select_day_from" />
 
             <Spinner
-                android:id="@+id/ss_ep_spinner_day_from"
+                android:id="@+id/ep_spinner_day_from"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1.3" />
@@ -184,7 +182,7 @@
                 android:text="@string/to" />
 
             <Spinner
-                android:id="@+id/ss_ep_spinner_day_to"
+                android:id="@+id/ep_spinner_day_to"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1.3" />
@@ -203,7 +201,7 @@
                 android:text="@string/select_time_from" />
 
             <Spinner
-                android:id="@+id/ss_ep_spinner_time_from"
+                android:id="@+id/ep_spinner_time_from"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1.3" />
@@ -215,7 +213,7 @@
                 android:text="@string/to" />
 
             <Spinner
-                android:id="@+id/ss_ep_spinner_time_to"
+                android:id="@+id/ep_spinner_time_to"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1.3" />
@@ -223,7 +221,7 @@
 
 
         <Button
-            android:id="@+id/ss_ep_btn"
+            android:id="@+id/ep_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/colorPrimaryDark"

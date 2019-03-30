@@ -66,7 +66,10 @@ public class LoginActivity extends AppCompatActivity {
 
                                     } else {
                                         Toast.makeText(this, task.getException().getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                                        progressDialog.dismiss();
+
                                     }
+
                                 });
                     } else {
                         Toast.makeText(this, "Fill in all the fields", Toast.LENGTH_SHORT).show();

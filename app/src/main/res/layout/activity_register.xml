@@ -11,60 +11,60 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
         android:gravity="center_horizontal"
+        android:padding="8dp"
         android:text="@string/title_register_activity"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:layout_marginBottom="8dp"/>
+        android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <ImageView
         android:id="@+id/avatar_iv"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:src="@mipmap/ic_launcher"
+        android:layout_width="128dp"
+        android:layout_height="128dp"
+        android:layout_marginBottom="8dp"
         android:contentDescription="@string/avatar_text"
-        android:layout_marginBottom="8dp"/>
+        android:src="@drawable/ic_account_circle_gray_96dp" />
 
     <EditText
         android:id="@+id/name_et"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
         android:hint="@string/name_text"
-        android:inputType="textPersonName"
-        android:layout_marginBottom="8dp"/>
+        android:inputType="textPersonName" />
 
     <EditText
         android:id="@+id/phone_et"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
         android:hint="@string/contact_text"
-        android:inputType="phone"
-        android:layout_marginBottom="8dp"/>
+        android:inputType="phone" />
 
     <EditText
         android:id="@+id/address_et"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
         android:hint="@string/address_hint"
-        android:inputType="textPostalAddress"
-        android:layout_marginBottom="8dp"/>
+        android:inputType="textPostalAddress" />
 
     <EditText
         android:id="@+id/gender_et"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="text"
+        android:layout_marginBottom="8dp"
         android:hint="@string/gender_hint"
-        android:layout_marginBottom="8dp"/>
+        android:inputType="text" />
 
     <Button
         android:id="@+id/register_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAllCaps="false"
-        android:text="@string/register_btn_text"
-        android:textColor="@android:color/white"
+        android:layout_marginBottom="8dp"
         android:background="@color/colorPrimary"
-        android:layout_marginBottom="8dp"/>
-
+        android:text="@string/register_btn_text"
+        android:textAllCaps="false"
+        android:textColor="@android:color/white" />
 
 </LinearLayout>

@@ -16,9 +16,6 @@ public class SalonActivity extends AppCompatActivity {
 
     private Salonist salon = null;
 
-    private final String INFO = "Info";
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,21 +34,6 @@ public class SalonActivity extends AppCompatActivity {
 
         Toolbar salonToolbar = findViewById(R.id.salon_toolbar);
         TabLayout fragmentTabLayout = findViewById(R.id.fragment_tablayout);
-
-        //OK SO far
-
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-
-        adapter.addFragment(SalonInfoFragment.getInstance(salon), "Info");
-        adapter.addFragment(SalonServicesFragment.getInstance(salon), "Services");
-        adapter.addFragment(SalonOffersFragment.getInstance(salon), "Offers");
-
-        //fragContainer.setAdapter(adapter);
-        // TODO: 3/26/19 Make the fragment show => Ithink I will end using the default way to swap fragments
-
-        fragmentTabLayout.addTab(fragmentTabLayout.newTab().setText("Info"));
-        fragmentTabLayout.addTab(fragmentTabLayout.newTab().setText("Services"));
-        fragmentTabLayout.addTab(fragmentTabLayout.newTab().setText("Offers"));
 
         fragmentTabLayout.setOnTabSelectedListener(
                 new TabLayout.OnTabSelectedListener() {
@@ -93,7 +75,7 @@ public class SalonActivity extends AppCompatActivity {
     public void displayFragment(Fragment frag) {
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, frag);
-
+        transaction.addToBackStack("true");
         transaction.commit();
 
     }

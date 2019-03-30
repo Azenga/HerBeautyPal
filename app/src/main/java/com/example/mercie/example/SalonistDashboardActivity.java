@@ -50,7 +50,7 @@ public class SalonistDashboardActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_salonist_dashboard);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.shop_toolbar);
         setSupportActionBar(toolbar);
 
         //Initialize Firebase Variables
@@ -70,8 +70,8 @@ public class SalonistDashboardActivity extends AppCompatActivity
 
         View navHeaderView = navigationView.getHeaderView(0);
 
-        salonistProfileCIV = navHeaderView.findViewById(R.id.salonist_profile_pic_iv);
-        salonistUsernameTV = navHeaderView.findViewById(R.id.salonist_username_tv);
+        salonistProfileCIV = navHeaderView.findViewById(R.id.profile_civ);
+        salonistUsernameTV = navHeaderView.findViewById(R.id.username_tv);
 
         displayFragment(R.id.nav_home);// Loading the default home fragment
     }
@@ -115,9 +115,6 @@ public class SalonistDashboardActivity extends AppCompatActivity
 
             case R.id.nav_logout:
                 logout();
-                break;
-
-            case R.id.nav_share:
                 break;
         }
 

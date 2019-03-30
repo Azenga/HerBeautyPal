@@ -112,7 +112,7 @@
     <string name="salon_image_desc">Salon Display Image</string>
     <string name="salon_name">Salon Name</string>
     <string name="home">Home</string>
-    <string name="profile">Profile</string>
+    <string name="edit_profile">Edit Profile</string>
     <string name="notifications">Notifications</string>
     <string name="owner">Owner</string>
     <string name="salonist_name">Salonist Name</string>
@@ -125,4 +125,16 @@
     <string name="cost">Cost</string>
     <string name="salon">Salon</string>
     <string name="beauty_shop_dashboard">Beauty Shop Dashboard</string>
+    <string name="logout">Logout</string>
+    <string name="product_name">Product Name</string>
+    <string name="reservations">Reservations</string>
+    <string name="product_image">Product Image</string>
+    <string name="product_cost">Product Cost</string>
+    <string name="home_page">Home page</string>
+    <string name="book_appointment">Book Appointment</string>
+    <string name="gallery">Gallery</string>
+    <string name="feedback">Feedback</string>
+    <string name="appointments">Appointments</string>
+    <string name="update">Update</string>
+    <string name="update_profile">Update Profile</string>
 </resources>

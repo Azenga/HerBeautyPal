@@ -105,8 +105,10 @@ public class SetupShopActivity extends AppCompatActivity {
             progressDialog.show();
 
             if (profileIVBitmap == null) {
+
                 Toast.makeText(this, "You did not choose an Image", Toast.LENGTH_SHORT).show();
                 addShopToFirebase(new Shop(officialName, location, mobile, website, null, dayFrom, dayTo));
+
             } else {
 
                 StorageReference profilePicRef = mRef.child(mAuth.getCurrentUser().getUid() + ".jpg");
@@ -123,6 +125,7 @@ public class SetupShopActivity extends AppCompatActivity {
                             addShopToFirebase(new Shop(officialName, location, mobile, website, profileImageName, dayFrom, dayTo));
 
                         }
+
                 ).addOnFailureListener(e -> Toast.makeText(this, "Error uploading image: " + e.getLocalizedMessage(), Toast.LENGTH_SHORT).show());
 
             }

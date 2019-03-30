@@ -1,17 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="16dp"
+    tools:context=".fragments.beautyshop.AddProductFragment">
 
     <Spinner
-        android:id="@+id/service_package_spinner"
+        android:id="@+id/package_spinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:entries="@array/beauty_packages" />
+
+    <ImageView
+        android:id="@+id/product_iv"
+        android:layout_width="128dp"
+        android:layout_height="128dp"
+        android:layout_marginBottom="16dp"
+        android:contentDescription="@string/product_image"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/products_default" />
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
@@ -19,11 +30,11 @@
         android:layout_marginBottom="16dp">
 
         <android.support.design.widget.TextInputEditText
-            android:id="@+id/service_name_tiet"
+            android:id="@+id/product_name_tiet"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:hint="@string/service_name" />
+            android:hint="@string/product_name" />
 
     </android.support.design.widget.TextInputLayout>
 
@@ -33,11 +44,11 @@
         android:layout_marginBottom="16dp">
 
         <android.support.design.widget.TextInputEditText
-            android:id="@+id/service_cost_tiet"
+            android:id="@+id/product_cost_tiet"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:hint="@string/service_cost" />
+            android:hint="@string/cost" />
 
     </android.support.design.widget.TextInputLayout>
 
@@ -46,7 +57,7 @@
         android:layout_width="@dimen/setup_et_width"
         android:layout_height="wrap_content"
         android:background="@drawable/inputs"
-        android:text="@string/add_service"
+        android:text="@string/add"
         android:textAllCaps="false"
         android:textColor="@android:color/white" />
 
