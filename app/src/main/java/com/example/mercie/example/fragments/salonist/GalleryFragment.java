@@ -15,12 +15,6 @@ import com.example.mercie.example.R;
 import com.example.mercie.example.dummy.DummyContent;
 import com.example.mercie.example.dummy.DummyContent.DummyItem;
 
-/**
- * A fragment representing a list of Items.
- * <p/>
- * Activities containing this fragment MUST implement the {@link GalleryInteraction}
- * interface.
- */
 public class GalleryFragment extends Fragment {
 
     // TODO: Customize parameter argument names

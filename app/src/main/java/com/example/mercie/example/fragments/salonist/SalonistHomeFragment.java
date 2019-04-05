@@ -1,6 +1,8 @@
 package com.example.mercie.example.fragments.salonist;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -8,29 +10,41 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.mercie.example.R;
+import com.example.mercie.example.models.Salonist;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 
 public class SalonistHomeFragment extends Fragment {
 
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private static final String SALONIST_PARAM = "salon";
 
-    private String mParam1;
-    private String mParam2;
+    private Salonist mSalonist = null;
 
-    private OnFragmentInteractionListener mListener;
+    private ProfileFragListener mListener;
+
+    //Fragment widgets
+    private TextView nameTV, locationTV, mobileTV, websiteTV;
+    private ImageView profilePicIV;
+
+    //FirebaseStorage
+    private StorageReference mRef;
 
     public SalonistHomeFragment() {
-        // Required empty public constructor
+        mRef = FirebaseStorage.getInstance().getReference().child("avatars");
     }
 
-    public static SalonistHomeFragment newInstance(String param1, String param2) {
+    public static SalonistHomeFragment newInstance(Salonist salonist) {
+
         SalonistHomeFragment fragment = new SalonistHomeFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putSerializable(SALONIST_PARAM, salonist);
         fragment.setArguments(args);
         return fragment;
     }
@@ -39,13 +53,12 @@ public class SalonistHomeFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            mSalonist = (Salonist) getArguments().getSerializable(SALONIST_PARAM);
         }
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_salonist_home, container, false);
     }
@@ -54,17 +67,59 @@ public class SalonistHomeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        //Display TextViews
+        nameTV = view.findViewById(R.id.name_tv);
+        locationTV = view.findViewById(R.id.location_tv);
+        mobileTV = view.findViewById(R.id.contact_tv);
+        websiteTV = view.findViewById(R.id.website_tv);
+
+        //ImageView
+        profilePicIV = view.findViewById(R.id.avatar_iv);
+
+        //Button
+        Button editProfile = view.findViewById(R.id.edit_profile_btn);
+        editProfile.setOnClickListener(v -> mListener.openEditFragment(mSalonist));
+
+
+        updateUI();
+
     }
 
-    public void onButtonPressed(String test) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(test);
+    private void updateUI() {
+        if (mSalonist != null) {
+            if (mSalonist.getName() != null) nameTV.setText(mSalonist.getName());
+            if (mSalonist.getLocation() != null) locationTV.setText(mSalonist.getLocation());
+            if (mSalonist.getContact() != null) mobileTV.setText(mSalonist.getContact());
+            if (mSalonist.getWebsite() != null) websiteTV.setText(mSalonist.getWebsite());
+
+            if (mSalonist.getProfilePicName() != null) {
+
+                final long MB = 1024 * 1024;
+
+                mRef.child(mSalonist.getProfilePicName())
+                        .getBytes(MB)
+                        .addOnSuccessListener(
+                                bytes -> {
+                                    Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                                    profilePicIV.setImageBitmap(bitmap);
+                                }
+                        )
+                        .addOnFailureListener(e -> Toast.makeText(getActivity(), "Error loading image: " + e.getLocalizedMessage(), Toast.LENGTH_SHORT).show());
+
+            }
         }
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+
+        if (context instanceof ProfileFragListener) {
+            mListener = (ProfileFragListener) context;
+        } else {
+            throw new ClassCastException(context.toString() + " must implement ProfileFragListener");
+        }
     }
 
     @Override
@@ -73,7 +128,7 @@ public class SalonistHomeFragment extends Fragment {
         mListener = null;
     }
 
-    public interface OnFragmentInteractionListener {
-        void onFragmentInteraction(String test);
+    public interface ProfileFragListener {
+        void openEditFragment(Salonist salonist);
     }
 }

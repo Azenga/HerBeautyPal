@@ -54,7 +54,6 @@ public class SalonistAddServiceFragment extends Fragment {
         serviceNameTIET = view.findViewById(R.id.service_name_tiet);
         serviceCostTIET = view.findViewById(R.id.service_cost_tiet);
         addServiceBtn = view.findViewById(R.id.add_service_btn);
-
         addServiceBtn.setOnClickListener(v -> addSalonService());
 
 
@@ -71,12 +70,10 @@ public class SalonistAddServiceFragment extends Fragment {
             mFirestore.collection("services").document(mAuth.getCurrentUser().getUid()).collection("Services").add(service);
             Toast.makeText(getActivity(), "Service Added", Toast.LENGTH_SHORT).show();
 
-            ((SalonistDashboardActivity)getActivity()).displayFragment(R.id.nav_home);
+            // TODO: 4/3/19 Redirect to services fragment
 
         } else {
-
             Toast.makeText(getActivity(), "All the fields are required", Toast.LENGTH_SHORT).show();
-
         }
     }
 

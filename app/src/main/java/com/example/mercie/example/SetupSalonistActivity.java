@@ -15,19 +15,11 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.example.mercie.example.dialogs.ServiceDialogPrompt;
 import com.example.mercie.example.models.Salonist;
-import com.example.mercie.example.models.SalonService;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -36,76 +28,25 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
-import java.util.ArrayList;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class SetupSalonistActivity extends AppCompatActivity implements ServiceDialogPrompt.ServiceDialogPromptListener {
+public class SetupSalonistActivity extends AppCompatActivity {
 
-    private Spinner dayFromSpinner;
-    private Spinner dayToSpinner;
-    private Spinner timeFromSpinner;
-    private Spinner timeToSpinner;
+
     private CircleImageView profileIV;
 
     private EditText officialNameET, mobileNUmberET, locationET, websiteET;
-    private ImageView hairCbIV, nailsCBIV, skinCareCBIV, makeUpCBIV;
-    private CheckBox hairCB, nailsCB, skinCareCB, makeUpCB;
-    private Button chooseImageBtn, setupBtn;
+    private Button chooseImageBtn, setupBtn, gotoRegisterSalonBtn;
 
     private ProgressDialog progressDialog;
 
-    private List<SalonService> services;
 
     //Firebase Variable
     private FirebaseAuth mAuth;
     private StorageReference mRef;
     private FirebaseFirestore mFirestore;
-
-
-    //CheckBoxes Listener
-    private CheckBox.OnCheckedChangeListener checkBoxListeners = new CheckBox.OnCheckedChangeListener() {
-        @Override
-        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-            int id = buttonView.getId();
-
-            if (isChecked) {
-
-                switch (id) {
-
-                    case R.id.hair_cb:
-                        hairCbIV.setVisibility(View.VISIBLE);
-                        break;
-                    case R.id.nails_cb:
-                        nailsCBIV.setVisibility(View.VISIBLE);
-                        break;
-                    case R.id.skin_care_cb:
-                        skinCareCBIV.setVisibility(View.VISIBLE);
-                        break;
-                    case R.id.make_up_cb:
-                        makeUpCBIV.setVisibility(View.VISIBLE);
-                        break;
-                }
-            } else {
-                switch (id) {
-
-                    case R.id.hair_cb:
-                        hairCbIV.setVisibility(View.GONE);
-                        break;
-                    case R.id.nails_cb:
-                        nailsCBIV.setVisibility(View.GONE);
-                        break;
-                    case R.id.skin_care_cb:
-                        skinCareCBIV.setVisibility(View.GONE);
-                        break;
-                    case R.id.make_up_cb:
-                        makeUpCBIV.setVisibility(View.GONE);
-                        break;
-                }
-            }
-        }
-    };
 
     private final static int CHOOSE_IMAGE_REQUEST_CODE = 999;
     private final static int CROP_IMAGE_REQUEST_CODE = 998;
@@ -118,31 +59,27 @@ public class SetupSalonistActivity extends AppCompatActivity implements ServiceD
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setup_salonist);
 
-        services = new ArrayList<>();
 
         //Init firebase variables
         mAuth = FirebaseAuth.getInstance();
         mRef = FirebaseStorage.getInstance().getReference().child("avatars");
         mFirestore = FirebaseFirestore.getInstance();
 
-        initSpinners();
-
         initOtherComponents();
 
         progressDialog = new ProgressDialog(this);
 
-        hairCB.setOnCheckedChangeListener(checkBoxListeners);
-        nailsCB.setOnCheckedChangeListener(checkBoxListeners);
-        skinCareCB.setOnCheckedChangeListener(checkBoxListeners);
-        makeUpCB.setOnCheckedChangeListener(checkBoxListeners);
-
-        hairCbIV.setOnClickListener(view -> openDialogBox(view));
-        nailsCBIV.setOnClickListener(view -> openDialogBox(view));
-        skinCareCBIV.setOnClickListener(view -> openDialogBox(view));
-        makeUpCBIV.setOnClickListener(view -> openDialogBox(view));
-
         chooseImageBtn.setOnClickListener(view -> chooseAnImage());
-        setupBtn.setOnClickListener(view -> uploadDetails());
+        setupBtn.setOnClickListener(view -> {
+            uploadDetails();
+            startActivity(new Intent(this, SalonistDashboardActivity.class));
+            finish();
+        });
+        gotoRegisterSalonBtn.setOnClickListener(view -> {
+            uploadDetails();
+            startActivity(new Intent(this, RegisterSalonActivity.class));
+            finish();
+        });
 
     }
 
@@ -156,8 +93,6 @@ public class SetupSalonistActivity extends AppCompatActivity implements ServiceD
         if (!TextUtils.isEmpty(name) && !TextUtils.isEmpty(location) && !TextUtils.isEmpty(contact)) {
             //Additional fields
             String website = websiteET.getText().toString();
-            String openFfrom = "Date: " + dayFromSpinner.getSelectedItem().toString() + " Time: " + timeFromSpinner.getSelectedItem().toString();
-            String openTo = "Date: " + dayToSpinner.getSelectedItem().toString() + " Time: " + timeToSpinner.getSelectedItem().toString();
 
             progressDialog.setTitle("Setup Salon Details");
             progressDialog.setMessage("Please Wait...");
@@ -182,18 +117,22 @@ public class SetupSalonistActivity extends AppCompatActivity implements ServiceD
                         .addOnSuccessListener(
                                 taskSnapshot -> {
                                     String fileName = taskSnapshot.getMetadata().getName();
-                                    Salonist salon = new Salonist(name, location, contact, website, openFfrom, openTo, fileName);
+                                    Salonist salonist = new Salonist(name, location, contact, website, fileName);
 
-                                    proceedDetailsToFirestore(salon);
+                                    addSalonistToFirestore(salonist);
                                 }
-                        );
+                        )
+                        .addOnFailureListener(e -> {
+                            Toast.makeText(this, "Upload profile pic error: " + e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                            progressDialog.dismiss();
+                        });
 
             } else {
-                Salonist salon = new Salonist(name, location, contact, website, openFfrom, openTo, null);
+                Salonist salonist = new Salonist(name, location, contact, website, null);
 
                 Toast.makeText(this, "You have not uploaded an avatar", Toast.LENGTH_SHORT).show();
 
-                proceedDetailsToFirestore(salon);
+                addSalonistToFirestore(salonist);
             }
 
         } else {
@@ -202,51 +141,24 @@ public class SetupSalonistActivity extends AppCompatActivity implements ServiceD
 
     }
 
-    private void proceedDetailsToFirestore(Salonist salon) {
+    private void addSalonistToFirestore(Salonist salonist) {
 
-        addSalonistToFirestore(salon);
-        if (services.size() > 0) addSalonServicesToFirestore();
-
-        Toast.makeText(this, "Salonist Details Added", Toast.LENGTH_SHORT).show();
-        startActivity(new Intent(this, SalonistDashboardActivity.class));
-        finish();
-
-
-    }
-
-    private void addSalonServicesToFirestore() {
-
-        for (SalonService service : services) {
-            mFirestore.collection("services").document(mAuth.getCurrentUser().getUid()).collection("Services").add(service);
-        }
-
-        Toast.makeText(this, "Services Added", Toast.LENGTH_SHORT).show();
-
-        progressDialog.dismiss();
-
-
-    }
-
-    private boolean addSalonistToFirestore(Salonist salon) {
         if (mAuth.getCurrentUser() != null) {
             mFirestore.collection("salonists")
                     .document(mAuth.getCurrentUser().getUid())
-                    .set(salon)
+                    .set(salonist)
                     .addOnCompleteListener(
                             task -> {
-                                if (task.isSuccessful()) {
-
+                                if (task.isSuccessful())
                                     Toast.makeText(this, "Your profile has been updated", Toast.LENGTH_SHORT).show();
-
-                                } else
-                                    Toast.makeText(this, "Adding salonist error: " + task.getException().getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                                else
+                                    Toast.makeText(this, "A fatal error occurred: " + task.getException().getLocalizedMessage(), Toast.LENGTH_LONG).show();
 
                                 progressDialog.dismiss();
                             }
                     );
         }
 
-        return false;
     }
 
     //Checking whether the app has permissions to read and write to external storage
@@ -271,34 +183,6 @@ public class SetupSalonistActivity extends AppCompatActivity implements ServiceD
         startActivityForResult(intent, CHOOSE_IMAGE_REQUEST_CODE);
     }
 
-    //This function should open a dialog to write the service offered in the respective package
-    private void openDialogBox(View view) {
-
-        // Open the relevant dialog according to the clicked CheckBox Image
-        ServiceDialogPrompt dialogPrompt = null;
-
-        switch (view.getId()) {
-
-            case R.id.hair_cb_iv:
-                dialogPrompt = ServiceDialogPrompt.getInstance("Hair");
-                break;
-            case R.id.nails_cb_iv:
-                dialogPrompt = ServiceDialogPrompt.getInstance("Nails");
-                break;
-            case R.id.skin_care_cb_iv:
-                dialogPrompt = ServiceDialogPrompt.getInstance("Skin Care");
-                break;
-            case R.id.make_up_cb_iv:
-                dialogPrompt = ServiceDialogPrompt.getInstance("Make Up");
-                break;
-            default:
-                dialogPrompt = null;
-        }
-
-        dialogPrompt.show(getSupportFragmentManager(), "Add A SalonService");
-
-        Toast.makeText(this, "Show a dialog box to choose service", Toast.LENGTH_SHORT).show();
-    }
 
     //Initialize other widgets other than the spinners
     private void initOtherComponents() {
@@ -311,42 +195,12 @@ public class SetupSalonistActivity extends AppCompatActivity implements ServiceD
         //ImageViews
         profileIV = findViewById(R.id.profile_civ); //Remember this is CircularImageView
 
-        hairCbIV = findViewById(R.id.hair_cb_iv);
-        nailsCBIV = findViewById(R.id.nails_cb_iv);
-        skinCareCBIV = findViewById(R.id.skin_care_cb_iv);
-        makeUpCBIV = findViewById(R.id.make_up_cb_iv);
-
-        //CheckBoxes
-        hairCB = findViewById(R.id.hair_cb);
-        nailsCB = findViewById(R.id.nails_cb);
-        skinCareCB = findViewById(R.id.skin_care_cb);
-        makeUpCB = findViewById(R.id.make_up_cb);
-
         //Buttons
         chooseImageBtn = findViewById(R.id.setup_salonist_change_profile_btn);
         setupBtn = findViewById(R.id.salonist_setup_btn);
+        gotoRegisterSalonBtn = findViewById(R.id.goto_register_salon_btn);
     }
 
-    //Initializing and populating the spinners
-    private void initSpinners() {
-        String[] weekDays = getResources().getStringArray(R.array.week_days);
-        String[] dayWorkHours = getResources().getStringArray(R.array.day_time);
-
-        ArrayAdapter<String> weekDaysAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, weekDays);
-        ArrayAdapter<String> dayWorkHoursAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, dayWorkHours);
-
-        dayFromSpinner = findViewById(R.id.spinner_day_from);
-        dayFromSpinner.setAdapter(weekDaysAdapter);
-
-        dayToSpinner = findViewById(R.id.spinner_day_to);
-        dayToSpinner.setAdapter(weekDaysAdapter);
-
-        timeFromSpinner = findViewById(R.id.spinner_time_from);
-        timeFromSpinner.setAdapter(dayWorkHoursAdapter);
-
-        timeToSpinner = findViewById(R.id.spinner_time_to);
-        timeToSpinner.setAdapter(dayWorkHoursAdapter);
-    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -417,10 +271,6 @@ public class SetupSalonistActivity extends AppCompatActivity implements ServiceD
             Toast.makeText(this, "Install an application to crop images", Toast.LENGTH_SHORT).show();
     }
 
-    @Override
-    public void addService(SalonService service) {
-        services.add(service);
-    }
 
     @Override
     protected void onStart() {

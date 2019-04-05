@@ -4,7 +4,9 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
@@ -12,17 +14,18 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.mercie.example.dummy.DummyContent;
-import com.example.mercie.example.fragments.salonist.GalleryFragment;
+import com.example.mercie.example.fragments.salonist.MySalonFragment;
 import com.example.mercie.example.fragments.salonist.SalonistAddServiceFragment;
-import com.example.mercie.example.fragments.salonist.SalonistEditProfileFragment;
 import com.example.mercie.example.fragments.salonist.SalonistHomeFragment;
+import com.example.mercie.example.fragments.salonist.salon.ServicesFragment;
+import com.example.mercie.example.models.Salon;
 import com.example.mercie.example.models.Salonist;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -34,8 +37,9 @@ import com.google.firebase.storage.StorageReference;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class SalonistDashboardActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, GalleryFragment.GalleryInteraction {
+        implements NavigationView.OnNavigationItemSelectedListener, SalonistHomeFragment.ProfileFragListener, ServicesFragment.OnServiceFragInteraction {
 
+    private static final String TAG = "SalonistDashboardActivi";
     //NavigationHeaderWIdgets
     private CircleImageView salonistProfileCIV;
     private TextView salonistUsernameTV;
@@ -72,51 +76,12 @@ public class SalonistDashboardActivity extends AppCompatActivity
 
         salonistProfileCIV = navHeaderView.findViewById(R.id.profile_civ);
         salonistUsernameTV = navHeaderView.findViewById(R.id.username_tv);
-
-        displayFragment(R.id.nav_home);// Loading the default home fragment
     }
 
     //Changes the SalonistDashboardActivity Fragment according to the selected Navigation Item
-    public void displayFragment(int id) {
+    public void displayFragment(Fragment fragment) {
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        Fragment fragment = null;
-
-        switch (id) {
-            case R.id.nav_home:
-                getSupportActionBar().setTitle("Home");
-                fragment = new SalonistHomeFragment();
-                break;
-
-            case R.id.nav_gallery:
-                getSupportActionBar().setTitle("Gallery");
-                fragment = GalleryFragment.newInstance(3);
-                break;
-
-            case R.id.nav_edit_profile:
-                getSupportActionBar().setTitle("Edit Profile");
-                fragment = new SalonistEditProfileFragment();
-                break;
-
-            case R.id.nav_add_service:
-                getSupportActionBar().setTitle("Add Service");
-                fragment = new SalonistAddServiceFragment();
-                break;
-
-            case R.id.nav_appointments:
-                getSupportActionBar().setTitle("Appointments");
-                // TODO: 3/19/19 Add appointments fragment
-                break;
-
-            case R.id.nav_notifications:
-                getSupportActionBar().setTitle("Notifications");
-                // TODO: 3/19/19 Add salonist notifications fragment
-                break;
-
-            case R.id.nav_logout:
-                logout();
-                break;
-        }
 
         if (fragment != null) {
             transaction.replace(R.id.container, fragment).commit();
@@ -160,13 +125,79 @@ public class SalonistDashboardActivity extends AppCompatActivity
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
-        displayFragment(item.getItemId());
+
+        switch (item.getItemId()) {
+            case R.id.nav_home:
+                if (getSupportActionBar() != null)
+                    getSupportActionBar().setTitle("Home");
+                if (mAuth.getCurrentUser().getUid() != null)
+                    getSalonist(mAuth.getCurrentUser().getUid());
+                break;
+
+            case R.id.nav_my_salon:
+                getTheSalonAndSwitch();
+                break;
+
+            case R.id.nav_add_service:
+                if (getSupportActionBar() != null)
+                    getSupportActionBar().setTitle("Add Service");
+                displayFragment(new SalonistAddServiceFragment());
+                break;
+
+            case R.id.nav_appointments:
+                if (getSupportActionBar() != null)
+                    getSupportActionBar().setTitle("Appointments");
+                // TODO: Create an appointments Fragment
+                break;
+
+            case R.id.nav_notifications:
+                getSupportActionBar().setTitle("Notifications");
+                // TODO: 3/19/19 Add salonist notifications fragment
+                break;
+
+            case R.id.nav_feedback:
+                getSupportActionBar().setTitle("Feedback");
+                // TODO: 3/19/19 Add salonist Feedback
+                break;
+
+            case R.id.nav_logout:
+                logout();
+                break;
+        }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void getTheSalonAndSwitch() {
+        mFirestore.collection("salons")
+                .whereEqualTo("ownerId", mAuth.getCurrentUser().getUid())
+                .get()
+                .addOnSuccessListener(
+                        queryDocumentSnapshots -> {
+                            if (!queryDocumentSnapshots.isEmpty()) {
+
+                                DocumentSnapshot documentSnapshot = queryDocumentSnapshots.getDocuments().get(0);
+                                Salon salon = documentSnapshot.toObject(Salon.class);
+                                salon.setId(documentSnapshot.getId());
+
+                                getSupportActionBar().setTitle("My Salon");
+                                displayFragment(MySalonFragment.getInstance(salon));
+
+                            } else {
+                                View view = findViewById(android.R.id.content);
+                                Snackbar.make(view, "Register A Salon", Snackbar.LENGTH_LONG)
+                                        .setAction("RegisterSalon", (View v) -> {
+                                            startActivity(new Intent(this, RegisterSalonActivity.class));
+                                        })
+                                        .show();
+                            }
+                        }
+                )
+                .addOnFailureListener(e -> Log.e(TAG, "getTheSalonAndSwitch: Failed", e));
     }
 
     @Override
@@ -198,6 +229,7 @@ public class SalonistDashboardActivity extends AppCompatActivity
 
                                     Salonist salon = salonistSnapshot.toObject(Salonist.class);
 
+                                    displayFragment(SalonistHomeFragment.newInstance(salon));
                                     updateUI(salon);
 
                                 } else {
@@ -232,7 +264,12 @@ public class SalonistDashboardActivity extends AppCompatActivity
     }
 
     @Override
-    public void onGalleryInteraction(DummyContent.DummyItem item) {
+    public void openEditFragment(Salonist salonist) {
 
+    }
+
+    @Override
+    public void loadAddFragmentService() {
+        Toast.makeText(this, "Wrong super class called", Toast.LENGTH_SHORT).show();
     }
 }

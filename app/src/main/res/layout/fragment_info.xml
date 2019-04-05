@@ -4,39 +4,37 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
-    android:orientation="vertical"
-    tools:context=".fragments.salonist.SalonistHomeFragment">
+    tools:context=".fragments.salonist.salon.InfoFragment">
+
+    <ImageView
+        android:id="@+id/cover_iv"
+        android:layout_width="0dp"
+        android:layout_height="224dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:contentDescription="@string/salon_cover_image"
+        android:scaleType="centerCrop"
+        android:src="@android:color/darker_gray"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/name_tv"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         android:gravity="center_horizontal"
         android:padding="@dimen/tv_padding"
-        android:text="@string/salonist_name"
+        android:text="@string/salon_name"
         android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@android:color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/avatar_iv"
-        android:layout_width="124dp"
-        android:layout_height="124dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
-        android:contentDescription="@string/avatar_desc"
-        android:scaleType="centerCrop"
-        android:src="@drawable/ic_account_circle_gray_96dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/name_tv" />
+        app:layout_constraintTop_toBottomOf="@+id/cover_iv" />
 
     <TextView
         android:id="@+id/location_tv"
@@ -49,9 +47,10 @@
         android:padding="@dimen/tv_padding"
         android:text="@string/location"
         android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@android:color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/avatar_iv" />
+        app:layout_constraintTop_toBottomOf="@+id/name_tv" />
 
     <TextView
         android:id="@+id/contact_tv"
@@ -64,6 +63,7 @@
         android:padding="@dimen/tv_padding"
         android:text="@string/contact_text"
         android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@android:color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/location_tv" />
@@ -79,23 +79,8 @@
         android:padding="@dimen/tv_padding"
         android:text="@string/website"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/contact_tv" />
-
-    <Button
-        android:id="@+id/edit_profile_btn"
-        android:layout_width="@dimen/dimen_288dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="8dp"
-        android:background="@color/colorPrimary"
-        android:text="@string/edit_profile"
-        android:textAllCaps="false"
         android:textColor="@android:color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/website_tv" />
-
+        app:layout_constraintTop_toBottomOf="@+id/contact_tv" />
 </android.support.constraint.ConstraintLayout>

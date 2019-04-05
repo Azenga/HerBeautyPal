@@ -24,7 +24,7 @@ public class DermatologistHomeActivity extends AppCompatActivity {
 
                 case R.id.bnav_home:
                     changeFragment(0);
-                    toolbar.setTitle("Home");
+                    toolbar.setTitle("Timeline");
                     return true;
 
                 case R.id.bnav_notifications:

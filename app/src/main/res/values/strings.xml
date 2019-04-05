@@ -137,4 +137,13 @@
     <string name="appointments">Appointments</string>
     <string name="update">Update</string>
     <string name="update_profile">Update Profile</string>
+    <string name="go_back">Go Back</string>
+    <string name="beautiful_lady">Beautiful Lady</string>
+    <string name="tip_default_desc">A little description for the problem and how to fix it...</string>
+    <string name="my_salon">My Salon</string>
+    <string name="register_a_salon">Register A Salon</string>
+    <string name="finish">Finish</string>
+    <string name="salon_cover_image">Salon Cover Image</string>
+    <string name="info">Info</string>
+    <string name="offers">Offers</string>
 </resources>

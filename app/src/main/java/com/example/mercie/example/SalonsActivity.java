@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 
 import com.example.mercie.example.adapters.SalonsRecyclerViewAdapter;
+import com.example.mercie.example.models.Salon;
 import com.example.mercie.example.models.Salonist;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -28,7 +29,7 @@ public class SalonsActivity extends AppCompatActivity {
     //Adapter
     private SalonsRecyclerViewAdapter salonsRecyclerViewAdapter;
     //Items list
-    private List<Salonist> salons;
+    private List<Salon> salons;
 
     //Firebase variables
     private FirebaseFirestore mDb;
@@ -59,7 +60,7 @@ public class SalonsActivity extends AppCompatActivity {
         salonsRecyclerViewAdapter = new SalonsRecyclerViewAdapter(this, salons);
         salonsRV.setAdapter(salonsRecyclerViewAdapter);
 
-        mDb.collection("salonists")
+        mDb.collection("salons")
                 .addSnapshotListener(
                         (value, e) -> {
 
@@ -70,7 +71,8 @@ public class SalonsActivity extends AppCompatActivity {
 
                             for (QueryDocumentSnapshot doc : value) {
 
-                                Salonist salon = doc.toObject(Salonist.class);
+                                Salon salon = doc.toObject(Salon.class);
+                                salon.setId(doc.getId());
 
                                 salons.add(salon);
 

@@ -9,11 +9,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.mercie.example.models.Salonist;
+import com.example.mercie.example.models.Salon;
 
 public class SalonInfoFragment extends Fragment {
 
-    private Salonist salon = null;
+    private Salon salon = null;
 
     private TextView salonOwnerTV, salonLocationTV, openFronTV, openToTV, salonWebsiteTV;
 
@@ -21,7 +21,7 @@ public class SalonInfoFragment extends Fragment {
 
     }
 
-    public static SalonInfoFragment getInstance(Salonist salon) {
+    public static SalonInfoFragment getInstance(Salon salon) {
 
         SalonInfoFragment salonInfoFragment = new SalonInfoFragment();
 
@@ -38,7 +38,7 @@ public class SalonInfoFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            salon = (Salonist) getArguments().getSerializable("salon");
+            salon = (Salon) getArguments().getSerializable("salon");
         }
     }
 
@@ -49,24 +49,26 @@ public class SalonInfoFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-
         //Init widgets
 
-        salonOwnerTV = view.findViewById(R.id.salon_name_tv);
+        salonOwnerTV = view.findViewById(R.id.salonist_name_tv);
         salonLocationTV = view.findViewById(R.id.salon_location_tv);
         openFronTV = view.findViewById(R.id.salon_openfrom_tv);
         openToTV = view.findViewById(R.id.salon_opento_tv);
         salonWebsiteTV = view.findViewById(R.id.salon_website_tv);
 
-        //Populate widgets
+    }
 
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        //Populate salon details
         if (salon != null) {
             salonOwnerTV.setText(salon.getName());
             salonLocationTV.setText(salon.getLocation());
+            salonWebsiteTV.setText(salon.getWebsite());
             openFronTV.setText(salon.getOpenFrom());
             openToTV.setText(salon.getOpenTo());
-            salonWebsiteTV.setText(salon.getWebsite());
         }
-
     }
 }

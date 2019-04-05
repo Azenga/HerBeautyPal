@@ -14,7 +14,7 @@ import android.widget.Toast;
 
 import com.example.mercie.example.R;
 import com.example.mercie.example.SalonActivity;
-import com.example.mercie.example.models.Salonist;
+import com.example.mercie.example.models.Salon;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -24,16 +24,16 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class SalonsRecyclerViewAdapter extends RecyclerView.Adapter<SalonsRecyclerViewAdapter.SalonViewHolder> {
 
-    private List<Salonist> salons;
+    private List<Salon> salons;
     private Context context;
 
     private StorageReference mRef;
 
-    public SalonsRecyclerViewAdapter(Context context, List<Salonist> salons) {
+    public SalonsRecyclerViewAdapter(Context context, List<Salon> salons) {
         this.salons = salons;
         this.context = context;
 
-        mRef = FirebaseStorage.getInstance().getReference().child("avatars");
+        mRef = FirebaseStorage.getInstance().getReference().child("cover_images");
     }
 
     @Override
@@ -47,15 +47,15 @@ public class SalonsRecyclerViewAdapter extends RecyclerView.Adapter<SalonsRecycl
     @Override
     public void onBindViewHolder(@NonNull SalonViewHolder salonViewHolder, int i) {
 
-        Salonist salonist = salons.get(i);
-        salonViewHolder.salon = salonist;
+        Salon salon = salons.get(i);
+        salonViewHolder.salon = salon;
 
-        salonViewHolder.salonNameTV.setText(salonist.getName());
-        salonViewHolder.salonLocationTV.setText(salonist.getLocation());
+        salonViewHolder.salonNameTV.setText(salon.getName());
+        salonViewHolder.salonLocationTV.setText(salon.getLocation());
 
-        StorageReference salonPicRef = mRef.child(salonist.getProfilePicName());
+        StorageReference salonPicRef = mRef.child(salon.getCoverImage());
 
-        final  long MB = 1024 * 1024;
+        final long MB = 1024 * 1024;
 
         salonPicRef.getBytes(MB)
                 .addOnSuccessListener(
@@ -70,8 +70,7 @@ public class SalonsRecyclerViewAdapter extends RecyclerView.Adapter<SalonsRecycl
         salonViewHolder.mView.setOnClickListener(
                 view -> {
                     Intent intent = new Intent(context, SalonActivity.class);
-                    intent.putExtra("salon", salonist);
-
+                    intent.putExtra("salon", salon);
                     context.startActivity(intent);
                 }
         );
@@ -88,7 +87,7 @@ public class SalonsRecyclerViewAdapter extends RecyclerView.Adapter<SalonsRecycl
         CircleImageView salonCIV;
         TextView salonNameTV;
         TextView salonLocationTV;
-        Salonist salon;
+        Salon salon;
 
         public SalonViewHolder(@NonNull View itemView) {
             super(itemView);

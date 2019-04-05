@@ -1,20 +1,31 @@
 package com.example.mercie.example;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.example.mercie.example.models.Salonist;
+import com.example.mercie.example.models.Salon;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 public class SalonActivity extends AppCompatActivity {
 
-    private Salonist salon = null;
+    private Toolbar toolbar;
+    private TabLayout tabLayout;
+    private ViewPagerAdapter adapter;
+    private ViewPager viewPager;
+
+    private Salon salon = null;
+
+    //Firebase Variables
+    private StorageReference mRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,9 +33,9 @@ public class SalonActivity extends AppCompatActivity {
         setContentView(R.layout.activity_salon);
 
         //OK SO far
-        salon = (Salonist) getIntent().getSerializableExtra("salon");
+        salon = (Salon) getIntent().getSerializableExtra("salon");
 
-        Toast.makeText(this, "" + salon, Toast.LENGTH_SHORT).show();
+        mRef = FirebaseStorage.getInstance().getReference().child("cover_images");
 
         ImageView goBackIV = findViewById(R.id.go_back_iv);
         goBackIV.setOnClickListener(view -> {
@@ -32,55 +43,34 @@ public class SalonActivity extends AppCompatActivity {
             finish();
         });
 
-        Toolbar salonToolbar = findViewById(R.id.salon_toolbar);
-        TabLayout fragmentTabLayout = findViewById(R.id.fragment_tablayout);
+        ImageView coverImageIV = findViewById(R.id.cover_image_iv);
 
-        fragmentTabLayout.setOnTabSelectedListener(
-                new TabLayout.OnTabSelectedListener() {
-                    @Override
-                    public void onTabSelected(TabLayout.Tab tab) {
-
-                        if (tab.getText() != null) {
-                            switch (tab.getText().toString()) {
-                                case "Info":
-                                    displayFragment(SalonInfoFragment.getInstance(salon));
-                                    break;
-                                case "Services":
-                                    displayFragment(SalonServicesFragment.getInstance(salon));
-                                    break;
-                                case "Offers":
-                                    displayFragment(SalonOffersFragment.getInstance(salon));
-                                    break;
-                                default:
-                                    displayFragment(SalonInfoFragment.getInstance(salon));
-                            }
+        final long MB = 1024 * 1024;
+        //Populate the cover image
+        mRef.child(salon.getCoverImage())
+                .getBytes(MB)
+                .addOnSuccessListener(
+                        bytes -> {
+                            Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                            coverImageIV.setImageBitmap(bitmap);
                         }
-                    }
+                )
+                .addOnFailureListener(e -> Toast.makeText(this, "Cover Image Error: " + e.getLocalizedMessage(), Toast.LENGTH_SHORT).show());
 
-                    @Override
-                    public void onTabUnselected(TabLayout.Tab tab) {
+        toolbar = findViewById(R.id.salon_toolbar);
+        viewPager = findViewById(R.id.viewpager);
 
-                    }
+        adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        adapter.addFragment(SalonInfoFragment.getInstance(salon), "Info");
+        adapter.addFragment(SalonServicesFragment.getInstance(salon.getId()), "Services");
+        adapter.addFragment(new SalonOffersFragment(), "Offers");
+        viewPager.setAdapter(adapter);
 
-                    @Override
-                    public void onTabReselected(TabLayout.Tab tab) {
-
-                    }
-                }
-        );
-
-
-    }
-
-    public void displayFragment(Fragment frag) {
-
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, frag);
-        transaction.addToBackStack("true");
-        transaction.commit();
+        tabLayout = findViewById(R.id.tabs);
+        tabLayout.setupWithViewPager(viewPager);
 
     }
-
-
 }
+
 
 

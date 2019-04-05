@@ -10,6 +10,7 @@ import android.widget.ImageView;
 
 
 public class TipsActivity extends AppCompatActivity {
+
     private Toolbar bar;
     private TabLayout tabLayout;
     private ViewPagerAdapter adapter;
