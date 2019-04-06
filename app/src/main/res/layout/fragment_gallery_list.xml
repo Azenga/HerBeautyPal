@@ -3,11 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/gallery_rv"
-    android:name="com.example.mercie.example.fragments.salonist.GalleryFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginLeft="16dp"
     android:layout_marginRight="16dp"
     app:layoutManager="LinearLayoutManager"
-    tools:context=".fragments.salonist.GalleryFragment"
-    tools:listitem="@layout/fragment_singleimage" />
+    tools:context=".fragments.salonist.NotificationsFragment"
+    tools:listitem="@layout/view_single_salonist_notification" />

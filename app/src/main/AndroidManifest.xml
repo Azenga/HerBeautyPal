@@ -3,6 +3,7 @@
     package="com.example.mercie.example">
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -12,7 +13,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".RegisterSalonActivity"></activity>
+        <activity android:name=".NotificationResponseActivity"></activity>
+        <activity android:name=".RegisterSalonActivity" />
         <activity android:name=".BeautyShopDashboardActivity" />
         <activity android:name=".DermatologistHomeActivity" />
         <activity
@@ -32,9 +34,6 @@
         <activity android:name=".TipsActivity" />
         <activity android:name=".SalonActivity" />
         <activity android:name=".ShopActivity" />
-        <activity android:name=".SalonServicesFragment" />
-        <activity android:name=".SalonOffersFragment" />
-        <activity android:name=".SalonInfoFragment" />
         <activity android:name=".WelcomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -42,15 +41,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ProductsFragment" />
-        <activity android:name=".OffersFragment" />
-        <activity android:name=".InfoFragment" />
-        <activity android:name=".HairFragment" />
-        <activity android:name=".FaceFragment" />
-        <activity android:name=".SkinFragment" />
-        <activity android:name=".EyesFragment" />
-        <activity android:name=".HandsFragment" />
-        <activity android:name=".FeetFragment" />
         <activity android:name=".LoginSalonistActivity" />
         <activity android:name=".LoginShopActivity" />
         <activity android:name=".LoginDermatologistActivity" />
@@ -62,8 +52,6 @@
         <activity android:name=".SetupDermatologistActivity" />
         <activity android:name=".TipssActivity" />
         <activity android:name=".DandruffActivity" />
-        <activity android:name=".RemmedyFragment" />
-        <activity android:name=".DietFragment" />
         <activity android:name=".SigninAsActivity" />
         <activity android:name=".ReservationDetailsActivity" />
         <activity android:name=".UpdateSalonActivity" />

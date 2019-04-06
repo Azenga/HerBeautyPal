@@ -83,8 +83,6 @@ public class SalonsActivity extends AppCompatActivity {
 
                         }
                 );
-
-
     }
 
     //Check whether the current user is authenticated

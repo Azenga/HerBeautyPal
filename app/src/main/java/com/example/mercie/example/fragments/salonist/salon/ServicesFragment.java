@@ -7,26 +7,38 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.mercie.example.R;
+import com.example.mercie.example.adapters.SalonistServicesRecyclerViewAdapter;
+import com.example.mercie.example.models.SalonService;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ServicesFragment extends Fragment {
 
     private static final String SALON_ID_PARAM = "salon-id";
+    public static final String TAG = "ServicesFragment";
 
     private String salonId = null;
+    private List<SalonService> services;
 
     //Widgets
-    private RecyclerView servicesRV;
-    private FloatingActionButton addServiceBtn;
+    private SalonistServicesRecyclerViewAdapter adapter;
 
     private OnServiceFragInteraction mListener;
+    private FirebaseFirestore mDb;
 
     public ServicesFragment() {
+        services = new ArrayList<>();
+        mDb = FirebaseFirestore.getInstance();
     }
 
     public static ServicesFragment newInstance(String id) {
@@ -46,22 +58,45 @@ public class ServicesFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.salon_fragment_services, container, false);
+        View view = inflater.inflate(R.layout.salon_fragment_services, container, false);
+
+        RecyclerView servicesRV = view.findViewById(R.id.services_rv);
+        adapter = new SalonistServicesRecyclerViewAdapter(services);
+        servicesRV.setAdapter(adapter);
+
+        FloatingActionButton addServiceBtn = view.findViewById(R.id.add_service_fab);
+        addServiceBtn.setOnClickListener(v -> {
+            if (mListener != null) mListener.loadAddFragmentService(salonId);
+        });
+
+        return view;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        servicesRV = view.findViewById(R.id.services_rv);
 
-        addServiceBtn = view.findViewById(R.id.add_service_fab);
-        addServiceBtn.setOnClickListener(v -> {
-            if(mListener != null) {
-                Toast.makeText(getActivity(), "mListener is not null", Toast.LENGTH_SHORT).show();
-                mListener.loadAddFragmentService();
-            }else {
-                Toast.makeText(getActivity(), "mListener is null", Toast.LENGTH_SHORT).show();
-            }
-        });
+        mDb.collection("services").document(salonId).collection("Services")
+                .addSnapshotListener((queryDocumentSnapshots, e) -> {
+
+                    if (e != null) {
+                        Log.e(TAG, "onViewCreated: Getting services", e);
+                    }
+
+                    if (!queryDocumentSnapshots.isEmpty()) {
+
+                        for (DocumentSnapshot dc : queryDocumentSnapshots.getDocuments()) {
+                            SalonService service = dc.toObject(SalonService.class);
+                            services.add(service);
+
+                            adapter.notifyDataSetChanged();
+                        }
+
+                    } else {
+                        Toast.makeText(getActivity(), "No Services Yet", Toast.LENGTH_SHORT).show();
+                    }
+
+                });
+
     }
 
     @Override
@@ -73,6 +108,6 @@ public class ServicesFragment extends Fragment {
     }
 
     public interface OnServiceFragInteraction {
-        void loadAddFragmentService();
+        void loadAddFragmentService(String salonId);
     }
 }

@@ -22,6 +22,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 public class SalonistAddServiceFragment extends Fragment {
 
+    public static final String SALON_ID_PARAM = "salon-id";
     private Spinner packageSpinner;
     private TextInputEditText serviceNameTIET;
     private TextInputEditText serviceCostTIET;
@@ -30,8 +31,27 @@ public class SalonistAddServiceFragment extends Fragment {
     private FirebaseAuth mAuth;
     private FirebaseFirestore mFirestore;
 
+    private String salonId = null;
+
     public SalonistAddServiceFragment() {
         //This must be empty
+    }
+
+    public static SalonistAddServiceFragment newInstance(String salonId) {
+
+        Bundle args = new Bundle();
+        args.putSerializable(SALON_ID_PARAM, salonId);
+
+        SalonistAddServiceFragment fragment = new SalonistAddServiceFragment();
+        fragment.setArguments(args);
+
+        return fragment;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) salonId = getArguments().getString(SALON_ID_PARAM);
     }
 
     @Nullable
@@ -60,6 +80,7 @@ public class SalonistAddServiceFragment extends Fragment {
     }
 
     private void addSalonService() {
+
         String packageName = packageSpinner.getSelectedItem().toString();
         String serviceName = serviceNameTIET.getText().toString();
         String serviceCost = serviceCostTIET.getText().toString();
@@ -67,10 +88,10 @@ public class SalonistAddServiceFragment extends Fragment {
         if (!TextUtils.isEmpty(packageName) && !TextUtils.isEmpty(serviceName) && !TextUtils.isEmpty(serviceCost)) {
             SalonService service = new SalonService(packageName, serviceName, serviceCost);
 
-            mFirestore.collection("services").document(mAuth.getCurrentUser().getUid()).collection("Services").add(service);
+            mFirestore.collection("services").document(salonId).collection("Services").add(service);
             Toast.makeText(getActivity(), "Service Added", Toast.LENGTH_SHORT).show();
 
-            // TODO: 4/3/19 Redirect to services fragment
+            ((SalonistDashboardActivity) getActivity()).getTheSalonAndSwitch();
 
         } else {
             Toast.makeText(getActivity(), "All the fields are required", Toast.LENGTH_SHORT).show();

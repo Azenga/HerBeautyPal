@@ -1,5 +1,6 @@
 package com.example.mercie.example;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -12,6 +13,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -22,9 +24,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.mercie.example.fragments.salonist.MySalonFragment;
+import com.example.mercie.example.fragments.salonist.NotificationsFragment;
 import com.example.mercie.example.fragments.salonist.SalonistAddServiceFragment;
 import com.example.mercie.example.fragments.salonist.SalonistHomeFragment;
 import com.example.mercie.example.fragments.salonist.salon.ServicesFragment;
+import com.example.mercie.example.models.Notification;
 import com.example.mercie.example.models.Salon;
 import com.example.mercie.example.models.Salonist;
 import com.google.firebase.auth.FirebaseAuth;
@@ -37,7 +41,10 @@ import com.google.firebase.storage.StorageReference;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class SalonistDashboardActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, SalonistHomeFragment.ProfileFragListener, ServicesFragment.OnServiceFragInteraction {
+        implements NavigationView.OnNavigationItemSelectedListener,
+        SalonistHomeFragment.ProfileFragListener,
+        ServicesFragment.OnServiceFragInteraction,
+        NotificationsFragment.NotificationsInteractionListener {
 
     private static final String TAG = "SalonistDashboardActivi";
     //NavigationHeaderWIdgets
@@ -84,7 +91,9 @@ public class SalonistDashboardActivity extends AppCompatActivity
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
         if (fragment != null) {
-            transaction.replace(R.id.container, fragment).commit();
+            transaction.replace(R.id.container, fragment);
+            transaction.addToBackStack(null);
+            transaction.commit();
         }
     }
 
@@ -140,12 +149,6 @@ public class SalonistDashboardActivity extends AppCompatActivity
                 getTheSalonAndSwitch();
                 break;
 
-            case R.id.nav_add_service:
-                if (getSupportActionBar() != null)
-                    getSupportActionBar().setTitle("Add Service");
-                displayFragment(new SalonistAddServiceFragment());
-                break;
-
             case R.id.nav_appointments:
                 if (getSupportActionBar() != null)
                     getSupportActionBar().setTitle("Appointments");
@@ -154,7 +157,7 @@ public class SalonistDashboardActivity extends AppCompatActivity
 
             case R.id.nav_notifications:
                 getSupportActionBar().setTitle("Notifications");
-                // TODO: 3/19/19 Add salonist notifications fragment
+                displayFragment(NotificationsFragment.newInstance(mAuth.getCurrentUser().getUid()));
                 break;
 
             case R.id.nav_feedback:
@@ -172,7 +175,7 @@ public class SalonistDashboardActivity extends AppCompatActivity
         return true;
     }
 
-    private void getTheSalonAndSwitch() {
+    public void getTheSalonAndSwitch() {
         mFirestore.collection("salons")
                 .whereEqualTo("ownerId", mAuth.getCurrentUser().getUid())
                 .get()
@@ -215,7 +218,7 @@ public class SalonistDashboardActivity extends AppCompatActivity
 
     }
 
-    private void getSalonist(String userId) {
+    public void getSalonist(String userId) {
 
         mFirestore.collection("salonists")
                 .document(userId)
@@ -269,7 +272,41 @@ public class SalonistDashboardActivity extends AppCompatActivity
     }
 
     @Override
-    public void loadAddFragmentService() {
-        Toast.makeText(this, "Wrong super class called", Toast.LENGTH_SHORT).show();
+    public void loadAddFragmentService(String salonId) {
+        if (getSupportActionBar() != null)
+            getSupportActionBar().setTitle("Add Service");
+        displayFragment(SalonistAddServiceFragment.newInstance(salonId));
+    }
+
+    @Override
+    public void respondToNotification(Notification notification) {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Request Action");
+        builder.setMessage("Accept the request and set Reservation?");
+
+        builder.setPositiveButton(
+                "Accept", (DialogInterface dialog, int which) -> {
+
+                    Intent intent = new Intent(this, NotificationResponseActivity.class);
+                    intent.putExtra("notification", notification);
+                    startActivity(intent);
+
+                }
+        ).setNegativeButton(
+                "Reject", (DialogInterface dialog, int which) -> {
+                    Toast.makeText(SalonistDashboardActivity.this, "Request Dropped", Toast.LENGTH_SHORT).show();
+                }
+
+        );
+
+        builder.show();
+
+        mFirestore
+                .collection("salonistnotifications")
+                .document(mAuth.getCurrentUser().getUid())
+                .collection("Notifications")
+                .document(notification.getId())
+                .delete();
     }
 }

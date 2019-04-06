@@ -21,13 +21,12 @@ import com.example.mercie.example.models.Salon;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MySalonFragment extends Fragment implements ServicesFragment.OnServiceFragInteraction {
+public class MySalonFragment extends Fragment {
 
     private static final String SALON_PARAM = "salon";
     private BottomNavigationView.OnNavigationItemSelectedListener bnvlistener = new BottomNavigationView.OnNavigationItemSelectedListener() {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-            // TODO: 4/3/19 Switch to correct Fragment
             switch (menuItem.getItemId()) {
 
                 case R.id.bnv_nav_info:
@@ -39,7 +38,7 @@ public class MySalonFragment extends Fragment implements ServicesFragment.OnServ
                     return true;
 
                 case R.id.bnv_nav_offers:
-
+                    // TODO: 4/5/19 Create Offers Fragment and Switch to It
                     return true;
 
                 default:
@@ -90,11 +89,5 @@ public class MySalonFragment extends Fragment implements ServicesFragment.OnServ
 
         bvn.setOnNavigationItemSelectedListener(bnvlistener);
         changeFragment(InfoFragment.newInstance(mSalon));
-    }
-
-    @Override
-    public void loadAddFragmentService() {
-        Toast.makeText(getActivity(), "Was called", Toast.LENGTH_SHORT).show();
-        changeFragment(new SalonistAddServiceFragment());
     }
 }

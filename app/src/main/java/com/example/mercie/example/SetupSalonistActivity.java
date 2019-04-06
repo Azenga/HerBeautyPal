@@ -38,7 +38,7 @@ public class SetupSalonistActivity extends AppCompatActivity {
     private CircleImageView profileIV;
 
     private EditText officialNameET, mobileNUmberET, locationET, websiteET;
-    private Button chooseImageBtn, setupBtn, gotoRegisterSalonBtn;
+    private Button chooseImageBtn, setupBtn;
 
     private ProgressDialog progressDialog;
 
@@ -70,16 +70,7 @@ public class SetupSalonistActivity extends AppCompatActivity {
         progressDialog = new ProgressDialog(this);
 
         chooseImageBtn.setOnClickListener(view -> chooseAnImage());
-        setupBtn.setOnClickListener(view -> {
-            uploadDetails();
-            startActivity(new Intent(this, SalonistDashboardActivity.class));
-            finish();
-        });
-        gotoRegisterSalonBtn.setOnClickListener(view -> {
-            uploadDetails();
-            startActivity(new Intent(this, RegisterSalonActivity.class));
-            finish();
-        });
+        setupBtn.setOnClickListener(view -> uploadDetails());
 
     }
 
@@ -97,7 +88,6 @@ public class SetupSalonistActivity extends AppCompatActivity {
             progressDialog.setTitle("Setup Salon Details");
             progressDialog.setMessage("Please Wait...");
             progressDialog.setCanceledOnTouchOutside(true);
-            progressDialog.show();
 
             if (profileBitmap != null) {
 
@@ -111,6 +101,7 @@ public class SetupSalonistActivity extends AppCompatActivity {
                 //ProfilePicture Reference
                 StorageReference profilePicRef = mRef.child(mAuth.getCurrentUser().getUid() + ".jpg");
 
+                progressDialog.show();
                 UploadTask profilePicUploadTask = profilePicRef.putBytes(data);
 
                 profilePicUploadTask.addOnFailureListener(e -> Toast.makeText(this, "Error uploading pic: " + e.getLocalizedMessage(), Toast.LENGTH_SHORT).show())
@@ -131,7 +122,7 @@ public class SetupSalonistActivity extends AppCompatActivity {
                 Salonist salonist = new Salonist(name, location, contact, website, null);
 
                 Toast.makeText(this, "You have not uploaded an avatar", Toast.LENGTH_SHORT).show();
-
+                progressDialog.show();
                 addSalonistToFirestore(salonist);
             }
 
@@ -149,11 +140,12 @@ public class SetupSalonistActivity extends AppCompatActivity {
                     .set(salonist)
                     .addOnCompleteListener(
                             task -> {
-                                if (task.isSuccessful())
+                                if (task.isSuccessful()) {
                                     Toast.makeText(this, "Your profile has been updated", Toast.LENGTH_SHORT).show();
-                                else
+                                    startActivity(new Intent(this, SalonistDashboardActivity.class));
+                                    finish();
+                                } else
                                     Toast.makeText(this, "A fatal error occurred: " + task.getException().getLocalizedMessage(), Toast.LENGTH_LONG).show();
-
                                 progressDialog.dismiss();
                             }
                     );
@@ -198,7 +190,6 @@ public class SetupSalonistActivity extends AppCompatActivity {
         //Buttons
         chooseImageBtn = findViewById(R.id.setup_salonist_change_profile_btn);
         setupBtn = findViewById(R.id.salonist_setup_btn);
-        gotoRegisterSalonBtn = findViewById(R.id.goto_register_salon_btn);
     }
 
 
@@ -210,9 +201,8 @@ public class SetupSalonistActivity extends AppCompatActivity {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     openIntentToChooseImageFromFiles();
                 } else {
-                    Toast.makeText(this, "Sorry Permission denied", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Sorry, Requested Permission denied", Toast.LENGTH_SHORT).show();
                 }
-
                 break;
 
             default:
@@ -277,7 +267,6 @@ public class SetupSalonistActivity extends AppCompatActivity {
         super.onStart();
 
         FirebaseUser user = mAuth.getCurrentUser();
-
         if (user == null) {
             startActivity(new Intent(this, SigninAsActivity.class));
             finish();

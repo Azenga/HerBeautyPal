@@ -157,18 +157,6 @@
         </LinearLayout>
 
         <Button
-            android:id="@+id/goto_register_salon_btn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/tv_padding"
-            android:layout_marginBottom="@dimen/tv_padding"
-            android:textAllCaps="false"
-            android:background="@color/colorPrimary"
-            android:text="@string/register_a_salon"
-            android:textColor="@android:color/white" />
-
-
-        <Button
             android:id="@+id/salonist_setup_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -176,7 +164,6 @@
             android:text="@string/setup"
             android:textAllCaps="false"
             android:textColor="@android:color/white" />
-
 
     </LinearLayout>
 

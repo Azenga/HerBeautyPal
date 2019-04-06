@@ -14,7 +14,7 @@
     <string name="address_hint">Address</string>
     <string name="gender_hint">Gender</string>
     <string name="register_btn_text">Complete</string>
-    <string name="title_activity_salonist_dashboard">SalonistDashboardActivity</string>
+    <string name="title_activity_salonist_dashboard">Dashboard</string>
     <string name="nav_header_title">Username</string>
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
@@ -146,4 +146,5 @@
     <string name="salon_cover_image">Salon Cover Image</string>
     <string name="info">Info</string>
     <string name="offers">Offers</string>
+    <string name="client_id">Client Id</string>
 </resources>

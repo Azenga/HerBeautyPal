@@ -6,33 +6,27 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.mercie.example.R;
-import com.example.mercie.example.SalonServicesFragment;
 import com.example.mercie.example.models.SalonService;
 
 import java.util.List;
 
-public class SalonServicesRecyclerViewAdapter extends RecyclerView.Adapter<SalonServicesRecyclerViewAdapter.ViewHolder> {
+public class SalonistServicesRecyclerViewAdapter extends RecyclerView.Adapter<SalonistServicesRecyclerViewAdapter.ViewHolder> {
 
     private List<SalonService> services;
     private Context context;
 
-    private SalonServicesFragment.SalonServiceFragmentListener mListener;
-
-
-    public SalonServicesRecyclerViewAdapter(List<SalonService> services, SalonServicesFragment.SalonServiceFragmentListener listener) {
+    public SalonistServicesRecyclerViewAdapter(List<SalonService> services) {
         this.services = services;
-        mListener = listener;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         context = viewGroup.getContext();
-        View view = LayoutInflater.from(context).inflate(R.layout.salon_service_single_item, viewGroup, false);
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.salonist_service_single_item, viewGroup, false);
         return new ViewHolder(view);
     }
 
@@ -42,10 +36,6 @@ public class SalonServicesRecyclerViewAdapter extends RecyclerView.Adapter<Salon
 
         viewHolder.serviceNameTV.setText(service.getServiceName());
         viewHolder.serviceCostTV.setText(service.getServiceCost());
-        viewHolder.requestReservationIB.setOnClickListener(view -> {
-            mListener.RequestSalonService(service);
-        });
-
 
     }
 
@@ -58,7 +48,6 @@ public class SalonServicesRecyclerViewAdapter extends RecyclerView.Adapter<Salon
 
         View view;
         TextView serviceNameTV, serviceCostTV;
-        ImageButton requestReservationIB;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -66,8 +55,6 @@ public class SalonServicesRecyclerViewAdapter extends RecyclerView.Adapter<Salon
             view = itemView;
             serviceNameTV = itemView.findViewById(R.id.service_name_tv);
             serviceCostTV = itemView.findViewById(R.id.service_cost_tv);
-            requestReservationIB = itemView.findViewById(R.id.request_reservation_ib);
-
         }
     }
 }

@@ -92,6 +92,10 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 getSupportActionBar().setTitle("Notifications");
                 frag = new CheckReservationDetailsFragment();
                 break;
+            case R.id.nav_reservations:
+                getSupportActionBar().setTitle("Reservations");
+                frag = new CheckReservationDetailsFragment();
+                break;
             default:
                 logout();
         }

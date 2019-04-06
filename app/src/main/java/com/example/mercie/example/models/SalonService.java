@@ -8,6 +8,9 @@ public class SalonService {
     private String serviceName;
     private String serviceCost;
 
+    public SalonService() {
+    }
+
     public SalonService(String packageName, String serviceName, String serviceCost) {
         this.packageName = packageName;
         this.serviceName = serviceName;
