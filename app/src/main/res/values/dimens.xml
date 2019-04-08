@@ -11,4 +11,7 @@
     <dimen name="sm_padding">4dp</dimen>
     <dimen name="dimen_288dp">288dp</dimen>
     <dimen name="dimen_192dp">192dp</dimen>
+    <dimen name="dimen_172dp">172dp</dimen>
+    <dimen name="dimen_316dp">316dp</dimen>
+    <dimen name="dimen_256dp">256dp</dimen>
 </resources>

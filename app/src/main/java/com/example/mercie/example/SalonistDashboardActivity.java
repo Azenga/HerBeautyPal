@@ -43,7 +43,6 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class SalonistDashboardActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         SalonistHomeFragment.ProfileFragListener,
-        ServicesFragment.OnServiceFragInteraction,
         NotificationsFragment.NotificationsInteractionListener {
 
     private static final String TAG = "SalonistDashboardActivi";
@@ -187,8 +186,9 @@ public class SalonistDashboardActivity extends AppCompatActivity
                                 Salon salon = documentSnapshot.toObject(Salon.class);
                                 salon.setId(documentSnapshot.getId());
 
-                                getSupportActionBar().setTitle("My Salon");
-                                displayFragment(MySalonFragment.getInstance(salon));
+                                Intent intent = new Intent(this, MySalonActivity.class);
+                                intent.putExtra(MySalonActivity.SALON_PARAM, salon);
+                                startActivity(intent);
 
                             } else {
                                 View view = findViewById(android.R.id.content);
@@ -271,12 +271,6 @@ public class SalonistDashboardActivity extends AppCompatActivity
 
     }
 
-    @Override
-    public void loadAddFragmentService(String salonId) {
-        if (getSupportActionBar() != null)
-            getSupportActionBar().setTitle("Add Service");
-        displayFragment(SalonistAddServiceFragment.newInstance(salonId));
-    }
 
     @Override
     public void respondToNotification(Notification notification) {
@@ -296,17 +290,16 @@ public class SalonistDashboardActivity extends AppCompatActivity
         ).setNegativeButton(
                 "Reject", (DialogInterface dialog, int which) -> {
                     Toast.makeText(SalonistDashboardActivity.this, "Request Dropped", Toast.LENGTH_SHORT).show();
+                    mFirestore
+                            .collection("salonistnotifications")
+                            .document(mAuth.getCurrentUser().getUid())
+                            .collection("Notifications")
+                            .document(notification.getId())
+                            .delete();
                 }
 
         );
 
         builder.show();
-
-        mFirestore
-                .collection("salonistnotifications")
-                .document(mAuth.getCurrentUser().getUid())
-                .collection("Notifications")
-                .document(notification.getId())
-                .delete();
     }
 }

@@ -19,6 +19,11 @@
         android:id="@+id/nav_reservations"
         android:icon="@drawable/ic_details_black_24dp"
         android:title="@string/reservations" />
+
+    <item
+        android:id="@+id/nav_about"
+        android:icon="@drawable/about"
+        android:title="@string/about" />
     <item
         android:id="@+id/nav_logout"
         android:icon="@drawable/logout"

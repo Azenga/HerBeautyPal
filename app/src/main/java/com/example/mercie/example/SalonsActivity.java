@@ -10,7 +10,6 @@ import android.util.Log;
 
 import com.example.mercie.example.adapters.SalonsRecyclerViewAdapter;
 import com.example.mercie.example.models.Salon;
-import com.example.mercie.example.models.Salonist;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;

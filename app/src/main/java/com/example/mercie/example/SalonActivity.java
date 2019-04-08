@@ -94,7 +94,7 @@ public class SalonActivity extends AppCompatActivity implements SalonServicesFra
 
         builder
                 .setPositiveButton("Sure", (DialogInterface dialog, int which) -> {
-                    Notification notification = new Notification(service.getServiceName(), null, mAuth.getCurrentUser().getUid());
+                    Notification notification = new Notification("Service", service.getServiceName(), null, mAuth.getCurrentUser().getUid());
 
                     mDb
                             .collection("salonistnotifications")

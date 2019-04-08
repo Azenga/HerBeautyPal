@@ -1,5 +1,6 @@
 package com.example.mercie.example;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -12,6 +13,7 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -21,10 +23,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.mercie.example.fragments.client.AboutFragment;
 import com.example.mercie.example.fragments.client.EditProfileFragment;
 import com.example.mercie.example.fragments.client.CheckReservationDetailsFragment;
 import com.example.mercie.example.fragments.client.HomePageFragment;
+import com.example.mercie.example.fragments.client.NotificationFragment;
 import com.example.mercie.example.models.Client;
+import com.example.mercie.example.models.Reservation;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
@@ -33,7 +38,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
-public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,
+        NotificationFragment.ClientNotificationsLIstener {
 
     //Firebase Stuff
     private FirebaseAuth mAuth;
@@ -90,7 +96,11 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.nav_notifications:
                 getSupportActionBar().setTitle("Notifications");
-                frag = new CheckReservationDetailsFragment();
+                frag = new NotificationFragment();
+                break;
+            case R.id.nav_about:
+                getSupportActionBar().setTitle("About");
+                frag = new AboutFragment();
                 break;
             case R.id.nav_reservations:
                 getSupportActionBar().setTitle("Reservations");
@@ -101,7 +111,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         }
 
         if (frag != null) {
-            ft.replace(R.id.container, frag).commit();
+            ft.replace(R.id.container, frag);
+            ft.addToBackStack(null);
+            ft.commit();
         }
 
     }
@@ -211,5 +223,44 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         } else {
             Toast.makeText(this, "You have not uploaded a profile picture", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @Override
+    public void respondTpNotification(Reservation reservation) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Checkout Reservation");
+        builder.setMessage("Would you like to accept this reservation?");
+
+        builder.setPositiveButton(
+                "Accept", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        mFirestore.collection("clientsreservations")
+                                .document(mAuth.getCurrentUser().getUid())
+                                .collection("Reservations")
+                                .document(reservation.getId())
+                                .update("agreedUpon", true);
+
+                        Toast.makeText(HomeActivity.this, "Reservation Accepted", Toast.LENGTH_SHORT).show();
+                    }
+                }
+        )
+                .setNegativeButton("Reject", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        mFirestore.collection("clientsreservations")
+                                .document(mAuth.getCurrentUser().getUid())
+                                .collection("Reservations")
+                                .document(reservation.getId())
+                                .delete();
+
+                        Toast.makeText(HomeActivity.this, "Reservation Rejected", Toast.LENGTH_SHORT).show();
+
+                    }
+                });
+
+        builder.show();
+
     }
 }

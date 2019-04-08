@@ -26,17 +26,19 @@ import java.util.List;
  * Created by Mercie on 2/27/2019.
  */
 
-public class CheckReservationDetailsFragment extends Fragment {
+public class NotificationFragment extends Fragment {
 
     private static final String TAG = "NotificationFragment";
 
+    private RecyclerView reservationsRV;
     private ReservationsRVAdapter adapter;
+    private ClientNotificationsLIstener mListener;
     private List<Reservation> reservations;
 
     private FirebaseFirestore mDb;
     private FirebaseAuth mAuth;
 
-    public CheckReservationDetailsFragment() {
+    public NotificationFragment() {
         reservations = new ArrayList<>();
         mDb = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
@@ -45,13 +47,13 @@ public class CheckReservationDetailsFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_client_check_reservation_details, container, false);
+        View view = inflater.inflate(R.layout.fragment_client_notifications, container, false);
 
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
             RecyclerView recyclerView = (RecyclerView) view;
 
-            adapter = new ReservationsRVAdapter(reservations, null);
+            adapter = new ReservationsRVAdapter(reservations, mListener);
 
             recyclerView.setAdapter(adapter);
         }
@@ -67,7 +69,7 @@ public class CheckReservationDetailsFragment extends Fragment {
         mDb.collection("clientsreservations")
                 .document(mAuth.getCurrentUser().getUid())
                 .collection("Reservations")
-                .whereEqualTo("agreedUpon", true)
+                .whereEqualTo("agreedUpon", false)
                 .addSnapshotListener(
                         (queryDocumentSnapshots, e) -> {
                             if (e != null) {
@@ -90,4 +92,18 @@ public class CheckReservationDetailsFragment extends Fragment {
 
     }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        if (context instanceof ClientNotificationsLIstener) {
+            mListener = (ClientNotificationsLIstener) context;
+        }
+    }
+
+    public interface ClientNotificationsLIstener {
+
+        void respondTpNotification(Reservation reservation);
+
+    }
 }

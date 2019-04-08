@@ -13,14 +13,16 @@ public class Reservation implements Serializable {
     private String type;
     private String item;
     private String time;
+    private String date;
 
     public Reservation() {
     }
 
-    public Reservation(String type, String item, String time) {
+    public Reservation(String type, String item, String time, String date) {
         this.type = type;
         this.item = item;
         this.time = time;
+        this.date = date;
     }
 
     public String getId() {
@@ -53,6 +55,14 @@ public class Reservation implements Serializable {
 
     public void setTime(String time) {
         this.time = time;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public boolean isAgreedUpon() {

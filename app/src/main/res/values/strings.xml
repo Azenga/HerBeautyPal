@@ -146,5 +146,18 @@
     <string name="salon_cover_image">Salon Cover Image</string>
     <string name="info">Info</string>
     <string name="offers">Offers</string>
-    <string name="client_id">Client Id</string>
+    <string name="client">Client:</string>
+    <string name="service_requested">Service Requested:</string>
+    <string name="date_hint">Date:</string>
+    <string name="select_date_hint">Select Date</string>
+    <string name="time">Time:</string>
+    <string name="select_time">Select Time</string>
+    <string name="client_reservation">Client Reservation</string>
+    <string name="notification_response">Notification Response</string>
+    <string name="set_reservation">Set Reservation</string>
+    <string name="type">Type...</string>
+    <string name="item">Item...</string>
+    <string name="default_time">07:10 04/07/2019</string>
+    <string name="about">About</string>
+    <string name="edit">Edit</string>
 </resources>

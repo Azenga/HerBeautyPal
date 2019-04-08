@@ -9,6 +9,7 @@ public class Notification implements Serializable {
     @Exclude
     String id;
 
+    private String type;
     private String serviceName;
     private String requestTime;
     private String clientId;
@@ -16,7 +17,8 @@ public class Notification implements Serializable {
     public Notification() {
     }
 
-    public Notification(String serviceName, String requestTime, String clientId) {
+    public Notification(String type, String serviceName, String requestTime, String clientId) {
+        this.type = type;
         this.serviceName = serviceName;
         this.requestTime = requestTime;
         this.clientId = clientId;
