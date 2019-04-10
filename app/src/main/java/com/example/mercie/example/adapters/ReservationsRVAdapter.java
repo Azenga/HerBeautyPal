@@ -29,7 +29,7 @@ public class ReservationsRVAdapter extends RecyclerView.Adapter<ReservationsRVAd
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         context = viewGroup.getContext();
-        View view = LayoutInflater.from(context).inflate(R.layout.fragment_client_notifications, viewGroup, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.view_single_client_reservation, viewGroup, false);
         return new ViewHolder(view);
     }
 

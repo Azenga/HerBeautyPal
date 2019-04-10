@@ -42,13 +42,19 @@ public class AppointmentsRecylcerViewAdapter extends RecyclerView.Adapter<Appoin
         viewHolder.serviceNameTV.setText(appointment.getServiceName());
         viewHolder.timeTV.setText(appointment.getDate() + ' ' + appointment.getTime());
 
-        String clientName = mDb.collection("clients")
+        mDb.collection("clients")
                 .document(appointment.getFromId())
                 .get()
-                .getResult()
-                .getString("name");
+                .addOnCompleteListener(
+                        task -> {
+                            if (task.getResult().exists()) {
+                                String clientName = task.getResult().getString("name");
+                                viewHolder.clientNameTV.setText(clientName);
 
-        viewHolder.clientNameTV.setText(clientName);
+                            }
+                        }
+                );
+
     }
 
     @Override

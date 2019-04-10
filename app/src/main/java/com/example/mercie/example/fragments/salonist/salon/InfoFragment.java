@@ -74,7 +74,7 @@ public class InfoFragment extends Fragment {
 
         nameTV = view.findViewById(R.id.name_tv);
         locationTV = view.findViewById(R.id.location_tv);
-        contactTV = view.findViewById(R.id.name_tv);
+        contactTV = view.findViewById(R.id.contact_tv);
         websiteTV = view.findViewById(R.id.website_tv);
 
         populateFields();

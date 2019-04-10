@@ -39,10 +39,8 @@ public class HomePageFragment extends Fragment {
         Button allSaloons = view.findViewById(R.id.allsalons);
         allSaloons.setOnClickListener(v -> startActivity(new Intent(getActivity(), SalonsActivity.class)));
 
-
         Button beautyShops = view.findViewById(R.id.beautyshops);
         beautyShops.setOnClickListener(v -> startActivity(new Intent(getActivity(), ShopActivity.class)));
-
 
         Button tips = view.findViewById(R.id.tips);
         tips.setOnClickListener(v -> startActivity(new Intent(getActivity(), TipsActivity.class)));
