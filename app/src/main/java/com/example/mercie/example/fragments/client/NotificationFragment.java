@@ -66,29 +66,31 @@ public class NotificationFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         //Get the notifications Now
-        mDb.collection("clientsreservations")
-                .document(mAuth.getCurrentUser().getUid())
-                .collection("Reservations")
-                .whereEqualTo("agreedUpon", false)
-                .addSnapshotListener(
-                        (queryDocumentSnapshots, e) -> {
-                            if (e != null) {
-                                Log.e(TAG, "onViewCreated: ", e);
-                                return;
-                            }
-
-                            if (!queryDocumentSnapshots.isEmpty()) {
-                                for (DocumentSnapshot doc : queryDocumentSnapshots.getDocuments()) {
-                                    Reservation reservation = doc.toObject(Reservation.class);
-                                    reservation.setId(doc.getId());
-                                    reservations.add(reservation);
-                                    adapter.notifyDataSetChanged();
+        if (mAuth.getCurrentUser() != null) {
+            mDb.collection("clientsreservations")
+                    .document(mAuth.getCurrentUser().getUid())
+                    .collection("Reservations")
+                    .whereEqualTo("agreedUpon", false)
+                    .addSnapshotListener(
+                            (queryDocumentSnapshots, e) -> {
+                                if (e != null) {
+                                    Log.e(TAG, "onViewCreated: ", e);
+                                    return;
                                 }
-                            } else {
-                                Toast.makeText(getActivity(), "No notifications", Toast.LENGTH_SHORT).show();
+
+                                if (!queryDocumentSnapshots.isEmpty()) {
+                                    for (DocumentSnapshot doc : queryDocumentSnapshots.getDocuments()) {
+                                        Reservation reservation = doc.toObject(Reservation.class);
+                                        reservation.setId(doc.getId());
+                                        reservations.add(reservation);
+                                        adapter.notifyDataSetChanged();
+                                    }
+                                } else {
+                                    Toast.makeText(getActivity(), "No notifications", Toast.LENGTH_SHORT).show();
+                                }
                             }
-                        }
-                );
+                    );
+        }
 
     }
 
@@ -103,7 +105,7 @@ public class NotificationFragment extends Fragment {
 
     public interface ClientNotificationsLIstener {
 
-        void respondTpNotification(Reservation reservation);
+        void respondToNotification(Reservation reservation);
 
     }
 }

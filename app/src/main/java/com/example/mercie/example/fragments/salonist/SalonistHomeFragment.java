@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.example.mercie.example.R;
 import com.example.mercie.example.models.Salonist;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -30,14 +31,16 @@ public class SalonistHomeFragment extends Fragment {
     private ProfileFragListener mListener;
 
     //Fragment widgets
-    private TextView nameTV, locationTV, mobileTV, websiteTV;
+    private TextView nameTV, locationTV, mobileTV, websiteTV, emailAddressTV;
     private ImageView profilePicIV;
 
     //FirebaseStorage
     private StorageReference mRef;
+    private FirebaseAuth mAuth;
 
     public SalonistHomeFragment() {
         mRef = FirebaseStorage.getInstance().getReference().child("avatars");
+        mAuth = FirebaseAuth.getInstance();
     }
 
     public static SalonistHomeFragment newInstance(Salonist salonist) {
@@ -60,7 +63,7 @@ public class SalonistHomeFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_salonist_home, container, false);
+        return inflater.inflate(R.layout.fragment_salonist_home2, container, false);
     }
 
     //For initializing the widgets
@@ -73,6 +76,7 @@ public class SalonistHomeFragment extends Fragment {
         locationTV = view.findViewById(R.id.location_tv);
         mobileTV = view.findViewById(R.id.contact_tv);
         websiteTV = view.findViewById(R.id.website_tv);
+        emailAddressTV = view.findViewById(R.id.email_tv);
 
         //ImageView
         profilePicIV = view.findViewById(R.id.avatar_iv);
@@ -92,6 +96,7 @@ public class SalonistHomeFragment extends Fragment {
             if (mSalonist.getLocation() != null) locationTV.setText(mSalonist.getLocation());
             if (mSalonist.getContact() != null) mobileTV.setText(mSalonist.getContact());
             if (mSalonist.getWebsite() != null) websiteTV.setText(mSalonist.getWebsite());
+            emailAddressTV.setText(mAuth.getCurrentUser().getEmail());
 
             if (mSalonist.getProfilePicName() != null) {
 

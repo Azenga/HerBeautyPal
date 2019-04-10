@@ -83,7 +83,7 @@ public class CheckReservationDetailsFragment extends Fragment {
                                     adapter.notifyDataSetChanged();
                                 }
                             } else {
-                                Toast.makeText(getActivity(), "No notifications", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getActivity(), "No Reservations Set", Toast.LENGTH_SHORT).show();
                             }
                         }
                 );

@@ -44,7 +44,7 @@ public class ReservationsRVAdapter extends RecyclerView.Adapter<ReservationsRVAd
 
         viewHolder.mView.setOnClickListener(view -> {
             if (mListener != null)
-                mListener.respondTpNotification(reservation);
+                mListener.respondToNotification(reservation);
         });
 
     }

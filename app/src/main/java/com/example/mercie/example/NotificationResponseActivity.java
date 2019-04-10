@@ -55,6 +55,7 @@ public class NotificationResponseActivity extends AppCompatActivity {
         initPickers();
 
         serviceNameTV.setText(notification.getServiceName());
+
         mDb.collection("clients")
                 .document(notification.getClientId())
                 .get()
@@ -90,7 +91,7 @@ public class NotificationResponseActivity extends AppCompatActivity {
         String date = chooseDateTV.getText().toString().trim();
         String time = chooseTimeTV.getText().toString().trim();
 
-        Reservation reservation = new Reservation("Service", notification.getServiceName(), time, date);
+        Reservation reservation = new Reservation("Service", notification.getServiceName(), time, date, mAuth.getCurrentUser().getUid());
         reservation.setAgreedUpon(false);
 
         mDb.collection("clientsreservations")
@@ -166,7 +167,8 @@ public class NotificationResponseActivity extends AppCompatActivity {
 
                     TimePickerDialog timePickerDialog = new TimePickerDialog(
                             this,
-                            android.R.style.Theme_Holo_Light_Dialog_MinWidth, timeSetListener,
+                            android.R.style.Theme_Holo_Light_Dialog_MinWidth,
+                            timeSetListener,
                             hour,
                             minute,
                             DateFormat.is24HourFormat(this)
@@ -189,7 +191,7 @@ public class NotificationResponseActivity extends AppCompatActivity {
     }
 
     private void initComponents() {
-        clientNameTV = findViewById(R.id.client_id_tv);
+        clientNameTV = findViewById(R.id.client_name_tv);
         serviceNameTV = findViewById(R.id.service_name_tv);
         chooseDateTV = findViewById(R.id.choose_date_tv);
         chooseTimeTV = findViewById(R.id.choose_time_tv);

@@ -53,7 +53,7 @@ public class AboutFragment extends Fragment {
         editProfileIB.setOnClickListener(v -> ((HomeActivity) getActivity()).displayFrag(R.id.nav_edit_profile));
 
         nameTV = view.findViewById(R.id.name_tv);
-        contactTV = view.findViewById(R.id.contact_tv);
+        contactTV = view.findViewById(R.id.name_tv);
         locationTV = view.findViewById(R.id.location_tv);
         emailTV = view.findViewById(R.id.email_tv);
 

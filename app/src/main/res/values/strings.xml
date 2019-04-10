@@ -147,6 +147,7 @@
     <string name="info">Info</string>
     <string name="offers">Offers</string>
     <string name="client">Client:</string>
+    <string name="client_name">Client Name...</string>
     <string name="service_requested">Service Requested:</string>
     <string name="date_hint">Date:</string>
     <string name="select_date_hint">Select Date</string>

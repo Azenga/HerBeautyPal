@@ -1,6 +1,5 @@
 package com.example.mercie.example;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -23,11 +22,10 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.mercie.example.fragments.salonist.MySalonFragment;
+import com.example.mercie.example.fragments.salonist.AppointmentsFragment;
 import com.example.mercie.example.fragments.salonist.NotificationsFragment;
-import com.example.mercie.example.fragments.salonist.SalonistAddServiceFragment;
+import com.example.mercie.example.fragments.salonist.SalonistEditProfileFragment;
 import com.example.mercie.example.fragments.salonist.SalonistHomeFragment;
-import com.example.mercie.example.fragments.salonist.salon.ServicesFragment;
 import com.example.mercie.example.models.Notification;
 import com.example.mercie.example.models.Salon;
 import com.example.mercie.example.models.Salonist;
@@ -140,7 +138,7 @@ public class SalonistDashboardActivity extends AppCompatActivity
             case R.id.nav_home:
                 if (getSupportActionBar() != null)
                     getSupportActionBar().setTitle("Home");
-                if (mAuth.getCurrentUser().getUid() != null)
+                if (mAuth.getCurrentUser() != null)
                     getSalonist(mAuth.getCurrentUser().getUid());
                 break;
 
@@ -151,7 +149,7 @@ public class SalonistDashboardActivity extends AppCompatActivity
             case R.id.nav_appointments:
                 if (getSupportActionBar() != null)
                     getSupportActionBar().setTitle("Appointments");
-                // TODO: Create an appointments Fragment
+                displayFragment(new AppointmentsFragment());
                 break;
 
             case R.id.nav_notifications:
@@ -175,32 +173,36 @@ public class SalonistDashboardActivity extends AppCompatActivity
     }
 
     public void getTheSalonAndSwitch() {
-        mFirestore.collection("salons")
-                .whereEqualTo("ownerId", mAuth.getCurrentUser().getUid())
-                .get()
-                .addOnSuccessListener(
-                        queryDocumentSnapshots -> {
-                            if (!queryDocumentSnapshots.isEmpty()) {
 
-                                DocumentSnapshot documentSnapshot = queryDocumentSnapshots.getDocuments().get(0);
-                                Salon salon = documentSnapshot.toObject(Salon.class);
-                                salon.setId(documentSnapshot.getId());
+        if (mAuth.getCurrentUser() != null) {
 
-                                Intent intent = new Intent(this, MySalonActivity.class);
-                                intent.putExtra(MySalonActivity.SALON_PARAM, salon);
-                                startActivity(intent);
+            mFirestore.collection("salons")
+                    .whereEqualTo("ownerId", mAuth.getCurrentUser().getUid())
+                    .get()
+                    .addOnSuccessListener(
+                            queryDocumentSnapshots -> {
+                                if (!queryDocumentSnapshots.isEmpty()) {
 
-                            } else {
-                                View view = findViewById(android.R.id.content);
-                                Snackbar.make(view, "Register A Salon", Snackbar.LENGTH_LONG)
-                                        .setAction("RegisterSalon", (View v) -> {
-                                            startActivity(new Intent(this, RegisterSalonActivity.class));
-                                        })
-                                        .show();
+                                    DocumentSnapshot documentSnapshot = queryDocumentSnapshots.getDocuments().get(0);
+                                    Salon salon = documentSnapshot.toObject(Salon.class);
+                                    salon.setId(documentSnapshot.getId());
+
+                                    Intent intent = new Intent(this, MySalonActivity.class);
+                                    intent.putExtra(MySalonActivity.SALON_PARAM, salon);
+                                    startActivity(intent);
+
+                                } else {
+                                    View view = findViewById(android.R.id.content);
+                                    Snackbar.make(view, "Register A Salon", Snackbar.LENGTH_LONG)
+                                            .setAction("RegisterSalon", (View v) -> {
+                                                startActivity(new Intent(this, RegisterSalonActivity.class));
+                                            })
+                                            .show();
+                                }
                             }
-                        }
-                )
-                .addOnFailureListener(e -> Log.e(TAG, "getTheSalonAndSwitch: Failed", e));
+                    )
+                    .addOnFailureListener(e -> Log.e(TAG, "getTheSalonAndSwitch: Failed", e));
+        }
     }
 
     @Override
@@ -268,7 +270,7 @@ public class SalonistDashboardActivity extends AppCompatActivity
 
     @Override
     public void openEditFragment(Salonist salonist) {
-
+        displayFragment(new SalonistEditProfileFragment());
     }
 
 
@@ -280,7 +282,7 @@ public class SalonistDashboardActivity extends AppCompatActivity
         builder.setMessage("Accept the request and set Reservation?");
 
         builder.setPositiveButton(
-                "Accept", (DialogInterface dialog, int which) -> {
+                "Accept", (dialog, which) -> {
 
                     Intent intent = new Intent(this, NotificationResponseActivity.class);
                     intent.putExtra("notification", notification);
@@ -288,16 +290,19 @@ public class SalonistDashboardActivity extends AppCompatActivity
 
                 }
         ).setNegativeButton(
-                "Reject", (DialogInterface dialog, int which) -> {
-                    Toast.makeText(SalonistDashboardActivity.this, "Request Dropped", Toast.LENGTH_SHORT).show();
-                    mFirestore
-                            .collection("salonistnotifications")
-                            .document(mAuth.getCurrentUser().getUid())
-                            .collection("Notifications")
-                            .document(notification.getId())
-                            .delete();
-                }
+                "Reject", (dialog, which) -> {
 
+                    if (mAuth.getCurrentUser() != null) {
+                        mFirestore
+                                .collection("salonistnotifications")
+                                .document(mAuth.getCurrentUser().getUid())
+                                .collection("Notifications")
+                                .document(notification.getId())
+                                .delete();
+
+                        Toast.makeText(SalonistDashboardActivity.this, "Request Dropped", Toast.LENGTH_SHORT).show();
+                    }
+                }
         );
 
         builder.show();

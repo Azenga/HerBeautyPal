@@ -75,7 +75,9 @@ public class ServicesFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
-        mDb.collection("services").document(salonId).collection("Services")
+        mDb.collection("services")
+                .document(salonId)
+                .collection("Services")
                 .addSnapshotListener((queryDocumentSnapshots, e) -> {
 
                     if (e != null) {

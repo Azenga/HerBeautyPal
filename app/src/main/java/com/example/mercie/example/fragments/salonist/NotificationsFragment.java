@@ -80,7 +80,8 @@ public class NotificationsFragment extends Fragment {
 
         mDb
                 .collection("salonistnotifications")
-                .document(ownerId).collection("Notifications")
+                .document(ownerId)
+                .collection("Notifications")
                 .addSnapshotListener(
                         (queryDocumentSnapshots, e) -> {
 

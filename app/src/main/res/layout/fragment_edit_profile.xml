@@ -226,6 +226,7 @@
             android:layout_height="wrap_content"
             android:background="@color/colorPrimaryDark"
             android:text="@string/setup"
+            android:textAllCaps="false"
             android:textColor="@android:color/white" />
 
 

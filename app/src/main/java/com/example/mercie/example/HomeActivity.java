@@ -28,6 +28,7 @@ import com.example.mercie.example.fragments.client.EditProfileFragment;
 import com.example.mercie.example.fragments.client.CheckReservationDetailsFragment;
 import com.example.mercie.example.fragments.client.HomePageFragment;
 import com.example.mercie.example.fragments.client.NotificationFragment;
+import com.example.mercie.example.models.Appointment;
 import com.example.mercie.example.models.Client;
 import com.example.mercie.example.models.Reservation;
 import com.google.firebase.auth.FirebaseAuth;
@@ -226,41 +227,48 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
-    public void respondTpNotification(Reservation reservation) {
+    public void respondToNotification(Reservation reservation) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Checkout Reservation");
         builder.setMessage("Would you like to accept this reservation?");
 
-        builder.setPositiveButton(
-                "Accept", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
+        if (mAuth.getCurrentUser() != null) {
+
+            builder.setPositiveButton(
+                    "Accept", (dialog, which) -> {
                         mFirestore.collection("clientsreservations")
                                 .document(mAuth.getCurrentUser().getUid())
                                 .collection("Reservations")
                                 .document(reservation.getId())
                                 .update("agreedUpon", true);
 
+                        //Set Appointment With Admin
+                        mFirestore.collection("salonistappointments")
+                                .document(reservation.getSalonistId())
+                                .collection("Appointments")
+                                .add(new Appointment(mAuth.getCurrentUser().getUid(), reservation.getItem(), reservation.getDate(), reservation.getTime()));
+
+
                         Toast.makeText(HomeActivity.this, "Reservation Accepted", Toast.LENGTH_SHORT).show();
-                    }
-                }
-        )
-                .setNegativeButton("Reject", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                        mFirestore.collection("clientsreservations")
-                                .document(mAuth.getCurrentUser().getUid())
-                                .collection("Reservations")
-                                .document(reservation.getId())
-                                .delete();
-
-                        Toast.makeText(HomeActivity.this, "Reservation Rejected", Toast.LENGTH_SHORT).show();
 
                     }
-                });
+            )
+                    .setNegativeButton("Reject", (dialog, which) -> {
 
-        builder.show();
+                                mFirestore.collection("clientsreservations")
+                                        .document(mAuth.getCurrentUser().getUid())
+                                        .collection("Reservations")
+                                        .document(reservation.getId())
+                                        .delete();
+
+                                Toast.makeText(HomeActivity.this, "Reservation Rejected", Toast.LENGTH_SHORT).show();
+
+
+                            }
+                    );
+
+            builder.show();
+        }
 
     }
 }
