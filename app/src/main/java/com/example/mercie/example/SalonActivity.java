@@ -1,7 +1,6 @@
 package com.example.mercie.example;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -70,7 +69,7 @@ public class SalonActivity extends AppCompatActivity implements SalonServicesFra
                 .addOnFailureListener(e -> Toast.makeText(this, "Cover Image Error: " + e.getLocalizedMessage(), Toast.LENGTH_SHORT).show());
 
         toolbar = findViewById(R.id.salon_toolbar);
-        viewPager = findViewById(R.id.viewpager);
+        viewPager = findViewById(R.id.container);
 
         adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(SalonInfoFragment.getInstance(salon), "Info");

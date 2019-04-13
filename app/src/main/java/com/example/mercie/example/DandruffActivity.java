@@ -26,7 +26,7 @@ public class DandruffActivity extends AppCompatActivity {
         back.setOnClickListener(view -> startActivity(new Intent(DandruffActivity.this, TipsActivity.class)));
 
 
-        viewPager = findViewById(R.id.viewpager);
+        viewPager = findViewById(R.id.container);
 
         adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new RemmedyFragment(), "Remmedy");

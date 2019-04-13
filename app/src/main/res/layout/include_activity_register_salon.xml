@@ -23,7 +23,7 @@
 
 
         <EditText
-            android:id="@+id/name_et"
+            android:id="@+id/name_tv"
             android:layout_width="@dimen/dimen_288dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/tv_padding"

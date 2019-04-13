@@ -161,4 +161,7 @@
     <string name="default_time">07:10 04/07/2019</string>
     <string name="about">About</string>
     <string name="edit">Edit</string>
+    <string name="shop_details">Shop Details</string>
+    <string name="shop_cover_image">Shop Cover Image</string>
+    <string name="shop_name">Shop Name...</string>
 </resources>

@@ -26,7 +26,7 @@ public class ShopActivity extends AppCompatActivity {
         back = findViewById(R.id.back);
         back.setOnClickListener(view -> startActivity(new Intent(this, HomeActivity.class)));
 
-        viewPager = findViewById(R.id.viewpager);
+        viewPager = findViewById(R.id.container);
 
         adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new ProductsFragment(), "Products");

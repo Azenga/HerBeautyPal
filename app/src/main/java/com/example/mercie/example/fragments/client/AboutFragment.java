@@ -57,7 +57,7 @@ public class AboutFragment extends Fragment {
         locationTV = view.findViewById(R.id.location_tv);
         emailTV = view.findViewById(R.id.email_tv);
 
-        profilePicIV = view.findViewById(R.id.profile_pic_iv);
+        profilePicIV = view.findViewById(R.id.profile_pic_civ);
 
         return view;
     }

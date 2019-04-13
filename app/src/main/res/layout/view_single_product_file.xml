@@ -14,9 +14,9 @@
         android:layout_height="match_parent">
 
         <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="157dp"
-            android:layout_height="128dp"
+            android:id="@+id/product_iv"
+            android:layout_width="96dp"
+            android:layout_height="96dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
@@ -28,7 +28,7 @@
             app:srcCompat="@mipmap/products_default" />
 
         <TextView
-            android:id="@+id/textView3"
+            android:id="@+id/name_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -39,14 +39,14 @@
             android:text="@string/product_name"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@android:color/background_dark"
-            app:layout_constraintBottom_toTopOf="@+id/textView4"
+            app:layout_constraintBottom_toTopOf="@+id/cost_tv"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/imageView"
+            app:layout_constraintStart_toEndOf="@+id/product_iv"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/textView4"
+            android:id="@+id/cost_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -58,8 +58,8 @@
             android:textColor="@android:color/background_dark"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/imageView"
-            app:layout_constraintTop_toBottomOf="@+id/textView3" />
+            app:layout_constraintStart_toEndOf="@+id/product_iv"
+            app:layout_constraintTop_toBottomOf="@+id/name_tv" />
     </android.support.constraint.ConstraintLayout>
 
 </android.support.v7.widget.CardView>

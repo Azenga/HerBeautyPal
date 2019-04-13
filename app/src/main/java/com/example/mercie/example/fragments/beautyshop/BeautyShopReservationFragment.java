@@ -9,9 +9,6 @@ import android.view.ViewGroup;
 
 import com.example.mercie.example.R;
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class BeautyShopReservationFragment extends Fragment {
 
 
