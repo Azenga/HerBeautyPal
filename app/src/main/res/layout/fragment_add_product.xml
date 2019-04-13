@@ -34,7 +34,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:hint="@string/product_name" />
+            android:hint="@string/product_name"
+            android:inputType="text" />
 
     </android.support.design.widget.TextInputLayout>
 
@@ -48,12 +49,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:hint="@string/cost" />
+            android:hint="@string/cost"
+            android:inputType="numberDecimal" />
 
     </android.support.design.widget.TextInputLayout>
 
     <Button
-        android:id="@+id/add_service_btn"
+        android:id="@+id/add_product_btn"
         android:layout_width="@dimen/setup_et_width"
         android:layout_height="wrap_content"
         android:background="@drawable/inputs"

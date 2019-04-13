@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -19,7 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.mercie.example.fragments.beautyshop.AddProductFragment;
-import com.example.mercie.example.fragments.beautyshop.BeautyShopEditProfileFragment;
+import com.example.mercie.example.fragments.beautyshop.BeautyShopDetailsFragment;
 import com.example.mercie.example.fragments.beautyshop.BeautyShopHomeFragment;
 import com.example.mercie.example.fragments.beautyshop.BeautyShopProductsFragment;
 import com.example.mercie.example.fragments.beautyshop.BeautyShopReservationFragment;
@@ -33,7 +34,7 @@ import com.google.firebase.storage.StorageReference;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class BeautyShopDashboardActivity extends AppCompatActivity implements
-        NavigationView.OnNavigationItemSelectedListener, BeautyShopProductsFragment.BeautyProducrsListener {
+        NavigationView.OnNavigationItemSelectedListener, BeautyShopProductsFragment.BeautyProductsListener {
 
     private CircleImageView profileIV;
     private TextView usernameTV;
@@ -88,14 +89,13 @@ public class BeautyShopDashboardActivity extends AppCompatActivity implements
                 replaceFragment(new BeautyShopHomeFragment());
 
                 if (getSupportActionBar() != null)
-                    getSupportActionBar().setTitle("Beauty Shop");
+                    getSupportActionBar().setTitle("Profile");
                 break;
-
-            case R.id.edit_profile:
-                replaceFragment(new BeautyShopEditProfileFragment());
+            case R.id.nav_shop_details:
+                replaceFragment(new BeautyShopDetailsFragment());
 
                 if (getSupportActionBar() != null)
-                    getSupportActionBar().setTitle("Edit Profile");
+                    getSupportActionBar().setTitle("Shop Details");
                 break;
 
             case R.id.nav_products:
@@ -103,6 +103,13 @@ public class BeautyShopDashboardActivity extends AppCompatActivity implements
 
                 if (getSupportActionBar() != null)
                     getSupportActionBar().setTitle("Products");
+                break;
+
+            case R.id.nav_notifications:
+                replaceFragment(new BeautyShopReservationFragment());
+
+                if (getSupportActionBar() != null)
+                    getSupportActionBar().setTitle("Notifications");
                 break;
 
             case R.id.nav_reservations:
@@ -153,6 +160,11 @@ public class BeautyShopDashboardActivity extends AppCompatActivity implements
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
     private void getUserDetails(String uid) {
 
         //Getting the shop owner details
@@ -188,9 +200,9 @@ public class BeautyShopDashboardActivity extends AppCompatActivity implements
     private void updateUI(Shop shop) {
         usernameTV.setText(shop.getOfficialName());
 
-        if (shop.getPrifileImageName() != null) {
+        if (shop.getProfileImageName() != null) {
 
-            StorageReference profileImageRef = mRef.child(shop.getPrifileImageName());
+            StorageReference profileImageRef = mRef.child(shop.getProfileImageName());
 
             final long MB = 1024 * 1024;
 
@@ -200,7 +212,6 @@ public class BeautyShopDashboardActivity extends AppCompatActivity implements
 
                                 Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
                                 profileIV.setImageBitmap(bitmap);
-                                Toast.makeText(this, "Cheers", Toast.LENGTH_SHORT).show();
 
                             }
                     ).addOnFailureListener(e -> Toast.makeText(this, "Failed to retrieve the image: " + e.getLocalizedMessage(), Toast.LENGTH_LONG).show());

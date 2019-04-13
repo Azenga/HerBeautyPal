@@ -13,8 +13,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MySalonActivity"></activity>
-        <activity android:name=".NotificationResponseActivity"></activity>
+        <activity android:name=".EditShopDetailsActivity"></activity>
+        <activity android:name=".MySalonActivity" />
+        <activity android:name=".NotificationResponseActivity" />
         <activity android:name=".RegisterSalonActivity" />
         <activity android:name=".BeautyShopDashboardActivity" />
         <activity android:name=".DermatologistHomeActivity" />

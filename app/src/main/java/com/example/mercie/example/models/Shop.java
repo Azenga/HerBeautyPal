@@ -1,14 +1,19 @@
 package com.example.mercie.example.models;
 
+import com.google.firebase.firestore.Exclude;
+
 import java.io.Serializable;
 
 public class Shop implements Serializable {
+
+    @Exclude
+    private String id;
 
     private String officialName;
     private String location;
     private String mobile;
     private String website;
-    private String prifileImageName;
+    private String profileImageName;
     private String openFrom;
     private String openTo;
 
@@ -20,7 +25,7 @@ public class Shop implements Serializable {
         this.location = location;
         this.mobile = mobile;
         this.website = website;
-        this.prifileImageName = prifileImageName;
+        this.profileImageName = prifileImageName;
         this.openFrom = openFrom;
         this.openTo = openTo;
     }
@@ -41,8 +46,8 @@ public class Shop implements Serializable {
         return website;
     }
 
-    public String getPrifileImageName() {
-        return prifileImageName;
+    public String getProfileImageName() {
+        return profileImageName;
     }
 
     public String getOpenFrom() {
@@ -51,5 +56,41 @@ public class Shop implements Serializable {
 
     public String getOpenTo() {
         return openTo;
+    }
+
+    public void setOfficialName(String officialName) {
+        this.officialName = officialName;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
+
+    public void setWebsite(String website) {
+        this.website = website;
+    }
+
+    public void setProfileImageName(String profileImageName) {
+        this.profileImageName = profileImageName;
+    }
+
+    public void setOpenFrom(String openFrom) {
+        this.openFrom = openFrom;
+    }
+
+    public void setOpenTo(String openTo) {
+        this.openTo = openTo;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }
