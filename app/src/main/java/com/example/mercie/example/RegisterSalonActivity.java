@@ -155,8 +155,8 @@ public class RegisterSalonActivity extends AppCompatActivity implements ServiceD
         makeUpCB = findViewById(R.id.make_up_cb);
 
         //EditTexts
-        nameET = findViewById(R.id.name_tv);
-        locationET = findViewById(R.id.location_et);
+        nameET = findViewById(R.id.name_et);
+        locationET = findViewById(R.id.location_tv);
         mobileET = findViewById(R.id.mobile_et);
         websiteET = findViewById(R.id.website_et);
         progressDialog = new ProgressDialog(this);

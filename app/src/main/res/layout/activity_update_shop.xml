@@ -32,7 +32,7 @@
                 android:src="@drawable/ic_account_circle_grey_24dp" />
 
             <EditText
-                android:id="@+id/name_tv"
+                android:id="@+id/name_et"
                 android:layout_width="@dimen/setup_et_width"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/tv_padding"

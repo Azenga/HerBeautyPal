@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import com.example.mercie.example.R;
 import com.example.mercie.example.SalonsActivity;
 import com.example.mercie.example.ShopActivity;
+import com.example.mercie.example.ShopsActivity;
 import com.example.mercie.example.TipsActivity;
 
 /**
@@ -40,7 +41,7 @@ public class HomePageFragment extends Fragment {
         allSaloons.setOnClickListener(v -> startActivity(new Intent(getActivity(), SalonsActivity.class)));
 
         Button beautyShops = view.findViewById(R.id.beautyshops);
-        beautyShops.setOnClickListener(v -> startActivity(new Intent(getActivity(), ShopActivity.class)));
+        beautyShops.setOnClickListener(v -> startActivity(new Intent(getActivity(), ShopsActivity.class)));
 
         Button tips = view.findViewById(R.id.tips);
         tips.setOnClickListener(v -> startActivity(new Intent(getActivity(), TipsActivity.class)));

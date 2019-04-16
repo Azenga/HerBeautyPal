@@ -4,14 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.dermatologist.Tips">
+    tools:context=".fragments.dermatologist.TipsFragment">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/tips_rv"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         app:layoutManager="LinearLayoutManager"
-        tools:lisitem="@layout/view_single_tip" />
+        tools:listitem="@layout/view_single_tip"/>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/add_tip_fab"

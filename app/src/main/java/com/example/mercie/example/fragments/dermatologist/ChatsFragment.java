@@ -13,10 +13,10 @@ import com.example.mercie.example.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class Home extends Fragment {
+public class ChatsFragment extends Fragment {
 
 
-    public Home() {
+    public ChatsFragment() {
         // Required empty public constructor
     }
 

@@ -23,7 +23,7 @@
 
 
         <EditText
-            android:id="@+id/name_tv"
+            android:id="@+id/name_et"
             android:layout_width="@dimen/dimen_288dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/tv_padding"
@@ -45,7 +45,7 @@
                 android:src="@drawable/ic_location_on_gray_24dp" />
 
             <EditText
-                android:id="@+id/location_et"
+                android:id="@+id/location_tv"
                 android:layout_width="@dimen/setup_et_width"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/tv_padding"

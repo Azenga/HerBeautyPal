@@ -79,6 +79,7 @@ public class NotificationFragment extends Fragment {
                                 }
 
                                 if (!queryDocumentSnapshots.isEmpty()) {
+                                    reservations.clear();
                                     for (DocumentSnapshot doc : queryDocumentSnapshots.getDocuments()) {
                                         Reservation reservation = doc.toObject(Reservation.class);
                                         reservation.setId(doc.getId());

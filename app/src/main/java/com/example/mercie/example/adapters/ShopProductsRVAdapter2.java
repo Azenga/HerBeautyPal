@@ -1,6 +1,8 @@
 package com.example.mercie.example.adapters;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
@@ -9,11 +11,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.mercie.example.R;
+import com.example.mercie.example.RequestProductActivity;
 import com.example.mercie.example.models.Product;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -21,16 +25,16 @@ import com.google.firebase.storage.StorageReference;
 import java.util.List;
 
 
-public class ShopProductsRVAdapter extends RecyclerView.Adapter<ShopProductsRVAdapter.ViewHolder> {
+public class ShopProductsRVAdapter2 extends RecyclerView.Adapter<ShopProductsRVAdapter2.ViewHolder> {
 
-    private static final String TAG = "ShopProductsRVAdapter";
+    private static final String TAG = "ShopProductsRVAdapter2";
 
     private Context context;
     private List<Product> productList;
     private StorageReference mRef;
 
 
-    public ShopProductsRVAdapter(Context context, List<Product> productList) {
+    public ShopProductsRVAdapter2(Context context, List<Product> productList) {
         this.context = context;
         this.productList = productList;
 
@@ -40,7 +44,7 @@ public class ShopProductsRVAdapter extends RecyclerView.Adapter<ShopProductsRVAd
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(context).inflate(R.layout.view_single_product_file, viewGroup, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.view_single_client_product_file, viewGroup, false);
 
         return new ViewHolder(view);
     }
@@ -72,6 +76,25 @@ public class ShopProductsRVAdapter extends RecyclerView.Adapter<ShopProductsRVAd
             Toast.makeText(context, "Product Image Missing", Toast.LENGTH_SHORT).show();
         }
 
+        viewHolder.buyProductIB.setOnClickListener(view -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+            builder.setTitle("Product Actiion");
+            builder.setMessage("Do you want to buy " + product.getName() + " from this shop?");
+
+            builder.setPositiveButton("Sure", (dialog, pos) -> {
+
+                Intent intent = new Intent(context, RequestProductActivity.class);
+                intent.putExtra(RequestProductActivity.PRODUCT_PARAM, product);
+                context.startActivity(intent);
+
+            });
+
+            builder.setNegativeButton("Cancel", (dialog, pos) -> {
+                Toast.makeText(context, "Operation Cancelled", Toast.LENGTH_SHORT).show();
+            });
+            builder.show();
+        });
+
     }
 
     @Override
@@ -84,6 +107,7 @@ public class ShopProductsRVAdapter extends RecyclerView.Adapter<ShopProductsRVAd
         View mView;
         ImageView productIV;
         TextView nameTV, costTV;
+        ImageButton buyProductIB;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -92,6 +116,7 @@ public class ShopProductsRVAdapter extends RecyclerView.Adapter<ShopProductsRVAd
             productIV = itemView.findViewById(R.id.product_iv);
             nameTV = itemView.findViewById(R.id.name_et);
             costTV = itemView.findViewById(R.id.cost_tv);
+            buyProductIB = itemView.findViewById(R.id.buy_product_ib);
         }
     }
 }

@@ -1,4 +1,4 @@
-package com.example.mercie.example;
+package com.example.mercie.example.fragments.beautyshop;
 
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
@@ -7,8 +7,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class InfoFragment extends Fragment {
-    public InfoFragment() {
+import com.example.mercie.example.R;
+
+public class OffersFragment extends Fragment {
+    public OffersFragment(){
 
     }
 
@@ -19,9 +21,9 @@ public class InfoFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         //inflate the layout for this fragment
-        return inflater.inflate(R.layout.activity_info_fragment, container, false);
+        return inflater.inflate(R.layout.activity_offers_fragment, container, false);
     }
 
 

@@ -170,8 +170,8 @@ public class UpdateShopActivity extends AppCompatActivity {
     private void initComponents() {
 
         //EditeTexts
-        nameET = findViewById(R.id.name_tv);
-        locationET = findViewById(R.id.location_et);
+        nameET = findViewById(R.id.name_et);
+        locationET = findViewById(R.id.location_tv);
         contactET = findViewById(R.id.contact_et);
         websiteET = findViewById(R.id.website_et);
 

@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.example.mercie.example.MySalonActivity;
 import com.example.mercie.example.R;
 import com.example.mercie.example.SalonistDashboardActivity;
 import com.example.mercie.example.models.SalonService;
@@ -90,8 +91,6 @@ public class SalonistAddServiceFragment extends Fragment {
 
             mFirestore.collection("services").document(salonId).collection("Services").add(service);
             Toast.makeText(getActivity(), "Service Added", Toast.LENGTH_SHORT).show();
-
-            ((SalonistDashboardActivity) getActivity()).getTheSalonAndSwitch();
 
         } else {
             Toast.makeText(getActivity(), "All the fields are required", Toast.LENGTH_SHORT).show();

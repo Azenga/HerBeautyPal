@@ -83,7 +83,7 @@ public class EditProfileFragment extends Fragment {
                 }
         );
 
-        nameET = view.findViewById(R.id.name_tv);
+        nameET = view.findViewById(R.id.name_et);
         phoneET = view.findViewById(R.id.phone_et);
         addressET = view.findViewById(R.id.address_et);
         genderET = view.findViewById(R.id.gender_et);

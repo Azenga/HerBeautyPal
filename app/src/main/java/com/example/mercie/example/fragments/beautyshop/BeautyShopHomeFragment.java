@@ -52,7 +52,7 @@ public class BeautyShopHomeFragment extends Fragment {
 
         profilePivIV = view.findViewById(R.id.profile_pic_civ);
 
-        nameTV = view.findViewById(R.id.name_tv);
+        nameTV = view.findViewById(R.id.name_et);
         contactTV = view.findViewById(R.id.contact_tv);
         locationTV = view.findViewById(R.id.location_tv);
         emailAddressTV = view.findViewById(R.id.email_tv);

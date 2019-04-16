@@ -137,7 +137,7 @@ public class SalonistDashboardActivity extends AppCompatActivity
         switch (item.getItemId()) {
             case R.id.nav_home:
                 if (getSupportActionBar() != null)
-                    getSupportActionBar().setTitle("Home");
+                    getSupportActionBar().setTitle("ChatsFragment");
                 if (mAuth.getCurrentUser() != null)
                     getSalonist(mAuth.getCurrentUser().getUid());
                 break;

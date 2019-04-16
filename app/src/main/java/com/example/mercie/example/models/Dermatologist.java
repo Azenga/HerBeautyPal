@@ -52,4 +52,32 @@ public class Dermatologist implements Serializable {
     public String getProfilePicName() {
         return profilePicName;
     }
+
+    public void setOfficialName(String officialName) {
+        this.officialName = officialName;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
+
+    public void setWebsite(String website) {
+        this.website = website;
+    }
+
+    public void setOpenFrom(String openFrom) {
+        this.openFrom = openFrom;
+    }
+
+    public void setOpenTo(String openTo) {
+        this.openTo = openTo;
+    }
+
+    public void setProfilePicName(String profilePicName) {
+        this.profilePicName = profilePicName;
+    }
 }

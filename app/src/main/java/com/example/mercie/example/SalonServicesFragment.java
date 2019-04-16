@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.example.mercie.example.adapters.SalonServicesRecyclerViewAdapter;
 import com.example.mercie.example.models.SalonService;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -35,7 +36,10 @@ public class SalonServicesFragment extends Fragment {
     private List<SalonService> services;
     private SalonServicesRecyclerViewAdapter adapter;
 
+    private FirebaseAuth mAuth;
+
     public SalonServicesFragment() {
+        mAuth = FirebaseAuth.getInstance();
         mDb = FirebaseFirestore.getInstance();
         services = new ArrayList<>();
     }
@@ -75,27 +79,29 @@ public class SalonServicesFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        mDb.collection("services").document(salonId).collection("Services")
-                .addSnapshotListener((queryDocumentSnapshots, e) -> {
+        if (mAuth.getCurrentUser() != null) {
+            mDb.collection("services").document(salonId).collection("Services")
+                    .addSnapshotListener((queryDocumentSnapshots, e) -> {
 
-                    if (e != null) {
-                        Log.e(TAG, "onViewCreated: Getting services", e);
-                    }
-
-                    if (!queryDocumentSnapshots.isEmpty()) {
-
-                        for (DocumentSnapshot dc : queryDocumentSnapshots.getDocuments()) {
-                            SalonService service = dc.toObject(SalonService.class);
-                            services.add(service);
-
-                            adapter.notifyDataSetChanged();
+                        if (e != null) {
+                            Log.e(TAG, "onViewCreated: Getting services", e);
                         }
 
-                    } else {
-                        Toast.makeText(getActivity(), "No Services Yet", Toast.LENGTH_SHORT).show();
-                    }
+                        if (!queryDocumentSnapshots.isEmpty()) {
 
-                });
+                            for (DocumentSnapshot dc : queryDocumentSnapshots.getDocuments()) {
+                                SalonService service = dc.toObject(SalonService.class);
+                                services.add(service);
+
+                                adapter.notifyDataSetChanged();
+                            }
+
+                        } else {
+                            Toast.makeText(getActivity(), "No Services Yet", Toast.LENGTH_SHORT).show();
+                        }
+
+                    });
+        }
 
     }
 
@@ -105,6 +111,13 @@ public class SalonServicesFragment extends Fragment {
 
         if (context instanceof SalonServiceFragmentListener)
             mListener = (SalonServiceFragmentListener) context;
+    }
+
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
     }
 
     public interface SalonServiceFragmentListener {

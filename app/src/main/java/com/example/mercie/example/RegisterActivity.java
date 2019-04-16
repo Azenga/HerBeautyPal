@@ -42,7 +42,7 @@ public class RegisterActivity extends AppCompatActivity {
         mStoreDb = FirebaseFirestore.getInstance();
         mStorageRef = FirebaseStorage.getInstance().getReference().child("avatars");
 
-        nameET = findViewById(R.id.name_tv);
+        nameET = findViewById(R.id.name_et);
         phoneNumberET = findViewById(R.id.phone_et);
         genderET = findViewById(R.id.gender_et);
         locationAddressET = findViewById(R.id.address_et);

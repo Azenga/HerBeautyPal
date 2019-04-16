@@ -1,6 +1,7 @@
 package com.example.mercie.example.fragments.salonist;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.mercie.example.R;
+import com.example.mercie.example.UpdateSalonActivity;
 import com.example.mercie.example.models.Salonist;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.storage.FirebaseStorage;
@@ -63,7 +65,7 @@ public class SalonistHomeFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_salonist_home2, container, false);
+        return inflater.inflate(R.layout.fragment_salonist_home, container, false);
     }
 
     //For initializing the widgets
@@ -72,7 +74,7 @@ public class SalonistHomeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         //Display TextViews
-        nameTV = view.findViewById(R.id.name_tv);
+        nameTV = view.findViewById(R.id.name_et);
         locationTV = view.findViewById(R.id.location_tv);
         mobileTV = view.findViewById(R.id.contact_tv);
         websiteTV = view.findViewById(R.id.website_tv);
@@ -83,8 +85,7 @@ public class SalonistHomeFragment extends Fragment {
 
         //Button
         Button editProfile = view.findViewById(R.id.edit_profile_btn);
-        editProfile.setOnClickListener(v -> mListener.openEditFragment(mSalonist));
-
+        editProfile.setOnClickListener(v -> startActivity(new Intent(getActivity(), UpdateSalonActivity.class)));
 
         updateUI();
 

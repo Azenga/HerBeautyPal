@@ -29,7 +29,7 @@
 
         <TextView
             android:id="@+id/name_et"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
@@ -40,8 +40,7 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@android:color/background_dark"
             app:layout_constraintBottom_toTopOf="@+id/cost_tv"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintEnd_toStartOf="@+id/buy_product_ib"
             app:layout_constraintStart_toEndOf="@+id/product_iv"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -60,6 +59,17 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/product_iv"
             app:layout_constraintTop_toBottomOf="@+id/name_et" />
+
+        <ImageButton
+            android:id="@+id/buy_product_ib"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:contentDescription="@string/add"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_add_black_24dp" />
     </android.support.constraint.ConstraintLayout>
 
 </android.support.v7.widget.CardView>

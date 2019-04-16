@@ -92,7 +92,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 frag = new EditProfileFragment();
                 break;
             case R.id.nav_homepage:
-                getSupportActionBar().setTitle("Home");
+                getSupportActionBar().setTitle("ChatsFragment");
                 frag = new HomePageFragment();
                 break;
             case R.id.nav_notifications:

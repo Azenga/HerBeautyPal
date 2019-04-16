@@ -70,6 +70,15 @@
         <item>Sunday</item>
     </string-array>
 
+    <!--Pay Via-->
+
+    <string-array name="pay_via">
+        <item>-- Pay Via --</item>
+        <item>M-Pesa</item>
+        <item>Paypal</item>
+        <item>Bank</item>
+    </string-array>
+
     <!--Day Time-->
     <string-array name="day_time">
         <item>7.00 am</item>
@@ -99,6 +108,16 @@
         <item>Skin Care</item>
     </string-array>
 
+    <string-array name="tips_packages">
+        <item>-- Tip Package --</item>
+        <item>Hair</item>
+        <item>Face</item>
+        <item>Eyes</item>
+        <item>Skin</item>
+        <item>Hands</item>
+        <item>Feet</item>
+    </string-array>
+
     <string name="hello_blank_fragment">New Fragment In Town</string>
     <string name="sign_up">Sign up</string>
     <string name="confirm_password">Confirm Password</string>
@@ -116,6 +135,7 @@
     <string name="notifications">Notifications</string>
     <string name="owner">Owner</string>
     <string name="salonist_name">Salonist Name</string>
+
     <string name="open_from">Open From</string>
     <string name="open_to">Open To</string>
     <string name="website">Website</string>
@@ -139,7 +159,7 @@
     <string name="update_profile">Update Profile</string>
     <string name="go_back">Go Back</string>
     <string name="beautiful_lady">Beautiful Lady</string>
-    <string name="tip_default_desc">A little description for the problem and how to fix it...</string>
+    <string name="tip_default_desc">Tip Description ...</string>
     <string name="my_salon">My Salon</string>
     <string name="register_a_salon">Register A Salon</string>
     <string name="finish">Finish</string>
@@ -164,4 +184,17 @@
     <string name="shop_details">Shop Details</string>
     <string name="shop_cover_image">Shop Cover Image</string>
     <string name="shop_name">Shop Name...</string>
+    <string name="product_purchase_disclaimer">Pay at least half the price before delivery</string>
+    <string name="billing_information">Billing Information</string>
+    <string name="account_no">Account No.</string>
+    <string name="how_much">How Much...</string>
+    <string name="request_product">Request Product</string>
+    <string name="send_request">Send Request</string>
+    <string name="profile">Profile</string>
+    <string name="chats">Chats</string>
+    <string name="add_tip">Add Tip</string>
+    <string name="tip_image">Tip Image</string>
+    <string name="tip_description">Tip Description</string>
+    <string name="tip_diet">Tip Diet</string>
+    <string name="tip_remedy">Tip Remedy</string>
 </resources>

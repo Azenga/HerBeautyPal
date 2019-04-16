@@ -41,6 +41,27 @@ public class Salonist implements Serializable {
         return contact;
     }
 
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public void setContact(String contact) {
+        this.contact = contact;
+    }
+
+    public void setWebsite(String website) {
+        this.website = website;
+    }
+
+    public void setProfilePicName(String profilePicName) {
+        this.profilePicName = profilePicName;
+    }
+
     @Override
     public String toString() {
         return String.format("%s salon added", getName());

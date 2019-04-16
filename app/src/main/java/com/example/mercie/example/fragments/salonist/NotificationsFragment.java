@@ -91,12 +91,11 @@ public class NotificationsFragment extends Fragment {
                             }
 
                             if (!queryDocumentSnapshots.isEmpty()) {
-
+                                notifications.clear();
                                 for (DocumentSnapshot ds : queryDocumentSnapshots) {
                                     Notification notification = ds.toObject(Notification.class);
                                     notification.setId(ds.getId());
                                     notifications.add(notification);
-
                                     adapter.notifyDataSetChanged();
                                 }
                             } else {

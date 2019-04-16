@@ -85,7 +85,7 @@ public class ServicesFragment extends Fragment {
                     }
 
                     if (!queryDocumentSnapshots.isEmpty()) {
-
+                        services.clear();
                         for (DocumentSnapshot dc : queryDocumentSnapshots.getDocuments()) {
                             SalonService service = dc.toObject(SalonService.class);
                             services.add(service);

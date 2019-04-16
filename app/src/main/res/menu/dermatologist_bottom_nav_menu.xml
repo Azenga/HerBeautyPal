@@ -6,9 +6,9 @@
         android:icon="@drawable/home"
         android:title="@string/home" />
     <item
-        android:id="@+id/bnav_profile"
-        android:icon="@drawable/ic_account_circle_black_24dp"
-        android:title="@string/edit_profile" />
+        android:id="@+id/bnav_chats"
+        android:icon="@drawable/ic_message_black_24dp"
+        android:title="@string/chats" />
     <item
         android:id="@+id/bnav_tips"
         android:icon="@drawable/ic_invert_colors_black_24dp"

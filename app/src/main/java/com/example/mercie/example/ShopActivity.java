@@ -8,34 +8,40 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.widget.ImageView;
 
+import com.example.mercie.example.fragments.beautyshop.InfoFragment;
+import com.example.mercie.example.fragments.beautyshop.OffersFragment;
+import com.example.mercie.example.fragments.beautyshop.ProductsFragment;
+
 
 public class ShopActivity extends AppCompatActivity {
-    private Toolbar tool;
-    private TabLayout tabLayout;
-    private ViewPagerAdapter adapter;
-    private ViewPager viewPager;
-    private ImageView back;
+
+    public static final String SHOP_ID_PARAM = "salon-id";
+    private static final String TAG = "ShopActivity";
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shop);
-        tool = findViewById(R.id.tool);
 
-        back = findViewById(R.id.back);
+        Toolbar tool = findViewById(R.id.tool);
+
+        String salonId = null;
+        if (getIntent() != null) salonId = getIntent().getStringExtra(SHOP_ID_PARAM);
+
+        ImageView back = findViewById(R.id.back);
         back.setOnClickListener(view -> startActivity(new Intent(this, HomeActivity.class)));
 
-        viewPager = findViewById(R.id.container);
+        ViewPager viewPager = findViewById(R.id.container);
 
-        adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new ProductsFragment(), "Products");
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        adapter.addFragment(InfoFragment.newInstance(salonId), "Info");
+        adapter.addFragment(ProductsFragment.newInstance(salonId), "Products");
         adapter.addFragment(new OffersFragment(), "Offers");
-        adapter.addFragment(new InfoFragment(), "Info");
 
         viewPager.setAdapter(adapter);
 
-        tabLayout = findViewById(R.id.tabs);
+        TabLayout tabLayout = findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
     }
 }
