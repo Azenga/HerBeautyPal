@@ -9,21 +9,18 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.example.mercie.example.models.Notification;
 import com.example.mercie.example.models.Salon;
 import com.example.mercie.example.models.SalonService;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 public class SalonActivity extends AppCompatActivity implements SalonServicesFragment.SalonServiceFragmentListener {
 
-    private Toolbar toolbar;
     private TabLayout tabLayout;
     private ViewPagerAdapter adapter;
     private ViewPager viewPager;
@@ -32,7 +29,6 @@ public class SalonActivity extends AppCompatActivity implements SalonServicesFra
 
     //Firebase Variables
     private StorageReference mRef;
-    private FirebaseFirestore mDb;
     private FirebaseAuth mAuth;
 
     @Override
@@ -40,12 +36,10 @@ public class SalonActivity extends AppCompatActivity implements SalonServicesFra
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_salon);
 
-        mDb = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
 
         //OK SO far
         salon = (Salon) getIntent().getSerializableExtra("salon");
-
         mRef = FirebaseStorage.getInstance().getReference().child("cover_images");
 
         ImageView goBackIV = findViewById(R.id.go_back_iv);
@@ -68,7 +62,6 @@ public class SalonActivity extends AppCompatActivity implements SalonServicesFra
                 )
                 .addOnFailureListener(e -> Toast.makeText(this, "Cover Image Error: " + e.getLocalizedMessage(), Toast.LENGTH_SHORT).show());
 
-        toolbar = findViewById(R.id.salon_toolbar);
         viewPager = findViewById(R.id.container);
 
         adapter = new ViewPagerAdapter(getSupportFragmentManager());
@@ -86,31 +79,16 @@ public class SalonActivity extends AppCompatActivity implements SalonServicesFra
     public void RequestSalonService(SalonService service) {
 
         //Getting Client Name
-
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Service Request Dialog");
         builder.setMessage("Are you sure you want to request " + service.getServiceName() + " service from this salon?");
 
         builder
                 .setPositiveButton("Sure", (DialogInterface dialog, int which) -> {
-                    Notification notification = new Notification("Service", service.getServiceName(), null, mAuth.getCurrentUser().getUid());
-
-                    mDb
-                            .collection("salonistnotifications")
-                            .document(salon.getOwnerId())
-                            .collection("Notifications")
-                            .add(notification)
-                            .addOnCompleteListener(
-                                    task -> {
-                                        if (task.isSuccessful()) {
-                                            Toast.makeText(this, "Service Requested", Toast.LENGTH_SHORT).show();
-                                        } else {
-                                            Toast.makeText(this, "Service request Failed: " + task.getException().getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-
-                                        }
-                                    }
-                            );
-
+                    Intent intent = new Intent(this, ClientSendNotification.class);
+                    intent.putExtra(ClientSendNotification.SALON_ID, salon.getId());
+                    intent.putExtra(ClientSendNotification.SERVICE, service);
+                    startActivity(intent);
                 })
                 .setNegativeButton("Cancel", (DialogInterface dialog, int which) -> {
                     Toast.makeText(this, "Request Cancelled", Toast.LENGTH_SHORT).show();
@@ -118,6 +96,18 @@ public class SalonActivity extends AppCompatActivity implements SalonServicesFra
 
         builder.show();
 
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        FirebaseUser user = mAuth.getCurrentUser();
+
+        if (user == null) {
+            startActivity(new Intent(this, SigninAsActivity.class));
+            finish();
+        }
     }
 }
 

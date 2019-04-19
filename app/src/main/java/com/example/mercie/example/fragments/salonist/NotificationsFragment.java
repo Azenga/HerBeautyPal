@@ -14,7 +14,7 @@ import android.widget.Toast;
 
 import com.example.mercie.example.R;
 import com.example.mercie.example.adapters.SalonistNotificationRVAdapter;
-import com.example.mercie.example.models.Notification;
+import com.example.mercie.example.models.SalonistNotification;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -32,7 +32,7 @@ public class NotificationsFragment extends Fragment {
 
     private String ownerId;
 
-    private List<Notification> notifications;
+    private List<SalonistNotification> notifications;
 
     private FirebaseFirestore mDb;
 
@@ -93,7 +93,7 @@ public class NotificationsFragment extends Fragment {
                             if (!queryDocumentSnapshots.isEmpty()) {
                                 notifications.clear();
                                 for (DocumentSnapshot ds : queryDocumentSnapshots) {
-                                    Notification notification = ds.toObject(Notification.class);
+                                    SalonistNotification notification = ds.toObject(SalonistNotification.class);
                                     notification.setId(ds.getId());
                                     notifications.add(notification);
                                     adapter.notifyDataSetChanged();
@@ -124,6 +124,6 @@ public class NotificationsFragment extends Fragment {
     }
 
     public interface NotificationsInteractionListener {
-        void respondToNotification(Notification notification);
+        void respondToNotification(SalonistNotification notification);
     }
 }

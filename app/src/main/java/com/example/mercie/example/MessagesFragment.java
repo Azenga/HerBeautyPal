@@ -1,4 +1,4 @@
-package com.example.mercie.example.fragments.dermatologist;
+package com.example.mercie.example;
 
 
 import android.os.Bundle;
@@ -13,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.example.mercie.example.R;
 import com.example.mercie.example.adapters.MessageRecyclerViewAdapter;
 import com.example.mercie.example.models.Message;
 import com.google.firebase.auth.FirebaseAuth;
@@ -27,45 +26,46 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ChatsFragment extends Fragment {
+public class MessagesFragment extends Fragment {
 
-    private static final String TAG = "ChatsFragment";
+    private static final String TAG = "MessagesFragment";
 
-    private List<Message> messageList;
+    //Widgets
+    private RecyclerView messagesRV;
+    private List<Message> messages;
+
 
     private FirebaseFirestore mDb;
     private FirebaseAuth mAuth;
     private MessageRecyclerViewAdapter adapter;
 
-    public ChatsFragment() {
+    public MessagesFragment() {
         // Required empty public constructor
-        mDb = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
-
-        messageList = new ArrayList<>();
+        mDb = FirebaseFirestore.getInstance();
+        messages = new ArrayList<>();
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.dermatologist_fragment_chats, container, false);
+        View view = inflater.inflate(R.layout.fragment_messages, container, false);
 
-        RecyclerView chatsRV = view.findViewById(R.id.messagesRV);
-        chatsRV.setHasFixedSize(true);
-        chatsRV.setLayoutManager(new LinearLayoutManager(getActivity()));
-        adapter = new MessageRecyclerViewAdapter(messageList);
+        messagesRV = view.findViewById(R.id.messages_rv);
+        messagesRV.setLayoutManager(new LinearLayoutManager(getActivity()));
+        messagesRV.setHasFixedSize(true);
 
-        chatsRV.setAdapter(adapter);
-
+        adapter = new MessageRecyclerViewAdapter(messages);
 
         return view;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
         mDb.collection("chats")
+                .whereEqualTo("fromId", mAuth.getCurrentUser().getUid())
                 .addSnapshotListener(
                         (queryDocumentSnapshots, e) -> {
                             if (e != null) {
@@ -76,17 +76,16 @@ public class ChatsFragment extends Fragment {
                             if (queryDocumentSnapshots.isEmpty()) {
                                 Toast.makeText(getActivity(), "No chats Yet", Toast.LENGTH_SHORT).show();
                             } else {
-                                messageList.clear();
+                                messages.clear();
                                 for (DocumentSnapshot snapshot : queryDocumentSnapshots.getDocuments()) {
                                     Message msg = snapshot.toObject(Message.class);
 
-                                    messageList.add(msg);
+                                    messages.add(msg);
                                     adapter.notifyDataSetChanged();
                                 }
                             }
                         }
                 );
-
 
     }
 }

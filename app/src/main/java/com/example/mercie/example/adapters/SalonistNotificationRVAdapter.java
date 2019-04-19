@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.example.mercie.example.R;
 import com.example.mercie.example.fragments.salonist.NotificationsFragment;
-import com.example.mercie.example.models.Notification;
+import com.example.mercie.example.models.SalonistNotification;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -20,12 +20,12 @@ public class SalonistNotificationRVAdapter extends RecyclerView.Adapter<Salonist
 
     private static final String TAG = "SalonistNotificationRVA";
 
-    private final List<Notification> notifications;
+    private final List<SalonistNotification> notifications;
     private final NotificationsFragment.NotificationsInteractionListener mListener;
 
     private FirebaseFirestore mDb;
 
-    public SalonistNotificationRVAdapter(List<Notification> notifications, NotificationsFragment.NotificationsInteractionListener listener) {
+    public SalonistNotificationRVAdapter(List<SalonistNotification> notifications, NotificationsFragment.NotificationsInteractionListener listener) {
         this.notifications = notifications;
         mListener = listener;
 
@@ -42,7 +42,7 @@ public class SalonistNotificationRVAdapter extends RecyclerView.Adapter<Salonist
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
 
-        Notification notification = notifications.get(position);
+        SalonistNotification notification = notifications.get(position);
 
         holder.mNotification = notification;
 
@@ -63,7 +63,7 @@ public class SalonistNotificationRVAdapter extends RecyclerView.Adapter<Salonist
                                 }
 
                             } else {
-                                Log.e(TAG, "onBindViewHolder: ", task.getException());
+                                Log.e(TAG, "onBindViewHolder: Getting Client", task.getException());
                             }
                         }
                 );
@@ -87,7 +87,7 @@ public class SalonistNotificationRVAdapter extends RecyclerView.Adapter<Salonist
         public final View mView;
         public final TextView clientIdTV;
         public final TextView serviceNameTV;
-        public Notification mNotification;
+        public SalonistNotification mNotification;
 
         public ViewHolder(View view) {
             super(view);

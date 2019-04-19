@@ -10,13 +10,12 @@ import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.example.mercie.example.models.Notification;
+import com.example.mercie.example.models.SalonistNotification;
 import com.example.mercie.example.models.Reservation;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -28,7 +27,7 @@ public class NotificationResponseActivity extends AppCompatActivity {
 
     private static final String TAG = "NotificationResponseAct";
 
-    private Notification notification = null;
+    private SalonistNotification notification = null;
 
     //Widgets
     private TextView clientNameTV, serviceNameTV, chooseDateTV, chooseTimeTV;
@@ -49,7 +48,7 @@ public class NotificationResponseActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
 
         if (getIntent() != null)
-            notification = (Notification) getIntent().getSerializableExtra("notification");
+            notification = (SalonistNotification) getIntent().getSerializableExtra("notification");
 
         initComponents();
         initPickers();
@@ -91,7 +90,7 @@ public class NotificationResponseActivity extends AppCompatActivity {
         String date = chooseDateTV.getText().toString().trim();
         String time = chooseTimeTV.getText().toString().trim();
 
-        Reservation reservation = new Reservation("Service", notification.getServiceName(), time, date, mAuth.getCurrentUser().getUid());
+        Reservation reservation = new Reservation("Service", notification.getServiceName(), time, date, notification.getSalonName(), mAuth.getCurrentUser().getUid());
         reservation.setAgreedUpon(false);
 
         mDb.collection("clientsreservations")
@@ -147,16 +146,12 @@ public class NotificationResponseActivity extends AppCompatActivity {
                 }
         );
 
-        dateSetListener = new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                month += 1;
+        dateSetListener = (view, year, month, dayOfMonth) -> {
+            month += 1;
 
-                String date = String.format("%d/%d/%d", dayOfMonth, month, year);
+            String date = String.format("%d/%d/%d", dayOfMonth, month, year);
 
-                chooseDateTV.setText(date);
-            }
-
+            chooseDateTV.setText(date);
         };
 
         chooseTimeTV.setOnClickListener(

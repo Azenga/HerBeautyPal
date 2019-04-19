@@ -26,7 +26,8 @@ import com.example.mercie.example.fragments.salonist.AppointmentsFragment;
 import com.example.mercie.example.fragments.salonist.NotificationsFragment;
 import com.example.mercie.example.fragments.salonist.SalonistEditProfileFragment;
 import com.example.mercie.example.fragments.salonist.SalonistHomeFragment;
-import com.example.mercie.example.models.Notification;
+import com.example.mercie.example.models.Reservation;
+import com.example.mercie.example.models.SalonistNotification;
 import com.example.mercie.example.models.Salon;
 import com.example.mercie.example.models.Salonist;
 import com.google.firebase.auth.FirebaseAuth;
@@ -137,7 +138,7 @@ public class SalonistDashboardActivity extends AppCompatActivity
         switch (item.getItemId()) {
             case R.id.nav_home:
                 if (getSupportActionBar() != null)
-                    getSupportActionBar().setTitle("ChatsFragment");
+                    getSupportActionBar().setTitle("Home");
                 if (mAuth.getCurrentUser() != null)
                     getSalonist(mAuth.getCurrentUser().getUid());
                 break;
@@ -149,7 +150,7 @@ public class SalonistDashboardActivity extends AppCompatActivity
             case R.id.nav_appointments:
                 if (getSupportActionBar() != null)
                     getSupportActionBar().setTitle("Appointments");
-                displayFragment(new AppointmentsFragment());
+                    displayFragment(new AppointmentsFragment());
                 break;
 
             case R.id.nav_notifications:
@@ -177,13 +178,12 @@ public class SalonistDashboardActivity extends AppCompatActivity
         if (mAuth.getCurrentUser() != null) {
 
             mFirestore.collection("salons")
-                    .whereEqualTo("ownerId", mAuth.getCurrentUser().getUid())
+                    .document(mAuth.getCurrentUser().getUid())
                     .get()
                     .addOnSuccessListener(
-                            queryDocumentSnapshots -> {
-                                if (!queryDocumentSnapshots.isEmpty()) {
+                            documentSnapshot -> {
+                                if (documentSnapshot.exists()) {
 
-                                    DocumentSnapshot documentSnapshot = queryDocumentSnapshots.getDocuments().get(0);
                                     Salon salon = documentSnapshot.toObject(Salon.class);
                                     salon.setId(documentSnapshot.getId());
 
@@ -275,7 +275,7 @@ public class SalonistDashboardActivity extends AppCompatActivity
 
 
     @Override
-    public void respondToNotification(Notification notification) {
+    public void respondToNotification(SalonistNotification notification) {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Request Action");
@@ -284,9 +284,40 @@ public class SalonistDashboardActivity extends AppCompatActivity
         builder.setPositiveButton(
                 "Accept", (dialog, which) -> {
 
-                    Intent intent = new Intent(this, NotificationResponseActivity.class);
-                    intent.putExtra("notification", notification);
-                    startActivity(intent);
+                    //Get Time
+                    String date = notification.getRequestedDate();
+                    String time = notification.getRequestedTime();
+
+                    Reservation reservation = new Reservation("Service", notification.getServiceName(), time, date,notification.getSalonName(),  mAuth.getCurrentUser().getUid());
+                    reservation.setAgreedUpon(false);
+
+                    mFirestore.collection("clientsreservations")
+                            .document(notification.getClientId())
+                            .collection("Reservations")
+                            .add(reservation)
+                            .addOnCompleteListener(
+                                    task -> {
+                                        if (task.isSuccessful()) {
+
+
+                                            mFirestore
+                                                    .collection("salonistnotifications")
+                                                    .document(mAuth.getCurrentUser().getUid())
+                                                    .collection("Notifications")
+                                                    .document(notification.getId())
+                                                    .delete();
+
+                                            Toast.makeText(this, "Reservation Send", Toast.LENGTH_SHORT).show();
+                                            startActivity(new Intent(this, SalonistDashboardActivity.class));
+                                            finish();
+                                        } else {
+
+                                            Toast.makeText(this, "Error: " + task.getException().getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+
+                                        }
+                                    }
+                            );
+
 
                 }
         ).setNegativeButton(

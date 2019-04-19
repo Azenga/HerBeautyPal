@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import com.example.mercie.example.ConsultantsActivity;
 import com.example.mercie.example.R;
 import com.example.mercie.example.SalonsActivity;
 import com.example.mercie.example.ShopActivity;
@@ -48,6 +49,7 @@ public class HomePageFragment extends Fragment {
 
         Button consultant = view.findViewById(R.id.consultant);
         consultant.setOnClickListener(v -> {
+            startActivity(new Intent(getActivity(), ConsultantsActivity.class));
         });
 
         animationDrawable.start();

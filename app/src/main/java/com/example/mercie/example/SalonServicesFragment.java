@@ -85,6 +85,7 @@ public class SalonServicesFragment extends Fragment {
 
                         if (e != null) {
                             Log.e(TAG, "onViewCreated: Getting services", e);
+                            return;
                         }
 
                         if (!queryDocumentSnapshots.isEmpty()) {

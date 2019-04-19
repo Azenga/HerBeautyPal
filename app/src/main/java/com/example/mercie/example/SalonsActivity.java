@@ -25,8 +25,10 @@ public class SalonsActivity extends AppCompatActivity {
 
     //Widgets
     private RecyclerView salonsRV;
+
     //Adapter
     private SalonsRecyclerViewAdapter salonsRecyclerViewAdapter;
+
     //Items list
     private List<Salon> salons;
 
@@ -62,24 +64,17 @@ public class SalonsActivity extends AppCompatActivity {
         mDb.collection("salons")
                 .addSnapshotListener(
                         (value, e) -> {
-
                             if (e != null) {
                                 Log.e(TAG, "onCreate: ", e);
                                 return;
                             }
 
                             for (QueryDocumentSnapshot doc : value) {
-
                                 Salon salon = doc.toObject(Salon.class);
                                 salon.setId(doc.getId());
-
                                 salons.add(salon);
-
-                                Log.d(TAG, "onCreate: " + salon.toString());
-
                                 salonsRecyclerViewAdapter.notifyDataSetChanged();
                             }
-
                         }
                 );
     }

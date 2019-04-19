@@ -30,7 +30,6 @@ public class NotificationFragment extends Fragment {
 
     private static final String TAG = "NotificationFragment";
 
-    private RecyclerView reservationsRV;
     private ReservationsRVAdapter adapter;
     private ClientNotificationsLIstener mListener;
     private List<Reservation> reservations;

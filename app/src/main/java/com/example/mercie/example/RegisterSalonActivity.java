@@ -259,7 +259,7 @@ public class RegisterSalonActivity extends AppCompatActivity implements ServiceD
                     .addOnSuccessListener(
                             taskSnapshot -> {
                                 String coverImageName = taskSnapshot.getMetadata().getName();
-                                Salon salon = new Salon(name, location, contact, website, openFfrom, openTo, mAuth.getCurrentUser().getUid());
+                                Salon salon = new Salon(name, location, contact, website, openFfrom, openTo);
                                 salon.setCoverImage(coverImageName);
                                 addSalonToFireStore(salon);
                             }
@@ -291,12 +291,12 @@ public class RegisterSalonActivity extends AppCompatActivity implements ServiceD
 
     private void addSalonToFireStore(Salon salon) {
         mFirestore.collection("salons")
-                .add(salon)
+                .document(mAuth.getCurrentUser().getUid())
+                .set(salon)
                 .addOnSuccessListener(
                         documentReference -> {
                             Toast.makeText(this, "Adding services...", Toast.LENGTH_SHORT).show();
-                            String salonId = documentReference.getId();
-                            addSalonServicesToFirestore(salonId);
+                            addSalonServicesToFirestore(mAuth.getCurrentUser().getUid());
 
                         }
                 )

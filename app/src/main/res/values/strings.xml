@@ -168,7 +168,7 @@
     <string name="offers">Offers</string>
     <string name="client">Client:</string>
     <string name="client_name">Client Name...</string>
-    <string name="service_requested">Service Requested:</string>
+    <string name="requested_service">Requested Service</string>
     <string name="date_hint">Date:</string>
     <string name="select_date_hint">Select Date</string>
     <string name="time">Time:</string>
@@ -197,4 +197,10 @@
     <string name="tip_description">Tip Description</string>
     <string name="tip_diet">Tip Diet</string>
     <string name="tip_remedy">Tip Remedy</string>
+    <string name="default_location">Default Location</string>
+    <string name="request_service">Request Service</string>
+    <string name="consultants">Consultants</string>
+    <string name="message">Message...</string>
+    <string name="default_msgs">0 messages</string>
+    <string name="send_icon">Send Icon</string>
 </resources>

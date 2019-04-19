@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.example.mercie.example.R;
 import com.example.mercie.example.adapters.SalonistServicesRecyclerViewAdapter;
 import com.example.mercie.example.models.SalonService;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -35,10 +36,12 @@ public class ServicesFragment extends Fragment {
 
     private OnServiceFragInteraction mListener;
     private FirebaseFirestore mDb;
+    private FirebaseAuth mAth;
 
     public ServicesFragment() {
         services = new ArrayList<>();
         mDb = FirebaseFirestore.getInstance();
+        mAth = FirebaseAuth.getInstance();
     }
 
     public static ServicesFragment newInstance(String id) {
@@ -74,30 +77,33 @@ public class ServicesFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        if (mAth.getCurrentUser() != null) {
 
-        mDb.collection("services")
-                .document(salonId)
-                .collection("Services")
-                .addSnapshotListener((queryDocumentSnapshots, e) -> {
+            mDb.collection("services")
+                    .document(salonId)
+                    .collection("Services")
+                    .addSnapshotListener((queryDocumentSnapshots, e) -> {
 
-                    if (e != null) {
-                        Log.e(TAG, "onViewCreated: Getting services", e);
-                    }
-
-                    if (!queryDocumentSnapshots.isEmpty()) {
-                        services.clear();
-                        for (DocumentSnapshot dc : queryDocumentSnapshots.getDocuments()) {
-                            SalonService service = dc.toObject(SalonService.class);
-                            services.add(service);
-
-                            adapter.notifyDataSetChanged();
+                        if (e != null) {
+                            Log.e(TAG, "onViewCreated: Getting services", e);
+                            return;
                         }
 
-                    } else {
-                        Toast.makeText(getActivity(), "No Services Yet", Toast.LENGTH_SHORT).show();
-                    }
+                        if (!queryDocumentSnapshots.isEmpty()) {
+                            services.clear();
+                            for (DocumentSnapshot dc : queryDocumentSnapshots.getDocuments()) {
+                                SalonService service = dc.toObject(SalonService.class);
+                                services.add(service);
 
-                });
+                                adapter.notifyDataSetChanged();
+                            }
+
+                        } else {
+                            Toast.makeText(getActivity(), "No Services Yet", Toast.LENGTH_SHORT).show();
+                        }
+
+                    });
+        }
 
     }
 
@@ -107,6 +113,12 @@ public class ServicesFragment extends Fragment {
         super.onAttach(context);
         if (context instanceof OnServiceFragInteraction)
             mListener = (OnServiceFragInteraction) context;
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
     }
 
     public interface OnServiceFragInteraction {

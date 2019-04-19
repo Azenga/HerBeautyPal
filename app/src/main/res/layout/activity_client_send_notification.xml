@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".NotificationResponseActivity">
+    tools:context=".ClientSendNotification">
 
     <TextView
         android:id="@+id/textView7"
@@ -14,7 +14,7 @@
         android:layout_marginTop="16dp"
         android:gravity="end"
         android:padding="@dimen/tv_padding"
-        android:text="@string/client"
+        android:text="@string/salon_name"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="@android:color/black"
         app:layout_constraintStart_toStartOf="parent"
@@ -35,7 +35,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
     <TextView
-        android:id="@+id/client_name_tv"
+        android:id="@+id/salon_name_tv"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -60,7 +60,7 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textView8"
-        app:layout_constraintTop_toBottomOf="@+id/client_name_tv" />
+        app:layout_constraintTop_toBottomOf="@+id/salon_name_tv" />
 
     <TextView
         android:id="@+id/textView11"
@@ -151,14 +151,14 @@
     </android.support.design.widget.AppBarLayout>
 
     <Button
-        android:id="@+id/set_reservation_btn"
+        android:id="@+id/request_service_btn"
         android:layout_width="@dimen/dimen_288dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         android:background="@color/colorPrimaryDark"
-        android:text="@string/set_reservation"
+        android:text="@string/request_service"
         android:textAllCaps="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

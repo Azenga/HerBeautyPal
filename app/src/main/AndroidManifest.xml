@@ -13,7 +13,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".AddTipActivity"></activity>
+        <activity android:name=".ConsultantActivity"></activity>
+        <activity android:name=".ConsultantsActivity" />
+        <activity android:name=".ClientSendNotification" />
+        <activity android:name=".AddTipActivity" />
         <activity android:name=".RequestProductActivity" />
         <activity android:name=".EditShopDetailsActivity" />
         <activity android:name=".MySalonActivity" />

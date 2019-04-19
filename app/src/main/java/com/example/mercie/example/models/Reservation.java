@@ -14,17 +14,19 @@ public class Reservation implements Serializable {
     private String item;
     private String time;
     private String date;
+    private String salonName;
     private String salonistId;
 
     public Reservation() {
     }
 
-    public Reservation(String type, String item, String time, String date, String salonId) {
+    public Reservation(String type, String item, String time, String date, String salonName, String salonistId) {
         this.type = type;
         this.item = item;
         this.time = time;
         this.date = date;
-        this.salonistId = salonId;
+        this.salonName = salonName;
+        this.salonistId = salonistId;
     }
 
     public String getId() {
@@ -81,5 +83,13 @@ public class Reservation implements Serializable {
 
     public void setSalonistId(String salonistId) {
         this.salonistId = salonistId;
+    }
+
+    public String getSalonName() {
+        return salonName;
+    }
+
+    public void setSalonName(String salonName) {
+        this.salonName = salonName;
     }
 }

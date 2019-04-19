@@ -2,7 +2,9 @@ package com.example.mercie.example.models;
 
 import android.support.annotation.NonNull;
 
-public class SalonService {
+import java.io.Serializable;
+
+public class SalonService implements Serializable {
 
     private String packageName;
     private String serviceName;

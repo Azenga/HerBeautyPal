@@ -1,8 +1,13 @@
 package com.example.mercie.example.models;
 
+import com.google.firebase.firestore.Exclude;
+
 import java.io.Serializable;
 
 public class Dermatologist implements Serializable {
+
+    @Exclude
+    private String id;
 
     private String officialName;
     private String location;
@@ -79,5 +84,13 @@ public class Dermatologist implements Serializable {
 
     public void setProfilePicName(String profilePicName) {
         this.profilePicName = profilePicName;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

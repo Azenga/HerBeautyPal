@@ -14,19 +14,17 @@ public class Salon implements Serializable {
     private String website;
     private String openFrom;
     private String openTo;
-    private String ownerId;
     private String coverImage;
 
     public Salon() {
     }
 
-    public Salon(String name, String location, String contact, String website, String openFrom, String openTo, String ownerId) {
+    public Salon(String name, String location, String contact, String website, String openFrom, String openTo) {
         this.name = name;
         this.location = location;
         this.website = website;
         this.openFrom = openFrom;
         this.openTo = openTo;
-        this.ownerId = ownerId;
         this.contact = contact;
     }
 
@@ -76,14 +74,6 @@ public class Salon implements Serializable {
 
     public void setOpenTo(String openTo) {
         this.openTo = openTo;
-    }
-
-    public String getOwnerId() {
-        return ownerId;
-    }
-
-    public void setOwnerId(String ownerId) {
-        this.ownerId = ownerId;
     }
 
     public String getCoverImage() {

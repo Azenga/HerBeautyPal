@@ -94,20 +94,20 @@ public class UpdateDermatologistActivity extends AppCompatActivity {
                         .addOnSuccessListener(
                                 taskSnapshot -> {
                                     String imageName = taskSnapshot.getMetadata().getName();
-                                    updateShopInfo(imageName);
+                                    updateDErmatologistProfile(imageName);
                                 }
                         )
                         .addOnFailureListener(e -> Log.e(TAG, "updateShopInfo: Profile Picturee", e));
 
             }
         } else {
-            updateShopInfo(null);
+            updateDErmatologistProfile(null);
         }
 
 
     }
 
-    private void updateShopInfo(String imageName) {
+    private void updateDErmatologistProfile(String imageName) {
 
         String name = nameET.getText().toString().trim();
         String location = locationET.getText().toString().trim();
@@ -122,22 +122,24 @@ public class UpdateDermatologistActivity extends AppCompatActivity {
             mDermatologist.setWebsite(website);
             mDermatologist.setProfilePicName(imageName);
 
-            mDb.collection("shops")
+            mDb.collection("dermatologists")
                     .document(mAuth.getCurrentUser().getUid())
                     .set(mDermatologist)
                     .addOnSuccessListener(
                             aVoid -> {
-                                Toast.makeText(this, "Shop owner profile successfully updated", Toast.LENGTH_SHORT).show();
-                                startActivity(new Intent(this, BeautyShopDashboardActivity.class));
+                                Toast.makeText(this, "Your successfully updated", Toast.LENGTH_SHORT).show();
+                                startActivity(new Intent(this, DermatologistHomeActivity.class));
                                 progressDialog.dismiss();
                             }
                     )
                     .addOnFailureListener(e -> {
                         Toast.makeText(this, "Update Failed try again after some time", Toast.LENGTH_SHORT).show();
-                        Log.e(TAG, "updateShopInfo: Sending to firestore", e);
+                        Log.e(TAG, "updateDErmatologistProfile: Sending to firestore", e);
                         progressDialog.dismiss();
                     });
 
+        }else {
+            progressDialog.dismiss();
         }
     }
 
