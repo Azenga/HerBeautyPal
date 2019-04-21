@@ -61,6 +61,7 @@ public class ConsultantsActivity extends AppCompatActivity {
                                 Toast.makeText(this, "No consultants Registered Yet", Toast.LENGTH_SHORT).show();
                             } else {
                                 consultants.clear();
+
                                 for (DocumentSnapshot snapshot : queryDocumentSnapshots.getDocuments()) {
 
                                     Dermatologist dermatologist = snapshot.toObject(Dermatologist.class);
@@ -68,6 +69,7 @@ public class ConsultantsActivity extends AppCompatActivity {
                                     consultants.add(dermatologist);
                                     adapter.notifyDataSetChanged();
                                 }
+
                             }
                         }
                 );

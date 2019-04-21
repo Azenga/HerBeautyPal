@@ -69,7 +69,7 @@ public class MessagesFragment extends Fragment {
                 .addSnapshotListener(
                         (queryDocumentSnapshots, e) -> {
                             if (e != null) {
-                                Log.e(TAG, "onViewCreated: ", e);
+                                Log.e(TAG, "onViewCreated: Error Getting Chats", e);
                                 return;
                             }
 
