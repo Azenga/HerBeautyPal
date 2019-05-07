@@ -29,7 +29,7 @@ public class ConsultantActivity extends AppCompatActivity {
 
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
-        adapter.addFragment(new ConsultantInfoFragment(), "Info");
+        adapter.addFragment(ConsultantInfoFragment.newInstance(dermatologistId), "Info");
         adapter.addFragment(new MessagesFragment(), "Messages");
         adapter.addFragment(new AppointmentFragment(), "Appointments");
 

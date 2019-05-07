@@ -1,6 +1,5 @@
 package com.example.mercie.example;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -24,7 +23,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.mercie.example.fragments.client.AboutFragment;
-import com.example.mercie.example.fragments.client.EditProfileFragment;
 import com.example.mercie.example.fragments.client.CheckReservationDetailsFragment;
 import com.example.mercie.example.fragments.client.HomePageFragment;
 import com.example.mercie.example.fragments.client.NotificationFragment;
@@ -87,12 +85,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         Fragment frag = null;
 
         switch (id) {
-            case R.id.nav_edit_profile:
-                getSupportActionBar().setTitle("Edit Profile");
-                frag = new EditProfileFragment();
-                break;
             case R.id.nav_homepage:
-                getSupportActionBar().setTitle("ChatsFragment");
+                getSupportActionBar().setTitle("Beauty Pal");
                 frag = new HomePageFragment();
                 break;
             case R.id.nav_notifications:

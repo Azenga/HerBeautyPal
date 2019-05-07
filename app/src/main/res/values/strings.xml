@@ -203,4 +203,9 @@
     <string name="message">Message...</string>
     <string name="default_msgs">0 messages</string>
     <string name="send_icon">Send Icon</string>
+    <string name="default_likes">0 likes</string>
+    <string name="default_followers">0 followers</string>
+    <string name="default_following">0 following</string>
+    <string name="default_tip_count">0 tips</string>
+    <string name="follow">Follow</string>
 </resources>

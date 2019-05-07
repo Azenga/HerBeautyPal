@@ -1,5 +1,6 @@
 package com.example.mercie.example.fragments.client;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import android.widget.Toast;
 
 import com.example.mercie.example.HomeActivity;
 import com.example.mercie.example.R;
+import com.example.mercie.example.UpdateClientActivity;
 import com.example.mercie.example.models.Client;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -50,7 +52,7 @@ public class AboutFragment extends Fragment {
 
 
         editProfileIB = view.findViewById(R.id.edit_profile_ib);
-        editProfileIB.setOnClickListener(v -> ((HomeActivity) getActivity()).displayFrag(R.id.nav_edit_profile));
+        editProfileIB.setOnClickListener(v -> startActivity(new Intent(getActivity(), UpdateClientActivity.class)));
 
         nameTV = view.findViewById(R.id.name_tv);
         contactTV = view.findViewById(R.id.contact_tv);

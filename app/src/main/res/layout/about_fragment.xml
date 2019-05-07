@@ -12,7 +12,7 @@
         android:layout_height="@dimen/dimen_256dp"
         android:background="@color/colorPrimary"
         android:contentDescription="@string/profile_picture"
-        android:scaleType="center"
+        android:scaleType="centerCrop"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"

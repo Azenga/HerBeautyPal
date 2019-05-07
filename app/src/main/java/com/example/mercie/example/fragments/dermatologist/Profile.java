@@ -29,7 +29,7 @@ import com.google.firebase.storage.StorageReference;
 public class Profile extends Fragment {
 
 
-    //WIdgets
+    //Widgets
     private ImageView profilePivIV;
     private TextView nameTV, contactTV, locationTV, emailAddressTV, websiteTV;
     private Button editProfileBtn;
