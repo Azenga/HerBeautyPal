@@ -208,4 +208,6 @@
     <string name="default_following">0 following</string>
     <string name="default_tip_count">0 tips</string>
     <string name="follow">Follow</string>
+    <string name="dummy_message">Dummy Message...</string>
+    <string name="enter_message">Enter Message...</string>
 </resources>

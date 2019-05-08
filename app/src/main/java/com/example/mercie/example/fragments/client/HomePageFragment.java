@@ -48,9 +48,7 @@ public class HomePageFragment extends Fragment {
         tips.setOnClickListener(v -> startActivity(new Intent(getActivity(), TipsActivity.class)));
 
         Button consultant = view.findViewById(R.id.consultant);
-        consultant.setOnClickListener(v -> {
-            startActivity(new Intent(getActivity(), ConsultantsActivity.class));
-        });
+        consultant.setOnClickListener(v -> startActivity(new Intent(getActivity(), ConsultantsActivity.class)));
 
         animationDrawable.start();
 

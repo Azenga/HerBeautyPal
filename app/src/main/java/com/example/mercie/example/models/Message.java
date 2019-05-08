@@ -9,16 +9,16 @@ public class Message implements Serializable {
     @Exclude
     private String id;
 
-    private String fromId;
-    private String toId;
+    private String sender;
+    private String receiver;
     private String content;
 
     public Message() {
     }
 
-    public Message(String fromId, String toId, String content) {
-        this.fromId = fromId;
-        this.toId = toId;
+    public Message(String sender, String receiver, String content) {
+        this.sender = sender;
+        this.receiver = receiver;
         this.content = content;
     }
 
@@ -30,27 +30,15 @@ public class Message implements Serializable {
         this.id = id;
     }
 
-    public String getFromId() {
-        return fromId;
-    }
-
-    public void setFromId(String fromId) {
-        this.fromId = fromId;
-    }
-
-    public String getToId() {
-        return toId;
-    }
-
-    public void setToId(String toId) {
-        this.toId = toId;
+    public String getSender() {
+        return sender;
     }
 
     public String getContent() {
         return content;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public String getReceiver() {
+        return receiver;
     }
 }

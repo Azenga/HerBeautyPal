@@ -13,7 +13,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.example.mercie.example.adapters.MessageRecyclerViewAdapter;
+import com.example.mercie.example.adapters.ChatsThreadsAdapter;
+import com.example.mercie.example.models.Dermatologist;
 import com.example.mercie.example.models.Message;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -32,18 +33,19 @@ public class MessagesFragment extends Fragment {
 
     //Widgets
     private RecyclerView messagesRV;
-    private List<Message> messages;
+    private List<Dermatologist> dermatologists;
+    private List<String> uidsList;
 
 
     private FirebaseFirestore mDb;
     private FirebaseAuth mAuth;
-    private MessageRecyclerViewAdapter adapter;
 
     public MessagesFragment() {
         // Required empty public constructor
         mAuth = FirebaseAuth.getInstance();
         mDb = FirebaseFirestore.getInstance();
-        messages = new ArrayList<>();
+        dermatologists = new ArrayList<>();
+        uidsList = new ArrayList<>();
     }
 
     @Override
@@ -55,8 +57,6 @@ public class MessagesFragment extends Fragment {
         messagesRV.setLayoutManager(new LinearLayoutManager(getActivity()));
         messagesRV.setHasFixedSize(true);
 
-        adapter = new MessageRecyclerViewAdapter(messages);
-
         return view;
     }
 
@@ -64,28 +64,62 @@ public class MessagesFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        String currentUser = mAuth.getCurrentUser().getUid();
+
         mDb.collection("chats")
-                .whereEqualTo("fromId", mAuth.getCurrentUser().getUid())
                 .addSnapshotListener(
                         (queryDocumentSnapshots, e) -> {
                             if (e != null) {
-                                Log.e(TAG, "onViewCreated: Error Getting Chats", e);
+                                Log.e(TAG, "onViewCreated: Getting uids of chats with current user", e);
                                 return;
                             }
 
                             if (queryDocumentSnapshots.isEmpty()) {
-                                Toast.makeText(getActivity(), "No chats Yet", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getActivity(), "No chats yet", Toast.LENGTH_SHORT).show();
                             } else {
-                                messages.clear();
+                                uidsList.clear();
                                 for (DocumentSnapshot snapshot : queryDocumentSnapshots.getDocuments()) {
                                     Message msg = snapshot.toObject(Message.class);
-
-                                    messages.add(msg);
-                                    adapter.notifyDataSetChanged();
+                                    if (msg.getSender().equals(currentUser)) {
+                                        uidsList.add(msg.getReceiver());
+                                    }
+                                    if (msg.getReceiver().equals(currentUser)) {
+                                        uidsList.add(msg.getSender());
+                                    }
                                 }
                             }
                         }
                 );
 
+        mDb.collection("dermatologists")
+                .addSnapshotListener(
+                        (queryDocumentSnapshots, e) -> {
+                            if (e != null) {
+                                Log.e(TAG, "onViewCreated: Getting dermatologist that chatted with user", e);
+                                return;
+                            }
+
+                            if (queryDocumentSnapshots.isEmpty()) {
+                                Toast.makeText(getActivity(), "No Consultant chats yet", Toast.LENGTH_SHORT).show();
+                            } else {
+                                dermatologists.clear();
+                                for (DocumentSnapshot snapshot : queryDocumentSnapshots.getDocuments()) {
+                                    Dermatologist dermatologist = snapshot.toObject(Dermatologist.class);
+                                    dermatologist.setId(snapshot.getId());
+
+                                    for (String uid : uidsList) {
+                                        if (dermatologist.getId().equals(uid)) {
+                                            if (!dermatologists.contains(dermatologist))
+                                                dermatologists.add(dermatologist);
+                                        }
+                                    }
+                                }
+
+                                ChatsThreadsAdapter adapter = new ChatsThreadsAdapter(dermatologists);
+                                messagesRV.setAdapter(adapter);
+
+                            }
+                        }
+                );
     }
 }

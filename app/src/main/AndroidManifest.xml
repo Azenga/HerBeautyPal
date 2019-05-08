@@ -14,8 +14,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".MessageActivity"
+            android:parentActivityName=".ConsultantActivity"></activity>
+        <activity
             android:name=".UpdateClientActivity"
-            android:parentActivityName=".HomeActivity"></activity>
+            android:parentActivityName=".HomeActivity" />
         <activity android:name=".ConsultantActivity" />
         <activity android:name=".ConsultantsActivity" />
         <activity android:name=".ClientSendNotification" />

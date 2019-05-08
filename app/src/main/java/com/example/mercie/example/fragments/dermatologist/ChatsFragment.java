@@ -7,17 +7,13 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.example.mercie.example.R;
-import com.example.mercie.example.adapters.MessageRecyclerViewAdapter;
 import com.example.mercie.example.models.Message;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
@@ -35,7 +31,6 @@ public class ChatsFragment extends Fragment {
 
     private FirebaseFirestore mDb;
     private FirebaseAuth mAuth;
-    private MessageRecyclerViewAdapter adapter;
 
     public ChatsFragment() {
         // Required empty public constructor
@@ -54,39 +49,12 @@ public class ChatsFragment extends Fragment {
         RecyclerView chatsRV = view.findViewById(R.id.messagesRV);
         chatsRV.setHasFixedSize(true);
         chatsRV.setLayoutManager(new LinearLayoutManager(getActivity()));
-        adapter = new MessageRecyclerViewAdapter(messageList);
-
-        chatsRV.setAdapter(adapter);
-
 
         return view;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-
-        mDb.collection("chats")
-                .addSnapshotListener(
-                        (queryDocumentSnapshots, e) -> {
-                            if (e != null) {
-                                Log.e(TAG, "onViewCreated: ", e);
-                                return;
-                            }
-
-                            if (queryDocumentSnapshots.isEmpty()) {
-                                Toast.makeText(getActivity(), "No chats Yet", Toast.LENGTH_SHORT).show();
-                            } else {
-                                messageList.clear();
-                                for (DocumentSnapshot snapshot : queryDocumentSnapshots.getDocuments()) {
-                                    Message msg = snapshot.toObject(Message.class);
-
-                                    messageList.add(msg);
-                                    adapter.notifyDataSetChanged();
-                                }
-                            }
-                        }
-                );
-
 
     }
 }

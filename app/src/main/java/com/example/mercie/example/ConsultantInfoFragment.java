@@ -1,5 +1,6 @@
 package com.example.mercie.example;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -112,6 +113,10 @@ public class ConsultantInfoFragment extends Fragment {
                             }
                         }
                 );
+
+        Intent intent = new Intent(getActivity(), MessageActivity.class);
+        intent.putExtra(MessageActivity.RECEIVER_UID, consultantUid);
+        messageBtn.setOnClickListener(v -> startActivity(intent));
     }
 
     private void populateImage(String profilePicName) {
