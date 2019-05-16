@@ -22,7 +22,9 @@
         <activity android:name=".ConsultantActivity" />
         <activity android:name=".ConsultantsActivity" />
         <activity android:name=".ClientSendNotification" />
-        <activity android:name=".AddTipActivity" />
+        <activity
+            android:name=".AddTipActivity"
+            android:parentActivityName=".DermatologistHomeActivity" />
         <activity android:name=".RequestProductActivity" />
         <activity android:name=".EditShopDetailsActivity" />
         <activity android:name=".MySalonActivity" />
@@ -44,7 +46,9 @@
         <activity android:name=".SalonsActivity" />
         <activity android:name=".ShopsActivity" />
         <activity android:name=".TrendsActivity" />
-        <activity android:name=".TipsActivity" />
+        <activity
+            android:name=".TipsActivity"
+            android:parentActivityName=".HomeActivity" />
         <activity android:name=".SalonActivity" />
         <activity android:name=".ShopActivity" />
         <activity android:name=".WelcomeActivity">
@@ -64,7 +68,7 @@
         <activity android:name=".SetupShopActivity" />
         <activity android:name=".SetupDermatologistActivity" />
         <activity android:name=".TipssActivity" />
-        <activity android:name=".DandruffActivity" />
+        <activity android:name=".TipRemedyActivity" />
         <activity android:name=".SigninAsActivity" />
         <activity android:name=".ReservationDetailsActivity" />
         <activity android:name=".UpdateSalonActivity" />

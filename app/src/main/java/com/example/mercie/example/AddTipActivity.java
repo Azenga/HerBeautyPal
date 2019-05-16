@@ -11,6 +11,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
@@ -26,8 +27,6 @@ import com.google.firebase.storage.StorageReference;
 
 import java.io.ByteArrayOutputStream;
 import java.util.List;
-
-import io.grpc.Context;
 
 public class AddTipActivity extends AppCompatActivity {
     private static final String TAG = "AddTipActivity";
@@ -53,11 +52,18 @@ public class AddTipActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_tip);
 
+        Toolbar toolbar = findViewById(R.id.toolbar);
+
+        if (getSupportActionBar() == null) setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle("Add Tip");
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+
         initComponents();
         mDb = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
         mRef = FirebaseStorage.getInstance().getReference().child("tips_images");
-
 
         changeImgBtn.setOnClickListener(view -> openChooseImageActivity());
         addTipBtn.setOnClickListener(view -> uploadImage());

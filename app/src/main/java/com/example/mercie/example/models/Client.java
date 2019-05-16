@@ -1,6 +1,13 @@
 package com.example.mercie.example.models;
 
-public class Client {
+import com.google.firebase.database.Exclude;
+
+import java.io.Serializable;
+
+public class Client implements Serializable {
+
+    @Exclude
+    private String uid;
 
     private String name;
     private String contact;
@@ -8,7 +15,8 @@ public class Client {
     private String gender;
     private String imageUrl;
 
-    public Client() {}
+    public Client() {
+    }
 
     public Client(String name, String contact, String address, String gender, String imageUrl) {
         this.name = name;
@@ -42,19 +50,19 @@ public class Client {
         this.address = address;
     }
 
-    public String getGender() {
-        return gender;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
-    }
-
     public String getImageUrl() {
         return imageUrl;
     }
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 }
